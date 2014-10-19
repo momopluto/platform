@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>图文_欢迎语</title>
+</head>
+<body>
+    <include file="./head_menu"/>
+    <ul>
+        <a href="{:U('Admin/Welcome/text')}" >文本</a>
+        <a href="{:U('Admin/Welcome/news')}" >图文</a>
+    </ul>
+    <br/>
+    <form action="{:U('Admin/Welcome/news')}" method="post">
+        标题:<br/>
+        <input type="text" name="title" value="{$data['title']}">
+        <br/>内容:<br/>
+        <textarea name="description">{$data['description']}</textarea>
+        <br/>图片:图片链接，支持JPG、PNG格式，较好的效果为大图360*200，小图200*200<br/>
+        <input type="text" name="pic_url" value="{$data['pic_url']}">
+        <br/>链接:点击图文消息跳转链接<br/>
+        <input type="text" name="url" value="{$data['url']}">
+        <br/>
+        <button type="submit">确 定</button>
+    </form>
+</body>
+</html>

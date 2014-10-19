@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<?php $PUBLIC = PUBLIC_URL; ?>
+		<meta charset="utf-8">
+		
+		<link rel="stylesheet" type="text/css" href="{$PUBLIC}/css/list.css">
+		<script type="text/javascript" src="{$PUBLIC}/scripts/jquery.js"></script>
+		<script type="text/javascript" src="{$PUBLIC}/scripts/gouwuche.js"></script>
+
+		<title>菜式列表</title>
+	</head>
+	<body>
+	<header>
+		<!-- 用户访问的餐厅地址 -->
+		<a href="http://m2.ele.me/hxj/info">
+    		<span >黄小吉{$rst_name}</span>
+		</a>
+	</header>
+		<div class="menu">
+			<ul class="menuList">
+				<foreach name="data" item="one_menu">
+					<if condition="$one_menu['pid'] != 0 ">
+						<li class="menuListItem">
+							<div class="describeItem">
+								<p class="menuName">{$one_menu['name']}</p>
+								<div class="menuNumber">
+									<img src="{$PUBLIC}/images/star.jpg">
+									<span>月售<span class="red">{$one_menu['month_sale']}</span>份</span>
+								</div>
+								<p class="side_dish">{$one_menu['description']}</p>
+								<div class="additional">
+									<span class="zhaopai">招牌</span>
+									<span class="xin" >新</span>
+								</div>
+							</div>
+							<div class="btnPrise">
+								<p class="prise">￥{$one_menu['price']}</p>
+							</div>
+						</li>
+					</if>
+					
+				</foreach>
+			</ul>
+
+			<!-- 绝对定位fixed的购物车 -->
+			<div id="gouwuche">
+			   <form action="{:U('Client/Order/test2')}" method="post">
+				<img src="{$PUBLIC}/images/gouwuche.jpg" id="gouwucheImg"><p class="tatal">共<span class="account_menu">0</span>份&nbsp;&nbsp;<span class="tatal_prise">￥0</span>元</p>
+				<input type="submit"  class="jiesuan" value="去结算">
+				 <div id="gouwuchelist">
+				<ul class="listUl">
+					<li class="gouwucheItem" id="demoClone" style="display:none">
+						<p class="ItemName"></p>
+						<div class="enter_product">
+                                	<input type="button"  class="add_sub sub" value="-">
+                                	<input type="text" class="show_count"  value="" >
+                                	<input type="button"  class="add_sub add" value="+">
+                        </div>
+                        <img src="{$PUBLIC}/images/decline.png" class="deleteBtn">
+						<p class="ItemPrise">￥13</p>
+						
+					</li>
+				</ul>
+				<p id="labelBeizhu" for="beizhu">&nbsp;备注：</p>
+				<textarea id="beizhu" ></textarea>
+			</div>
+			<input type="hidden" id="postData" name="postData" value="">
+			</form>
+			</div>
+		</div>
+	</body>
+</html>

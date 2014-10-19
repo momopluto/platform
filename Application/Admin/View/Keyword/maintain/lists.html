@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>关键词维护</title>
+</head>
+<body>
+    <include file="./head_menu"/>
+
+    关键词维护<br/>
+    <a href="{:U('Admin/Keyword/Maintain_del')}" >删除</a>
+    <br/>
+    <table cellspacing="1" width="900" border="1">
+        <tr>
+            <th><input type="checkbox" id="checkAll"></th>
+            <th align="left">编号</th>
+            <th align="left">关键词</th>
+            <th align="left">数据ID</th>
+            <th align="left">增加时间</th>
+            <th align="left">请求数</th>
+            <th align="left">操作</th>
+        </tr>
+        <foreach name="data" item="one_data" >
+            <?php $id = $one_data['id'];?>
+            <tr>
+                <td align="center"><input type="checkbox" value="{$one_data['id']}" id="check_{$one_data['id']}"></td>
+                <td>{$one_data['id']}</td>
+                <td>{$one_data['keyword']}</td>
+                <td>{$one_data['from_id']}</td>
+                <td>{$one_data['cTime']|date='Y-m-d H:i',###}</td>
+                <td>{$one_data['request_count']}</td>
+                <td><a target="_self" href='{:U("Admin/Keyword/maintain_del/id/$id")}'>删除</a></td>
+            </tr>
+        </foreach>
+        <tr>
+            <td colspan='7' align='center'>
+                {$page}
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新增餐厅账号</title>
+    <script src="/platform/Application/Admin/Source/Js/sha1.js"></script>
+    <script>
+        function randon_psw(){
+            var hax = hex_sha1((Math.random()*(999)+1).toFixed(Math.random()*5), 12);//加密
+            var res = hax.substr(Math.random()*3, (Math.random()*3+12));//截取加密结果
+            // alert(res);
+            document.getElementById("psw").value = res;
+        }
+    </script>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    新增餐厅账号
+    <form action="" method="post">
+        账号(手机号):<input type="text" name="username"><br/>
+        初始登录密码:<input type="text" name="password" id="psw"><button type="button" onclick="randon_psw()" title="随机生成密码">随机密码</button>
+        <br/>
+        <button type="submit">确定</button>
+    </form>
+</body>
+</html>

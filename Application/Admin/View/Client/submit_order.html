@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>确认下单</title>
+</head>
+<body>
+    <form>
+        <strong style="color: green">下单成功！</strong>
+        <br/>---------------------------<br/>
+        <strong style="color: red">请通过“我的订单”查询订单状态！</strong>
+        <br/><br/>
+        【订单详情】<br/>
+        {$data['info_text']|nl2br=###}<br/><br/>
+        联系手机：{$data['phone']}<br/>
+        送餐地址：{$data['address']}<br/><br/>
+        下单时间：{$data['cTime']|date='Y-m-d H:i', ###}<br/>
+        订单状态：餐厅已确认
+    </form>
+</body>
+</html>

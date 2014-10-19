@@ -41,3 +41,15 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# 忽略Runtime文件夹
+Application/Runtime/
+
+# 忽略Admin的数据库配置文件
+Application/Admin/Conf/config.php
+
+# 忽略Home的数据库配置文件
+Application/Home/Conf/config.php
+
+# 忽略Client的数据库配置文件
+Application/Client/Conf/config.php

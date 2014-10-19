@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>菜单管理</title>
+    <script type="text/javascript" src="/platform/Application/Public/Js/jquery-1.8.3.min.js"></script>
+    <style type="text/css">
+        div.category {border-style: ridge;}
+        .saveMenu{
+        	display: none;
+        }
+    </style> 
+    <script type="text/javascript">
+    $(function(){
+        
+        $(".editMenu").click(function(){
+            $(this).css("display","none")
+            .siblings().css("display","none")
+            .siblings(".saveMenu").css("display","inline");
+            $tr = $(this).parents("tr")
+            $tr.find("input").removeAttr("disabled");
+        })
+    });
+    </script>
+
+ 
+   
+</head>
+    <body>
+    <include file= "./toolbar"/>
+    <br/>
+    <div id="cat_add">
+        <form action="{:U('Home/Menu/add_cate')}" method="post">
+            <input type="number" name="sort" value="" placeholder="排序号" style="width: 50px;"><input type="text" name="new_cate" placeholder="分类名"><input type="text" name="description" placeholder="分类描述">
+            <button type="submit">新增分类</button>
+        </form>
+    </div>
+
+    <foreach name="category" item="one_cate" >
+        <?php $pid = $one_cate['id'];?>
+        <div draggable="true" class="category" origin="" category-readonly="false" categoryid="{$one_cate['id']}" id="category-{$one_cate['id']}" category-weight="100" border='1'>
+            <p class="category-sort">序号：{$one_cate['sort']}</p>
+            <h3 class="category-title"><span canedit="" updateattr="name" class="titlename">{$one_cate['name']}</span></h3>
+            <h5 class="category-description"><span class="description" updateattr="description" canedit="">{$one_cate['description']}</span></h5>
+<!--             <div>
+                <span class="editCate" ><a href="#">编辑</a></span>
+                <button class="saveCate" type="submit">保存</button>
+            </div> -->
+            <div class="foodlistdiv" style="display: block;">
+                <table class="foodtlistable" width='1300' border='1'>
+                <thead>
+                    <tr>
+                        <th class="item-number">序号</th>
+                        <th class="item-name">食品名称</th>
+                        <th class="item-number">价格</th>
+                        <th>食品描述</th>
+                        <th colspan="2">库存</th>
+                        <th class="item-number">最大库存</th>
+                        <th class="item-min">新菜</th>
+                        <th class="item-min">招牌</th>
+                        <th class="item-min">配菜</th>
+                        <th class="item-min">辣</th>
+                        <th class="item-min">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="ui-sortable">
+                    <foreach name="data" item="one_menu" >
+                        <if condition="$one_menu['pid'] == $one_cate['id']">
+                           <?php $id = $one_menu['id'];?>
+                            <tr>
+                            <form action='{:U("Home/Menu/edit_menu/id/$id")}' method="post">
+                                <td class="change" align='center'><input disabled="" type="number" name="sort" value="{$one_menu['sort']}" style="width: 50px;"></td>
+                                <td class="change"><input disabled="" type="text" name="name" value="{$one_menu['name']}"></td>
+                                <td class="change" align='center'><input disabled="" type="number" step="0.5"  name="price" value="{$one_menu['price']}"></td>
+                                <td class="change" align='center'><input disabled="" type="text" name="description" value="{$one_menu['description']}"></td>
+                                <td class="change" align='center'><input disabled="" type="number" name="stock" value="{$one_menu['stock']}"></td>
+                                <td align='center'><a href='{:U("Home/Menu/stockclear/id/$id")}'><button type="button">清零</button></a></td>
+                                <td align='center'>100000</td>
+                                <td align='center'><input disabled="" name="is_new" type="checkbox" <if condition="($one_menu['tag'] != 0) && ($one_menu['tag']/1000%10 != 0)">checked=""</if>></td>
+                                <td align='center'><input disabled="" name="is_featured" type="checkbox" <if condition="($one_menu['tag'] != 0) && ($one_menu['tag']/100%10 != 0)">checked=""</if>></td>
+                                <td align='center'><input disabled="" name="is_gum" type="checkbox" <if condition="($one_menu['tag'] != 0) && ($one_menu['tag']/10%10 != 0)">checked=""</if>></td>
+                                <td align='center'><input disabled="" name="is_spicy" type="checkbox" <if condition="($one_menu['tag'] != 0) && ($one_menu['tag']%10 != 0)">checked=""</if>></td>                            
+                                <td align='center'>
+                                <span class="editMenu" ><button type="button">编辑</button></span>
+                                <a id="deleted" target="_self" href='{:U("Home/Menu/del_menu/id/$id/pid/$pid")}'><button type="button">删除</button></a>
+                                <button class="saveMenu" type="submit">保存</button>
+                                </td>
+                            </form>
+                            </tr>                            
+                        </if>
+                    </foreach>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <?php $next_sort = $one_cate['price'] + 1;?>
+                    <form action='{:U("Home/Menu/add_menu/pid/$pid")}' method="post">
+                        <td align="center"><input class="input-text" type="number" name="sort" value="{$next_sort}" placeholder="序号" style="width: 50px;"></td>
+                        <td><input class="input-text" type="text" name="new_menu" placeholder="请添加新菜名"></td>
+                        <td align="center"><input class="input-text" type="number" step="0.5" name="price" placeholder="价格"></td>
+                        <td align="center"><input class="input-text" type="text" name="description" placeholder="描述"></td>
+                        <td align='center'>--</td>
+                        <td align='center'>--</td>
+                        <td align='center'>100000</td>
+                        <td align='center'><input name="is_new" type="checkbox" ></td>
+                        <td align='center'><input name="is_featured" type="checkbox" ></td>
+                        <td align='center'><input name="is_gum" type="checkbox" ></td>
+                        <td align='center'><input name="is_spicy" type="checkbox" ></td>
+                        <td align='center' colspan="10"><button type="submit">添加</button></td>
+                    </form>
+                    </tr>
+                    <tr>
+                        <th align="right" colspan="12" class="cat_edit"><a target="_self" href='{:U("Home/Menu/setStockFull/pid/$pid")}'><button type="button">库存批量置满</button></a> <a target="_self" href='{:U("Home/Menu/setStockEmpty/pid/$pid")}'><button type="button">库存批量清零</button></a> <a  target="_self" href='{:U("Home/Menu/del_cate/id/$pid")}'><button type="button">删除分类</button></a></th>
+                    </tr>
+                </tfoot>
+                </table>
+            </div>
+        </div>
+    </foreach>
+</body>
+</html>

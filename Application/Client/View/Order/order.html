@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+
+  <title>我的订单</title>
+</head>
+
+<body>
+<header>
+  <h1>订单中心</h1>
+</header>
+
+<div>
+  <foreach name="data" item="one_data">
+    <a href="{:U('Client/Order/detail')}?id={$one_data['guid']}">
+      <p>{$one_data['cTime']}</p>
+      <div class="torder-summary">
+        <div class="torder-rst">
+          <img width="50" height="50" src="{$one_data['logo_url']}">
+          <div class="torder-misc">
+            <p>{$one_data['rst_name']}</p>
+            <p>{$one_data['total']}</p>
+          </div>
+        </div>
+        <div class="torder-status ng-isolate-scope blue">
+          <if condition="$one_data['status'] == 1">订单已确认
+            <elseif condition="$one_data['status'] == 0"/>未确认
+          </if>
+        </div>
+      </div>
+    </a>
+    <hr>
+  </foreach>
+</div>
+
+<!-- 以下为左上角点击弹出框 -->
+
+<!--   <div class="ui-center-container site-loader" ng-class="{&#39;ui_loading&#39;: loading}">
+    <svg class="eleme-svg svg-loading" viewBox="0 0 32 32">
+  <use xlink:href="#svg-loading"></use>
+</svg>
+</div>
+
+<div id="eleme_drawer_wrapper" class="eleme-drawer-wrapper">
+  <div class="eleme-mask"></div>
+  <div class="eleme-drawer">
+    <a class="drawer-user ng-scope" href="https://m2.ele.me/login" ng-if="!user.data.authenticated">
+      <img class="duser-avatar" width="48" height="48" ng-src="http://static11.elemecdn.com/msite/img/svg/user-avatar.svg" src="./myorder_files/user-avatar.svg">
+      <div class="duser-info">
+        <p class="duser-name">登录/注册</p>
+      </div>
+    </a>
+    <nav class="eleme-nav">
+      <a class="enav-link" href="http://m2.ele.me/home">
+        <svg class="eleme-svg svg-logo-e" viewBox="0 0 42 42">
+  <use xlink:href="#svg-logo-e"></use>
+</svg>
+        我要订餐
+      </a>
+      <a class="enav-link" href="./myorder_files/myorder.htm">
+        <svg class="eleme-svg svg-order" viewBox="0 0 41 44">
+  <use xlink:href="#svg-order"></use>
+</svg>
+        饿单中心
+      </a>
+    </nav>
+  </div>
+</div> -->
+
+</body></html>

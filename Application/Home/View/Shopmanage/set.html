@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>餐厅管理</title>
+    <script>
+      last_url = "{$data['logo_url']}";
+    </script>
+    <script>
+    //logo预览，要单独保存为js文件
+     function PreviewImage(imgFile){
+        var filextension=imgFile.value.substring(imgFile.value.lastIndexOf("."),imgFile.value.length);
+        filextension=filextension.toLowerCase();
+        if ((filextension!='.jpg')&&(filextension!='.jpeg')&&(filextension!='.png'))
+        {
+            // alert("对不起，系统仅支持标准格式的照片，请您调整格式后重新上传，谢谢 !");
+            document.getElementById("imgPreview").innerHTML = "<img id='img1' width='200px' height='200px' src='"+ last_url +"'/>";
+            imgFile.focus();
+        }
+        else
+        {
+            var path;
+            if(document.all)//IE
+            {
+                imgFile.select();
+                path = document.selection.createRange().text;
+                document.getElementById("imgPreview").innerHTML="";
+                document.getElementById("imgPreview").style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled='true',sizingMethod='scale',src=\"" + path + "\")";//使用滤镜效果      
+            }
+            else//FF
+            {
+                path=window.URL.createObjectURL(imgFile.files[0]);// FF 7.0以上
+                //path = imgFile.files[0].getAsDataURL();// FF 3.0
+                document.getElementById("imgPreview").innerHTML = "<img id='img1' width='200px' height='200px' src='"+path+"'/>";
+                //document.getElementById("img1").src = path;
+            }
+        }
+     }
+    </script>
+</head>
+<body>
+    <include file= "./toolbar"/>
+
+    <form action="{:U('Home/Shopmanage/set')}" method="post" enctype="multipart/form-data">
+      <label>餐厅logo</label>
+      <section>
+        <input type="file" name="photo" onchange='PreviewImage(this)'/><br/>
+        <div id="imgPreview" style='width:200px; height:200px;' >
+          <img id="img1" src="{$data['logo_url']}" width="200" height="200" />
+        </div>
+        <label>（支持jpg/jpeg/png格式，360*200/200*200大小效果最佳）</label>
+      </section>
+      
+
+      <fieldset>
+        <label>餐厅信息</label>
+        <section>
+          <label for="rst_name">餐厅名</label>
+          <input type="text" name="rst_name" value="{$data['rst_name']}"/>
+        </section>
+        <section>
+          <label for="rst_address">餐厅地址</label>
+          <input type="text" name="rst_address"  value="{$data['rst_address']}"/>
+        </section>
+        <section>
+          <label for="rst_description">餐厅简介</label>
+          <div>
+            <input type="text" name="rst_description" title="填写餐厅介绍，不要超过25个字" value="{$data['rst_description']}">
+          </div>
+        </section>
+        <section>
+          <label for="rst_phone">联系电话</label>
+          <div>
+            <input type="text" name="rst_phone" title="请填写最常用的电话号码" value="{$data['rst_phone']}">
+          </div>
+        </section>
+        <section>
+          <label for="rst_promotion_info">餐厅公告信息（促销信息）</label>
+          <div>
+            <textarea rows="4" cols="30" name="rst_promotion_info">{$data['rst_promotion_info']}</textarea>
+          </div>
+        </section>
+      </fieldset>
+
+      <fieldset>
+        <label>订餐设置</label>
+        <section>
+          <label for="rst_agent_fee">起送价（元）[目前暂不分区域]</label>
+          <div>
+            <input type="text" name="rst_agent_fee" title="订单起送价[目前暂不分区域]" value="{$data['rst_agent_fee']}">
+          </div>
+        </section>
+        <section>
+          <label for="rst_deliver_description">起送说明</label>
+          <div>
+            <input type="text" name="rst_deliver_description" value="{$data['rst_deliver_description']}">
+          </div>
+        </section>
+        <section>
+          <label for="rst_is_bookable">是否接受预定</label>
+          <div>
+            <input type="checkbox" name="rst_is_bookable" <if condition="$data['rst_is_bookable'] == 1">checked="checked"</if>>
+            <label for="rst_is_bookable">接受预定</label>
+          </div>
+        </section>
+      </fieldset>
+
+      <fieldset>
+        <label>营业时间</label>
+        <section>
+          <label for="restaurant_open_at">第一营业时间</label>
+          <div>
+            <input type="time" name="stime_1_open" value="{$data['stime_1_open']}">
+            -
+            <input type="time" name="stime_1_close" value="{$data['stime_1_close']}">
+          </div>
+        </section>
+        <section>
+          <label for="restaurant_close_at">第二营业时间</label>
+          <div>
+            <input type="time" name="stime_2_open" value="{$data['stime_2_open']}">
+            -
+            <input type="time" name="stime_2_close" value="{$data['stime_2_close']}">
+          </div>
+        </section>
+        <section>
+          <label for="restaurant_open_at_1">第三营业时间</label>
+          <div>
+            <input type="time" name="stime_3_open" value="{$data['stime_3_open']}">
+            -
+            <input type="time" name="stime_3_close" value="{$data['stime_3_close']}">
+          </div>
+        </section>
+      </fieldset>
+
+      <fieldset>
+        <section>
+          <label>提示音设置</label>
+          <!-- <span id="play_0" style="display: inline-block; margin-top: 8px; cursor: pointer;">[播放]</span> -->
+          <div>
+            <label for="audioFileIndex_0" style="width: 100px;">带人声的提示音</label>
+            <input type="radio" name="warning_tone" value="0" <if condition="$data['warning_tone'] == 0">checked="checked"</if>>
+          </div>
+        </section>
+        <section>          
+          <!-- <span id="play_1" style="display: inline-block; margin-top: 8px; cursor: pointer;">[播放]</span> -->
+          <div>
+            <label for="audioFileIndex_1" style="width: 100px;">纯提示音</label>
+            <input type="radio" name="warning_tone" value="1" <if condition="$data['warning_tone'] == 1">checked="checked"</if>>
+          </div>
+        </section>
+      </fieldset>
+
+      <!-- <a class="button success" id="restaurantEditInfoBtn">保存</a> -->
+      <button type="submit">保存</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,123 @@
+
+/*列表样式*/
+
+.menu{
+	margin-top: 35px;
+}
+.menuList{
+	margin-bottom: 35px;
+}
+.menuListItem{
+	list-style: none;
+	border-bottom: 1px solid rgb(126,117,110);
+	padding: 10px 0px 10px 10px;
+	font-size: 14px;
+}
+.menuListItem:after{
+	content: ".";
+	display: block;
+	height: 0px;
+	visibility: hidden;
+	clear:both;
+}
+
+/*左边样式*/
+.describeItem{
+	float: left;
+}
+.describeItem>*{
+	margin: 3px 0px;
+}
+
+
+.menuNumber{
+	font-size: 12px;
+	color: rgb(126,117,110);
+}
+.red{
+	color: red;
+}
+.side_dish{
+	color: rgb(126,117,110);
+	font-size: 12px;
+}
+.additional span{
+	/*margin-right: 1px;*/
+	font-size: 12px;
+	padding: 3px;
+	color: rgb(255,255,255);
+	border-radius: 3px;
+
+}
+.additional .zhaopai{
+	background-color: rgb(236,156,104);
+}
+.additional .xin{
+	background-color: rgb(94,196,82);
+}
+.additional .zengsong{
+	border: 1px solid rgb(94,44,20);
+	color: rgb(94,44,20);
+}
+.additional .la{
+	background-color: rgb(245,79,80);
+}
+
+
+/*右边样式*/
+.btnPrice{
+	float: right;
+	padding-right: 10px;
+	
+	height: 83px;
+}
+.btnPrice .btnSub{
+	display: none;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	margin-top: 26px;
+	margin-right: 5px;
+	float: left;
+	width: 30px;
+	background-color: rgb(49,153,232);
+	color: rgb(255,255,255);
+	font-weight: bolder;
+	font-size: 16px;
+	border-radius: 3px;
+}
+.btnPrice .number{
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	margin-top: 26px;
+	margin-right: 5px;
+	float: left;
+	width: 30px;
+	/*background-color: rgb(49,153,232);*/
+	color: rgb(0,0,0);
+	font-weight: bolder;
+	font-size: 16px;
+	border-radius: 3px;
+}
+.btnPrice .price{
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	margin-top: 26px;
+	float: left;
+	width: 70px;
+	background-color: rgb(49,153,232);
+	color: rgb(255,255,255);
+	font-weight: bolder;
+	font-size: 16px;
+	border-radius: 3px;
+
+}
+
+
+
+
+
+
+

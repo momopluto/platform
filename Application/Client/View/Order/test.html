@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+    <form action="{:U('Client/Order/test')}" method="post">
+        <br/>总价：<input type="number" name="arr[total]">
+        <br/>
+        <br/>菜名0：<input type="text" name="arr[item][0][name]">
+        <br/>单价0：<input type="number" name="arr[item][0][price]">
+        <br/>数量0：<input type="number" name="arr[item][0][count]">
+        <br/>小计0：<input type="number" name="arr[item][0][total]">
+        <br/>
+        <br/>菜名1：<input type="text" name="arr[item][1][name]">
+        <br/>单价1：<input type="number" name="arr[item][1][price]">
+        <br/>数量1：<input type="number" name="arr[item][1][count]">
+        <br/>小计1：<input type="number" name="arr[item][1][total]">
+        <br/>
+
+        <br/>姓名：<input type="text" name="name">
+        <br/>手机：<input type="text" name="phone">
+        <br/>地址：<input type="text" name="address">
+
+        <br/>备注：<input type="text" name="arr[note]">
+
+        <button type="submit">提交</button>
+
+    </form>
+
+</body>
+</html>

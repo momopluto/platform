@@ -1,0 +1,72 @@
+
+
+/*列表的样式*/
+
+#gouwuchelist{
+	margin-top: 35px;
+	margin-bottom: 35px;
+}
+.listUl{
+	margin-bottom: 10px;
+}
+.gouwucheItem{
+	font-size: 14px;
+	list-style: none;
+	border-bottom: 1px solid rgb(126,117,110);
+	padding: 10px 0px 10px 10px;
+}
+
+.gouwucheItem:after{
+	content: ".";
+	display: block;
+	height: 0px;
+	visibility: hidden;
+	clear: both;
+
+}
+.ItemName{
+	color: rgb(0,0,0);
+	font-size: 14px;
+	height: 30px;
+	line-height: 30px;
+	float: left;
+	text-align: left;
+}
+.enter_product{
+	float: right;
+	margin-right: 20px;
+}
+.enter_product input{
+	width: 20px;
+	height: 20px;
+	text-align: center;
+
+}
+.ItemPrice{
+	float: right;
+	margin-right: 10px;
+}
+.deleteBtn{
+	float: right;
+	margin-right: 10px;
+}
+
+
+
+
+
+.totalAllMenu{
+	font-size: 14px;
+	float: right;
+	margin-right: 10px;
+
+}
+
+.totalAllMenu span{
+	color: rgb(255,0,0);
+	margin: 0px 5px;
+}
+
+
+
+

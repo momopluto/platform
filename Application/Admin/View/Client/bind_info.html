@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>送餐信息</title>
+</head>
+<body>
+    <form action='{:U("Admin/Client/bind_info/source/$data[source]")}' method="post" >
+        <br/>手机号 （用于送餐时联系）<br/>
+        <input type="number" class="text input-medium" name="receiver_phone" value="{$data['receiver_phone']}"><br/>
+
+        <br/>送餐地址（2公里内可送，请尽量详细）<br/>
+        <input type="text" class="text input-large" name="takeout_address" value="{$data['takeout_address']}"><br/>
+        <input type="hidden" name="id" value="{$data['id']}">
+
+        <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+        <if condition="$data['source'] == 'order'"><br/><br/><br/><strong style="color: #FF0000">成功绑定信息后，返回点击“确认下单”即可完成订餐操作！</strong>
+        </if>
+    </form>
+</body>
+</html>

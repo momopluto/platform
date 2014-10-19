@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>粉丝管理</title>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    
+    <table width="900" border="1">
+        <tr>
+            <th align="left">粉丝编号</th>
+            <th align="left">OpenId</th>
+            <th align="left">昵称</th>
+            <th align="left">性别</th>
+            <th align="left">关注时间</th>
+            <th align="left">状态</th>
+            <th align="left">操作</th>
+        </tr>
+        <foreach name="data" item="one_follow" >
+            <?php $id = $one_follow['id'];?>
+            <tr>
+                <td>{$one_follow['id']}</td>
+                <td>{$one_follow['openid']}</td>
+                <td>{$one_follow['nickname']}</td>
+                <td>
+                    <if condition="$one_follow['sex'] == 0">保密
+                        <elseif condition="$one_follow['sex'] == 1" />男
+                        <else />女
+                    </if>
+                </td>
+                <td>{$one_follow['subscribe_time']|date='Y-m-d H:i',###}</td>
+                <td>
+                    <if condition="$one_follow['status'] == 0">已取消关注
+                        <else />已关注
+                    </if>
+                </td>
+                <td><a target="_self" href='{:U("Admin/Follow/edit/id/$id")}'>编辑</a></td>
+            </tr>
+        </foreach>
+        <tr>
+            <td colspan='7' align='center'>
+                {$page}
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

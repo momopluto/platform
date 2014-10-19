@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>编辑粉丝信息</title>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    
+    <form action='{:U("Admin/Follow/edit/id/")}{$data['id']}' method="post" >
+        <br/>昵称<br/>
+        <input type="text" class="text input-large" name="nickname" value="{$data['nickname']}">
+        <br/>性别<br/>
+        <select name="sex">
+            <option value="0" selected="">保密
+            </option><option value="1">男性
+            </option><option value="2">女性
+            </option>
+        </select>
+        <br/>头像<br/>
+        ****************//TODO<br/><br/>
+
+        <br/>城市<br/>
+        <input type="text" name="city" value="{$data['city']}">
+        <br/>省份<br/>
+        <input type="text" name="province" value="{$data['province']}">
+        <br/>国家<br/>
+        <input type="text" name="country" value="{$data['country']}">
+        <br/>语言<br/>
+        <input type="text" name="language" value="{$data['language']}">
+        <br/>手机号<br/>
+        <input type="text" name="mobile" value="{$data['mobile']}">
+        <br>
+        <button type="submit">确 定</button>
+    </form>
+</body>
+</html>

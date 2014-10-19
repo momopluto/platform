@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>餐厅账号信息</title>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    <strong style="color:red" font-size="24">请记住该账号信息，告知对应餐厅</strong>
+    <p>账号:{$data['username']}</p>        
+    <p>密码:{$data['password']}</p>
+
+    <a href="{:U('Admin/Rstuser/lists')}">完成</a>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>菜单管理</title>
+</head>
+    <body>
+    <include file= "./head_menu"/>
+    <br/>
+    <a href="{:U('Admin/Menu/add')}" >新增</a>
+    <a href="{:U('Admin/Menu/del')}" >删除</a>
+    <a href="{:U('Admin/Menu/send_menu')}" >生成微信自定义菜单</a>
+    <br/>
+    <table width="1200" border="1">
+        <tr>
+            <th><input type="checkbox" id="checkAll"></th>
+            <th align="left">菜单名</th>
+            <th align="left">关联关键词</th>
+            <th align="left">关联URL</th>
+            <th align="left">排序号</th>
+            <th align="left">操作</th>
+        </tr>
+        <foreach name="data" item="one_menu" >
+            <?php $id = $one_menu['id'];?>
+            <tr>
+                <td align="center"><input type="checkbox" value="{$one_menu['id']}" id="check_{$one_menu['id']}"></td>
+                <td>
+                    <if condition="$one_menu['pid'] != 0">
+                        <?php echo "├──";?>{$one_menu['title']}
+                        <else/>{$one_menu['title']}
+                    </if>
+                </td>
+                <td>{$one_menu['keyword']}</td>
+                <td>{$one_menu['url']}</td>
+                <td>{$one_menu['sort']}</td>
+                <td><a target="_self" href='{:U("Admin/Menu/edit/id/$id")}'>编辑</a> <a target="_self" href='{:U("Admin/Menu/del/id/$id")}'>删除</a></td>
+            </tr>
+        </foreach>
+    </table>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>顾客订单记录</title>
+</head>
+<body>
+  <div style="display: block; z-index: 1002; outline: 0px; height: auto; width: 600px; top: 166px; left: 419px;"><div><span>顾客订单记录</span>
+    <!-- 关闭是JS的一个控件 -->
+    <a href="#"><span>close</span></a>
+  </div><div scrolltop="0" scrollleft="0" style="width: auto; min-height: 0px; height: 392px;">
+    <div><h2>用户 {$data[0]['phone']} 最近一个月的订单</h2>
+<div id="sf_admin_container">
+  <div id="sf_admin_content">
+    <div class="sf_admin_list">
+      <div>
+          <table border="1" class="orders_list_table user_info_orders_table">
+            <thead>
+              <tr>
+              <th width="10%">时间</th>
+              <th width="10%">订单金额</th>
+              <th width="20%">订单明细</th>
+              <th width="10%">地址</th>
+              <th width="10%">联系电话</th>
+              </tr>
+            </thead>
+            <tbody>
+              <foreach name="data" item="one_data">
+                <tr>
+                  <td>{$one_data['pasttime']}</td>
+                  <td>{$one_data['total']}</td>
+                  <td>{$one_data['info']}</td>
+                  <td>{$one_data['address']}</td>
+                  <td>{$one_data['phone']}</td>
+                </tr>
+              </foreach>                
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+  </div></div>
+</body>
+</html>

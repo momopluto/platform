@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订餐用户管理</title>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    
+    <table width="1200" border="1">
+        <thead>
+            <tr>
+                <th align="left">编号</th>
+                <th align="left">OpenId</th>
+                <th align="left">默认手机</th>
+                <th align="left">默认地址</th>
+                <th align="left">首次下单时间</th>
+                <th align="left">订单记录</th>
+                <th align="left">操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <foreach name="data" item="one_orderman" >
+                <?php $id = $one_orderman['id'];?>
+                <tr>
+                    <td>{$one_orderman['id']}</td>
+                    <td>{$one_orderman['openid']}</td>
+                    <td>{$one_orderman['phone']}</td>
+                    <td>{$one_orderman['address']}</td>
+                    <td>
+                        <if condition="$one_orderman['cTime'] == null">
+                            <else />{$one_orderman['cTime']|date='Y-m-d H:i',###}
+                        </if>
+                    </td>
+                    <td><a href='{:U("Admin/orderman/userInfo")}?phone={$one_orderman['phone']}' target="_blank"><button type="button">查看</button></a></td>
+                    <td><a target="_self" href='{:U("Admin/Orderman/edit/id/$id")}'>编辑</a> <a target="_self" href='{:U("Admin/Orderman/del/id/$id")}'>删除</a> <a target="_self" href='{:U("Admin/Orderman/sendMsg")}?token={$one_orderman['token']}&openid={$one_orderman['openid']}'>发送信息</a></td>
+                </tr>
+            </foreach>    
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan='8' align='center'>
+                    {$page}
+                </td>
+            </tr>    
+        </tfoot>        
+    </table>
+</body>
+</html>

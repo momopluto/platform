@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>文本_欢迎语</title>
+</head>
+<body>
+    <include file="./head_menu"/>
+    <ul>
+    <a href="{:U('Admin/Welcome/text')}" >文本</a>
+    <a href="{:U('Admin/Welcome/news')}" >图文</a>
+    </ul>
+    <br/>
+    <form action="{:U('Admin/Welcome/text')}" method="post">
+        <textarea name="description">{$data['description']}</textarea>
+        <br/>
+        <button type="submit">确 定</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$data['rst_name']} - 运营统计</title>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    {$data['rst_name']} - 运营统计
+    <!-- 需要设计排版 -->
+    <hr>
+    <div>
+    	<h3>今日</h3>
+    	<label>营业额：{$data['today_turnover']}</label>
+    	<label>订单数：{$data['today_blanket_order']}</label>
+    </div>
+    <div>
+    	<span>有效订单数：{$data['today_1_order']}</span> <span>无效订单数：{$data['today_0_order']}</span>
+    </div>
+    <hr>
+    <div>
+    	<h3>本月</h3>
+    	<label>营业额：{$data['month_turnover']}</label>
+    	<label>订单数：{$data['month_blanket_order']}</label>
+    </div>
+    <div>
+    	<span>有效订单数：{$data['month_1_order']}</span> <span>无效订单数：{$data['month_0_order']}</span>
+    </div>
+    <hr>
+    <div>
+    	<h3>上月</h3>
+    	<label>营业额：{$data['last_month_turnover']}</label>
+    	<label>订单数：{$data['last_month_blanket_order']}</label>
+    </div>
+    <div>
+    	<span>有效订单数：{$data['last_month_1_order']}</span> <span>无效订单数：{$data['last_month_0_order']}</span>
+    </div>
+    <hr>
+    <div>
+    	<h2>总</h2>
+    	<label>营业额：{$data['total_turnover']}</label>
+    	<label>订单数：{$data['blanket_order']}</label>
+    </div>
+    <div>
+    	<span>有效订单数：{$data['1_order']}</span> <span>无效订单数：{$data['0_order']}</span>
+    </div>
+    <hr>
+</body>
+</html>

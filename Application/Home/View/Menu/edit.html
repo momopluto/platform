@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>编辑菜单</title>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    
+    <form action='{:U("Admin/Menu/edit/id/$_GET[id]")}' method="post" >
+        <br/>排序号 （数值越小越靠前）<br/>
+        <input type="number" name="sort" value="{$data['sort']}"><br/>
+        <br/>一级菜单 （如果是一级菜单，选择“无”即可）<br/>
+
+        <select name="pid">
+            <option value="0"
+                <if condition="$data['pid'] == 0">selected=''</if>
+            >无</option>
+            <?php $i = 0;?>
+            <foreach name="pids" item="pid">
+                <if condition="$i == 3"><?php break; ?></if>
+                <option value="{$key}" <if condition="$key == $data['pid']">selected=''</if>
+                >{$pid}</option>
+                {$i++}
+            </foreach>
+        </select>
+
+        <br/>菜单名 （可创建最多 3 个一级菜单，每个一级菜单下可创建最多 5 个二级菜单。编辑中的菜单不会马上被用户看到，请放心调试。）<br/>
+        <input type="text" name="title" value="{$data['title']}"><br/>
+        <br/>关联关键词 （关联关键词和关联URL选填一项）<br/>
+        <input type="text" name="keyword" value="{$data['keyword']}"><br/>
+
+        <br/>关联URL<br/>
+        <input type="text" name="url" value="{$data['url']}"><br/>
+
+        <button type="submit">确 定</button>
+    </form>
+</body>
+</html>

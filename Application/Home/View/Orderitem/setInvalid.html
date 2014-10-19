@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>设置为无效订单</title>
+</head>
+<body>
+
+<form action='{:U("Home/Orderitem/setInvalid/guid/$guid")}' method="post">
+    无效原因：
+    <select name="reason">
+        <option value=null>请选择一个无效的原因</option><!-- 选中此时，不允许提交 -->
+        <option value="假订单">假订单</option>
+        <option value="重复订单">重复订单</option>
+        <option value="联系不上用户">联系不上用户</option>
+        <option value="美食已售完">美食已售完</option>
+        <option value="餐厅已打烊">餐厅已打烊</option>
+        <option value="不在配送范围">不在配送范围</option>
+        <option value="餐厅太忙">餐厅太忙</option>
+        <option value="else">其它</option><!-- 选中此时，显示文本输入框 -->
+    </select>
+    <br />
+    <button type="submit">设为无效</button>
+    <a href="{:U('Home/Orderitem/lists')}"><button type="button">返回</button></a>
+</form>
+</body>
+</html>

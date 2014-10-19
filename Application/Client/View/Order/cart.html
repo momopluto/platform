@@ -1,0 +1,53 @@
+<!DOCTYPE THML>
+<html>
+	<head>
+		<?php $SRC = CLIENT_SRC; ?>
+		<meta charset="utf-8">
+		<meta name="author" content="ethanlai">
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<title>购物车列表</title>
+		<link rel="stylesheet" type="text/css" href="{$SRC}/css/global.css">
+		
+		<link rel="stylesheet" type="text/css" href="{$SRC}/css/gouwuchelist.css">
+
+		<script type="text/javascript" src="{$SRC}/scripts/jquery.js"></script>
+		<script type="text/javascript" src="{$SRC}/scripts/gouwuchelist.js"></script>
+	</head>
+	<body>
+	
+	<header><a class="return" href="javascript:window.history.go(-1)">&lt;返回</a> 美食篮子</header>
+		<div id="gouwuchelist">
+			<ul class="listUl">
+
+				<?php
+					$ck_data = unserialize(cookie('pltf_order_cookie'));
+					// var_dump($ck_data);
+				?>
+				<foreach name="data['item']" item="one_item">
+					<li class="gouwucheItem" >
+						<p class="ItemName">{$one_item['name']}</p>
+						
+                        <img src="{$SRC}/images/decline.png" class="deleteBtn">
+						<p class="ItemPrice">￥<span>{$one_item['price']}</span></p>
+						<div class="enter_product">
+                                	<input type="button"  class="add_sub sub" value="-">
+                                	<input type="text" class="show_count"  value="{$one_item['count']}" >
+                                	<input type="button"  class="add_sub add" value="+">
+                        </div>
+					</li>	
+				</foreach>
+			</ul>
+			
+			<p class="totalAllMenu"><span id="account">9</span>份美食&nbsp;&nbsp;共<span id="total">{$data['total']}</span>元</p>
+		</div>
+
+		<present name="data"><!-- 判断data变量是否已经赋值，最好是由JS判断！！！ -->
+			<a id="formSubmit2" href="#" class="footer">确认美食</a>
+			<form id="myForm2" action="{:U('Client/Order/info')}" method="post">
+				<input type="hidden" id="postData" value="">
+			</form>
+		</present>
+	
+	</body>
+</html>

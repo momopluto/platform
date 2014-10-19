@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>编辑图文回复</title>
+</head>
+<body>
+    <include file="head"/>
+    编辑【图文回复】<br/>
+    <br/>
+    <form action='{:U("Admin/Keyword/reply_edit/id/$id")}?source={$source}' method="post" >
+        * 关键词 （注意：关键词不能完全重复）<br/>
+        <input type="text" name="keyword" value="{$data['keyword']|trim=###}"><br/>
+        <br/>关键词类型 <br/>
+        <select name="keyword_type">
+            <option value="0" selected>完全匹配</option>
+            <option value="1">模糊匹配</option>
+            <if condition="$data['keyword_type'] == 1">
+                </option><option value="1" selected>模糊匹配
+            </if>
+        </select><br/>
+        <br/>* 标题<br/>
+        <input type="text" name="title" value="{$data['title']}"><br/>
+
+        <br/>简介<br/>
+        <textarea name="intro">{$data['intro']}</textarea><br/>
+
+        <br/>所属类别 （要先在微官网分类里配置好分类才可选择）<br/>
+        <select name="cate_id">
+            <option value="{$data['cate_id']}" selected="">请选择分类</option>
+        </select><br/>
+
+        <br/>封面图片<br/>
+        ***********************//TODO<br/><br/>
+
+        <br/>内容<br/>
+        <textarea name="content">{$data['content']}</textarea>
+
+        <br/>* 排序号<br/>
+        <input type="number" name="sort" value="{$data['sort']}"><br/>
+
+        <br/>外链 （如需跳转填写网址(记住必须有http://)如果填写了图文详细内容，这里请留空，不要设置！）<br/>
+        <input type="text" name="jump_url" value="{$data['jump_url']}"><br/>
+        
+        <button id="submit" type="submit">确 定</button>
+    </form>
+</body>
+</html>

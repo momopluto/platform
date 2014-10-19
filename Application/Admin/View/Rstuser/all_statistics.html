@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>运营统计</title>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    运营统计  
+
+    <table border="1">
+        <tr>
+            <!-- <th align="left">编号</th> -->
+            <th align="left">餐厅名</th>
+            <th align="left">总营业额</th>
+            <th align="left">总订单</th>
+            <th align="left">总有效单</th>
+            <th align="left">总无效单</th>
+            <th align="left">上月营业额</th>
+            <th align="left">上月订单</th>
+            <th align="left">上月有效单</th>
+            <th align="left">上月无效单</th>
+            <th align="left">本月营业额</th>
+            <th align="left">本月订单</th>
+            <th align="left">本月有效单</th>
+            <th align="left">本月无效单</th>
+            <th align="left">今日营业额</th>
+            <th align="left">今日订单</th>
+            <th align="left">今日有效单</th>
+            <th align="left">今日无效单</th>
+        </tr>
+        <tr>
+            <!-- <td></td> -->
+            <td>汇总</td>
+            <td>{$all['total_turnover']}</td>
+            <td>{$all['blanket_order']}</td>
+            <td>{$all['1_order']}</td>
+            <td>{$all['0_order']}</td>
+            <td>{$all['last_month_turnover']}</td>
+            <td>{$all['last_month_blanket_order']}</td>
+            <td>{$all['last_month_1_order']}</td>
+            <td>{$all['last_month_0_order']}</td>
+            <td>{$all['month_turnover']}</td>
+            <td>{$all['month_blanket_order']}</td>
+            <td>{$all['month_1_order']}</td>
+            <td>{$all['month_0_order']}</td>
+            <td>{$all['today_turnover']}</td>
+            <td>{$all['today_blanket_order']}</td>
+            <td>{$all['today_1_order']}</td>
+            <td>{$all['today_0_order']}</td>
+        </tr>
+        <foreach name="datas" item="one_data" >
+            <tr>
+                <!-- <td>{$one_data['id']}</td> -->
+                <td>{$key}</td>
+                <td>{$one_data['total_turnover']}</td>
+                <td>{$one_data['blanket_order']}</td>
+                <td>{$one_data['1_order']}</td>
+                <td>{$one_data['0_order']}</td>
+                <td>{$one_data['last_month_turnover']}</td>
+                <td>{$one_data['last_month_blanket_order']}</td>
+                <td>{$one_data['last_month_1_order']}</td>
+                <td>{$one_data['last_month_0_order']}</td>
+                <td>{$one_data['month_turnover']}</td>
+                <td>{$one_data['month_blanket_order']}</td>
+                <td>{$one_data['month_1_order']}</td>
+                <td>{$one_data['month_0_order']}</td>
+                <td>{$one_data['today_turnover']}</td>
+                <td>{$one_data['today_blanket_order']}</td>
+                <td>{$one_data['today_1_order']}</td>
+                <td>{$one_data['today_0_order']}</td>
+            </tr>            
+        </foreach>
+    </table>    
+</body>
+</html>

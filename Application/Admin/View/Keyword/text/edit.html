@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>编辑文本回复</title>
+</head>
+<body>
+    <include file="head"/>
+    编辑【文本回复】<br/>
+    <br/>
+    <form action='{:U("Admin/Keyword/reply_edit/id/$id")}?source={$source}' method="post" >
+        * 关键词 （多个关键词请用空格分开：例如: 高 富 帅）<br/>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意：关键词不能完全重复<br/>
+        <input type="text" name="keyword" value="{$data['keyword']|trim=###}"><br/>
+        关键词类型 <br/>
+        <select name="keyword_type">
+            <option value="0" selected>完全匹配</option>
+            <option value="1">模糊匹配</option>
+            <if condition="$data['keyword_type'] == 1">
+                </option><option value="1" selected>模糊匹配
+            </if>
+        </select><br/>
+        回复内容 （请不要多于1000字否则无法发送。支持加超链接，但URL必须带http://）<br/>
+        <textarea name="content">{$data['content']}</textarea><br/>
+        * 排序号<br/>
+        <input type="number" name="sort" value="{$data['sort']}"><br/>
+
+        <button type="submit">确 定</button>
+    </form>
+</body>
+</html>

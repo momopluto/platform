@@ -1,0 +1,69 @@
+/*购物车*/
+#gouwuche{
+	
+	background-color: rgb(50,57,65);
+	height: 40px;
+	width:100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	overflow: scroll-y;
+}
+.countHeader img{
+	float: left;
+}
+.countHeader .total{
+	height: 40px;
+	line-height: 40px;
+	color: rgb(255,255,255);
+	font-weight: bolder;
+	margin-left: 5px;
+	float: left;
+
+}
+#gouwuche form a{
+	display: block;
+}
+.countHeader::after{
+	content: ".";
+	height: 0px;
+	clear: both;
+	display: block;
+	visibility: hidden;
+
+
+}
+
+
+.shortcComing{
+	float: right;
+	height: 40px;
+	line-height: 40px;
+	color: rgb(255,255,255);
+	font-weight: bolder;
+	margin-right: 5px;
+	
+}
+
+
+.jiesuan{
+	display: none;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	float: right;
+	width: 70px;
+	background-color: rgb(49,153,232);
+	color: rgb(255,255,255);
+	text-decoration: none;
+	font-weight: bolder;
+	font-size: 16px;
+	border-radius: 3px;
+	margin-top: 5px;
+	margin-right: 5px;
+	/*position: absolute;
+	top:7px;
+	left: 223px;*/
+}
+
+

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>订单管理</title>
+    <style>
+    div#ordersearch{
+        position:absolute;
+        left:35%;
+    }
+    </style>
+</head>
+<body>
+    <include file= "check_by"/>
+    订单管理/
+    <if condition="$_GET['source'] == null">总订单
+        <elseif condition="$_GET['source'] == news" />新订单
+        <elseif condition="$_GET['source'] == urge" />催单
+        <elseif condition="$_GET['source'] == confirmed" />已确认订单
+        <elseif condition="$_GET['source'] == responsed" />已响应催单
+        <elseif condition="$_GET['source'] == finished" />已完成订单
+        <elseif condition="$_GET['source'] == canceled" />已取消订单
+    </if>
+    <table id="tblSort" width="1200" border="1">
+        <thead>
+            <tr>
+                <th align="left">编号</th>
+                <th align="left">小黄/份</th>
+                <th align="left">辣小黄/份</th>
+                <th align="left">大黄/份</th>
+                <th align="left">辣大黄/份</th>
+                <th align="left">送餐手机</th>
+                <th align="left">送餐地址</th>
+                <th align="left" bgcolor="#B0C4DE" onclick="sortTable('tblSort', 7, 'date')" 
+                        style="cursor:pointer">下单时间</th>
+                <th align="left" bgcolor="#B0C4DE" onclick="sortTable('tblSort', 8, 'date')" 
+                        style="cursor:pointer">响应时间</th>
+                <th align="left">订单状态</th>
+                <th align="left">操作</th>
+            </tr>
+        </thead>
+        <tbody class="search_result_replace">
+            <foreach name="data" item="one_orderitem" >
+                <?php $id = $one_orderitem['id'];?>
+                <tr>
+                    <td>{$one_orderitem['id']}</td>
+                    <td>{$one_orderitem['info_1']}</td>
+                    <td>{$one_orderitem['info_2']}</td>
+                    <td>{$one_orderitem['info_3']}</td>
+                    <td>{$one_orderitem['info_4']}</td>
+                    <td>{$one_orderitem['phone']}</td>
+                    <td>{$one_orderitem['address']}</td>
+                    <td>{$one_orderitem['cTime']|date='Y-m-d H:i',###}</td>
+                    <td>
+                        <if condition="$one_orderitem['rTime'] == null">
+                            <else />{$one_orderitem['rTime']|date='Y-m-d H:i',###}
+                        </if>
+                    </td>
+                    <td>
+                        <if condition="$one_orderitem['status'] == 0">新订单，未确认
+                            <elseif condition="$one_orderitem['status'] == 1" />已确认
+                            <elseif condition="$one_orderitem['status'] == 2" />订单完成
+                            <elseif condition="$one_orderitem['status'] == 4" />用户催单
+                            <elseif condition="$one_orderitem['status'] == 5" />已响应催单
+                            <else />订单取消[{$one_orderitem['note']}]
+                        </if>
+                    </td>
+                    <td><a target="_self" href='{:U("Admin/Orderitem/confirm/id/$id")}'>确认订单</a> <a target="_self" href='{:U("Admin/Orderitem/cancel/id/$id")}'>无效</a> <a target="_self" href='{:U("Admin/Orderitem/finish/id/$id")}'>完成</a></td>
+                </tr>
+            </foreach>
+        </tbody>
+        <tbody id="tb_paging">
+            <tr>
+                <td colspan='12' align='center'>
+                    {$page}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

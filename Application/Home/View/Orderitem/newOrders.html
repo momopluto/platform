@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新订单</title>
+    <style>
+
+    .re_page2{ width:auto; height:30px; padding-right:10px; padding-top:10px; float:right;}
+    .re_page2 a { text-decoration: none; border: 1px solid #CCC; padding: 5px; }
+    .re_page2 span { border: 1px solid #ccc; padding: 5px 12px; background: #CCC; color: #853645; }
+
+    </style>
+
+    <!-- JS轮询，提醒新订单 -->
+    
+</head>
+<body>
+    <include file= "./toolbar"/>
+    <br/>
+    新订单...
+    <div id="list_panel">
+
+    <div class="order_filter_summary">
+        <div class="re_page2">            
+            {$page}
+        </div>
+    </div>
+
+    <div id="list_container">
+    <ul id="list_items">
+    <foreach name="data" item="one_data">
+        <li orderid="{$one_data['guid']}" categoryid="1" id="list-{$one_data['guid']}" class="processed" createdat="{$one_data['cTime']}" online-pay="">
+
+            <div class="list_order_head">
+                <span class="process_num">{$one_data['today_sort']}</span><!-- 当天第xx订单 -->
+
+
+                <span>订单号:</span><span>{$one_data['guid']}</span>
+                <span>下单时间:</span><span>{$one_data['cTime']|date='Y-m-d H:i',###}</span>
+                <span>订单总额:</span><span>{$one_data['order_info']['total']}元</span>
+            </div>
+
+            <div class="list_content">
+                <table class="order_meta">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <span>顾客电话:</span><span>{$one_data['phone']}</span>
+                            <span>顾客地址:</span><span>{$one_data['address']}</span>
+                            <a href='{:U("Home/orderitem/getUserInfo")}?phone={$one_data['phone']}' target="_blank">顾客订单记录</a>
+                        </td>
+                    </tr>
+                    <tr class="odd">
+                        <td><span class="info_name">订单备注:</span>{$one_data['order_info']['note']}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="item_table">
+                    <thead>
+                    <tr>
+                        <th>订单篮</th>
+                        <th>单价</th>
+                        <th>数量</th>
+                        <th>总价</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php $items = $one_data['order_info']['item'];?>
+                    <foreach name="items" item="one_item">
+                        <tr>
+                            <td><span class="dishname">{$one_item['name']}</span></td>
+                            <td>{$one_item['price']}</td>
+                            <td>{$one_item['count']}</td>
+                            <td><?php echo $item_total_price = $one_item['price']*$one_item['count'];?></td>
+                        </tr>
+                    </foreach>                    
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th colspan="3">小计</th>
+                        <th>{$one_data['order_info']['total']}</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="button_container">
+
+                <!-- 如果是无效订单，则不显示打印按键 -->
+                <a href="#" orderid="{$one_data['guid']}"><button type="button">打印</button></a>
+                <a href="{:U('Home/Orderitem/confirm')}?guid={$one_data['guid']}" orderid="{$one_data['guid']}"><button type="button">确认</button></a>                
+                <a href="{:U('Home/Orderitem/setInvalid')}?guid={$one_data['guid']}"><button type="button">无效</button></a>
+                <!-- <a data-order-text="(9月13日)69号 【维】黄小吉找前端女神 13268271854 华南农业大学华山17栋 小黄闷鸡米饭（学生价）1份 维他柠檬茶/共12元(多加米)"><button type="button">复制</button></a> -->
+                <!-- (日期)当日xx号订单 餐厅名 餐厅联系电话 送餐地址 [订单]菜名 x份 /共xx元(备注) -->
+            </div>
+
+        </li>
+        <hr>
+    </foreach>
+    
+    </ul>
+
+    <div class="re_page2">
+        {$page}
+    </div>
+    </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>多图文回复</title>
+</head>
+<body>
+    <include file="head"/>
+    多图文回复<br/>
+    <a href="{:U('Home/Keyword/reply_add')}?source={$source}" >新增</a>
+    <a href="{:U('Home/Keyword/reply_del')}?source={$source}" >删除</a>
+    <br/>
+    <table cellspacing="1" width="900" border="1">
+        <tr>
+            <th><input type="checkbox" id="checkAll"></th>
+            <th align="left">ID</th>
+            <th align="left">关键词</th>
+            <th align="left">关键词类型</th>
+            <th align="left">图文列表</th>
+            <th align="left">操作</th>
+        </tr>
+        <foreach name="data" item="one_reply" >
+            <?php $id = $one_reply['id'];?>
+            <tr>
+                <td align="center"><input type="checkbox" value="{$one_reply['id']}" id="check_{$one_reply['id']}"></td>
+                <td>{$one_reply['id']}</td>
+                <td>{$one_reply['keyword']|trim=###}</td>
+                <td>
+                    <if condition="$one_reply['keyword_type'] == 0">完全匹配
+                        <else />模糊匹配
+                    </if>
+                </td>
+                <td>{$one_reply['title']}</td>
+                <td><a target="_self" href='{:U("Home/Keyword/reply_edit/id/$id")}?source={$source}'>编辑</a> <a target="_self" href='{:U("Home/Keyword/reply_del/id/$id")}?source={$source}'>删除</a></td>
+            </tr>
+        </foreach>
+        <tr>
+            <td colspan='6' align='center'>
+                {$page}
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

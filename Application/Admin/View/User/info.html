@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>绑定公众号</title>
+</head>
+<body>
+    <include file= "./head_menu"/>
+    绑定公众号
+    <form action="{:U('Admin/User/info')}" method="post">
+        公众号名称<br/>
+        <input type="text" name="public_name" value="{$data['public_name']}"><br/>
+        公众号原始id （请正确填写，保存后不能再修改，且无法接收到微信的信息）<br/>
+        <input type="text" name="public_id" value="{$data['public_id']}" <if condition="$data['public_id'] != null">disabled=""</if>><br/>
+        微信号<br/>
+        <input type="text" name="wechat" value="{$data['wechat']}"><br/>
+        公众号头像<br/>
+        ****************//TODO<br/><br/>
+
+        公众号类型<br/>
+        <input type="radio" value="0" name="type" checked="">订阅号
+        <if condition="$data['type'] == 1">
+            <input type="radio" value="1" name="type" checked="">服务号<br/>
+            <else/><input type="radio" value="1" name="type">服务号<br/>
+        </if>
+        AppId （认证服务号的AppId）<br/>
+        <input type="text" name="appid" value="{$data['appid']}"><br/>
+        Secret （认证服务号的Secret）<br/>
+        <input type="text" name="secret" value="{$data['secret']}"><br/>
+        <button type="submit">确 定</button>
+    </form>
+</body>
+</html>

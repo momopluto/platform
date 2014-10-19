@@ -1,0 +1,28 @@
+    <include file= "./head_menu"/>
+
+
+<ul>
+    <a href='{:U("Admin/Orderitem/lists")}'>总订单</a> |
+    <a href='{:U("Admin/Orderitem/lists")}?source=news'>新订单</a>
+    <a href='{:U("Admin/Orderitem/lists")}?source=urge'>催单</a>
+    <script>
+        var search_url = "{:U('Admin/Orderitem/search')}";
+        var confirm_url = "{:U('Admin/Orderitem/confirm')}";
+        var cancel_url = "{:U('Admin/Orderitem/cancel')}";
+        var finish_url = "{:U('Admin/Orderitem/finish')}";
+    </script>
+	<div id="ordersearch" onkeydown="if(event.keyCode==13) order_search();">
+        <input type="text" name="keyword" value="">
+        <button type="submit" onclick="order_search()">查询</button>
+        <span id="result_tips">
+            
+        </span>
+    </div>
+</ul>
+
+<ul>
+    <a href='{:U("Admin/Orderitem/lists")}?source=confirmed'>已确认订单</a>
+    <a href='{:U("Admin/Orderitem/lists")}?source=responsed'>已响应催单</a> |
+    <a href='{:U("Admin/Orderitem/lists")}?source=finished'>已完成订单</a>
+    <a href='{:U("Admin/Orderitem/lists")}?source=canceled'>已取消订单</a>
+</ul>

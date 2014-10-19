@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>用户注册</title>
+</head>
+<body>
+    <form action="{:U('Admin/User/reg')}" method="post">
+        用 户 名：<input type="text" name="username" /><br/>
+        密　　码：<input type="password" name="password" /><br/>
+        确认密码：<input type="password" name="repassword" /><br/>
+        <!--邮　　箱：<input type="text" name="email" /><br/>-->
+        <button type="submit">注 册</button>
+        <button type="reset" name="reset">重 置</button>
+    </form>
+</body>
+</html>

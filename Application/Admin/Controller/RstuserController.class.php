@@ -152,46 +152,6 @@ class RstuserController extends AdminController {
 		redirect(U('Admin/Rstuser/lists'));
 	}
 
-	// // 开通用户的平台服务(启用账号)
-	// public function openService(){
-
-	// 	//admin_allrst的status=1，服务开启，记录服务状态更改时间s_change_time
-	// 	$update['status'] = 1;
-	// 	$update['s_change_time'] = NOW_TIME;
-
-	// 	$map['token'] = session('token');
-	// 	$map['id'] = I('get.id');
-	// 	M('allrst')->where($map)->setField($update);
-
-	// 	//home_user的status=1，账号启用
-	// 	unset($update['s_change_time']);
-	// 	$an_rst = M('allrst')->where($map)->find();
-	// 	$rid = $an_rst['rid'];
-	// 	$uid = $rid - 10086;//$uid为用户账号id
-	// 	M('user', 'home_')->where("id = $uid")->setField($update);
-
-	// 	redirect(U('Admin/Rstuser/lists'));
-	// }
-
-	// // 关闭用户的平台服务(关闭账号)
-	// public function closeService(){
-	// 	//admin_allrst的status=0，服务关闭，记录服务状态更改时间s_change_time
-	// 	$update['status'] = 0;
-	// 	$update['s_change_time'] = NOW_TIME;
-
-	// 	$map['token'] = session('token');
-	// 	$map['id'] = I('get.id');
-	// 	M('allrst')->where($map)->setField($update);
-
-	// 	//home_user的status=0，账号启用
-	// 	unset($update['s_change_time']);
-	// 	$an_rst = M('allrst')->where($map)->find();
-	// 	$rid = $an_rst['rid'];
-	// 	$uid = $rid - 10086;//$uid为用户账号id
-	// 	M('user', 'home_')->where("id = $uid")->setField($update);
-
-	// 	redirect(U('Admin/Rstuser/lists'));
-	// }
 
 	// 查看该商家运营情况
 	public function statistics(){

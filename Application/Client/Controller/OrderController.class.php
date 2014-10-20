@@ -221,6 +221,7 @@ class OrderController extends ClientController {
 
     // 送餐信息
     function info(){
+        p(I('post.'));die;
         if(IS_POST){
 
         }
@@ -231,14 +232,14 @@ class OrderController extends ClientController {
 
     // 购物车
     function cart(){
-        // p(I('post.','',''));die;
+
         if(IS_POST){
             $json_text = I('post.postData','','');
             $data = json_decode($json_text,true);
             // p($data);
             
             // //设置cookie，系列化数组(因为cookie不支持数组)
-            cookie('pltf_order_cookie', serialize($data), 3600);
+            cookie('pltf_order_cookie', $json_text, 3600);
             // p(cookie());die;
             // echo "<hr>";
             // p(unserialize(cookie('pltf_order_cookie')));die;
@@ -246,14 +247,24 @@ class OrderController extends ClientController {
             //购物车必用post过来的数据data！！！
             $this->assign('data', $data);
         }
+
+        // p(cookie());
+        // p(I('post.','',''));die;
         
         $this->display();
     }
 
 
     // 餐厅菜单
-    function test2(){
-        $rid = 10456;
+    function menu(){
+        
+        // cookie('pltf_order_cookie',null);
+        // p(cookie());die;
+        
+
+        $rid = 10456;//伪造数据，测试
+
+
         if (IS_POST) {
             $data = I('post.postData','','');
             p($data);die;
@@ -263,11 +274,115 @@ class OrderController extends ClientController {
             $data = M('menu',$rid.'_')->select();
             $rstinfo = M('resturant','home_')->where("rid = $rid")->find();
             // p($rstinfo);die;
-            $this->assign('data', $data);
-            $this->assign('rst', $rstinfo);
-            // echo PUBLIC_URL;die;
-            $this->display('list');
+            $this->assign('data', $data);//菜单列表
+            $this->assign('rst', $rstinfo);//餐厅信息
+            $this->display();
         }
+    }
+
+    // 所有餐厅
+    function lists(){
+
+        // 1.在admin_allrst中过滤出开启了平台服务的餐厅
+        //      rid、rst_name、token
+        // 2.通过以上rid信息，在home_resturant中取得餐厅的详细信息
+        //      rid,logo_url,rst_name,isOpen[餐厅状态，主观人为设置是否营业，最高优先级]、
+        //      rst_is_bookable,rst_agent_fee,stime_*_open,stime_*_close
+        // 3.根据stime_*_open、stime_*_close判断当前是否为"自动"营业时间
+        // 4.在orderitem中统计上月售、本月售[餐厅排序依据]
+        // 5.每家餐厅都整合以上信息，构成一个大的多维数组，以上月售、本月售降序排序
+        
+        $token = "gh_34b3b2e6ed7f";//默认
+
+        $on_rsts = M('allrst','admin_')->where("status=1")->select();
+        
+        $str = "";
+        foreach ($on_rsts as $key => $one_rst) {
+            if($key != 0){
+                $str .= ",".$one_rst['rid'];
+            }else{
+                $str .= $one_rst['rid'];
+            }
+        }
+        // $In['rid'] = array('in','10456,10464');
+        $In['rid'] = array('in', $str);//过滤条件，rid必须in在$str所给出的范围里
+
+        // 得到以rid为键名的多维数组
+        $rsts = M('resturant','home_')->where($In)->getField('rid,logo_url,rst_name,isOpen,rst_is_bookable,rst_agent_fee,
+            stime_1_open,stime_1_close,stime_2_open,stime_2_close,stime_3_open,stime_3_close');
+
+        $open_rsts = array();
+        $close_rsts = array();
+        foreach ($rsts as $key => $an_rst) {
+            if($an_rst['isOpen'] == 1){//主观，营业
+                echo "9";
+                // 判断是否营业时间
+                $n_time = date('H:i');
+
+                $is_closed = false;
+                // var_dump($an_rst['stime_3_open'] !== '');die;
+                if($an_rst['stime_3_open'] !== '' && $an_rst['stime_3_close'] !== ''){
+                    echo "8";
+                    if (strtotime($an_rst['stime_3_open']) <= strtotime($n_time) && strtotime($n_time) <= strtotime($an_rst['stime_3_close'])){
+                        echo "7";
+                        // 目前处于第3营业时间
+                        $open_status = 3;
+                    }elseif (strtotime($n_time) > strtotime($an_rst['stime_3_close'])) {
+                        echo "6";
+                        $is_closed = true;
+                    }
+                }elseif($an_rst['stime_2_open'] !== '' && $an_rst['stime_2_close'] !== ''){
+                    echo "5";
+                    if (strtotime($an_rst['stime_2_open']) <= strtotime($n_time) && strtotime($n_time) <= strtotime($an_rst['stime_2_close'])){
+                        echo "4";
+                        // 目前处于第2营业时间
+                        $open_status = 2;
+                    }elseif (strtotime($n_time) > strtotime($an_rst['stime_2_close'])) {
+                        echo "3";
+                        $is_closed = true;
+                    }
+                }elseif(strtotime($an_rst['stime_1_open']) <= strtotime($n_time) && strtotime($n_time) <= strtotime($an_rst['stime_1_close'])){
+                    echo "2";
+                    // 目前处于第1营业时间
+                    $open_status = 1;
+                }elseif(strtotime($n_time) > strtotime($an_rst['stime_1_close'])){
+                    echo "1";
+                    $is_closed = true;
+                }else{
+                    echo "0";
+                    $open_status = 0;
+                }
+
+                $an_rst['open_status'] = $open_status;
+
+                if($an_rst['rst_is_bookable'] || $an_rst['open_status'] != 0){
+                    echo "-1";
+                    if(!$is_closed){
+                        echo "-2";
+                        $open_rsts[$key] = $an_rst;
+                    }else{
+                        echo "-3";
+                        $close_rsts[$key] = $an_rst;
+                    }
+                }else{
+                    echo "-4";
+                    $close_rsts[$key] = $an_rst;
+                }
+            }else{//主观，其它，非营业
+                echo "-5";
+                $close_rsts[$key] = $an_rst;
+            }
+        }
+
+        // 怎么区分营业与非营业的餐厅呢？
+        p($open_rsts);
+        echo "<hr/>";
+        p($close_rsts);die;
+
+        // 营业/非营业，各自排序
+
+        $this->display();
+
     }
 
 /*

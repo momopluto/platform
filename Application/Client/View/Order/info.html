@@ -15,7 +15,7 @@
 	 
 
 	</head>
-	<body>
+<!-- <body>
 	
 	<div class="defaulted">
 	<form>
@@ -23,6 +23,87 @@
 
 
 	<div class="songcanxinxi" id="songcanAddress"><p class="one">添加送餐地址</p><p class="two">&gt;</p></div>
+	<div class="songcanxinxi" id="songcanTime">
+	    <p class="one">送达时间</p>
+	   
+	    <select class="two" id="select">
+	      
+	    	<option>尽快送出</option>
+	    	<option>11:00</option>
+	    	<option>11:15</option>
+	    	<option>11:30</option>
+	    	<option>11:45</option>
+	    	<option>12:00</option>
+	    	<option>12:15</option>
+	    	<option>12:30</option>
+	    	<option>12:45</option>
+	    	<option>13:00</option>
+	    	<option>13:15</option>
+	    	<option>13:30</option>
+	    	<option>13:45</option>
+	    	<option>14:00</option>
+	    	<option>14:15</option>
+	    	<option>14:30</option>
+	
+	    	<option>16:00</option>
+	    	<option>16:15</option>
+	    	<option>16:30</option>
+	    	<option>16:45</option>
+	    	<option>17:00</option>
+	    </select>
+	</div>
+	<div class="songcanxinxi" id="songcanNote"><p class="one">订单备注</p><p class="two">无订单备注&nbsp;&gt;</p></div>
+		
+			<a href="#" class="footer" id="order">确认下单</a> 
+			</form>
+	</div>
+			
+	<div class="transfor" id="newAddress">
+		<header><p class="return fanhui"  >&lt;返回</p>新增地址</header>
+		<form>
+		
+			<input type="text" class="input" id="inputOne" required="required"  placeholder="请填写您的姓名">
+			<input type="text" class="input" id="inputAddress" required="required"  placeholder="请填写详细送餐地址">
+			<input type="tel" class="input" id="moblePhone"  required="required" placeholder="请填写能够联系到您的手机号">
+			<input type="tel" class="input" id="inputLast" placeholder="备用联系电话（选填）">
+
+			<footer class="cart-footer">
+			    <button type="button" class="footer" id="sure_address" >确定</button>
+			</footer>
+		
+		</form>
+	</div>
+	<div class="transfor" id="newNote">
+		<header><p class="return fanhui">&lt;返回</p>订单备注</header>
+		<p class="newNote_P">
+			<textarea class="noteArea" placeholder="请填写饿单备注"></textarea>
+		</p>
+		
+		<div class="candidate">
+			<p>没零钱</p>
+			<p>不要葱姜蒜</p>
+			<p>不吃辣</p>
+			<p>辣一点</p>
+			<p>不要一次性筷子</p>
+			<p>多加米</p>
+		</div>
+		
+		<div class="footer" id="sure_note">新增备注</div>
+	</div>
+	<form id="submitForm">
+		<input type="hidden" value="" id="postData">
+
+	</form>
+	</body> -->
+	<body>
+	
+	<div class="defaulted">
+	<form>
+	<header><a class="return" href="javascript:window.history.go(-1)">&lt;返回</a> 送餐信息</header>
+
+
+	<div class="songcanxinxi" id="songcanAddress"><p class="one" id="newAddressStr">添加送餐地址</p><p class="two">&gt;</p>
+	</div>
 	<div class="songcanxinxi" id="songcanTime">
 	    <p class="one">送达时间</p>
 	    <!-- <p class="two">选择送达时间&gt;</p> -->
@@ -54,21 +135,23 @@
 	</div>
 	<div class="songcanxinxi" id="songcanNote"><p class="one">订单备注</p><p class="two">无订单备注&nbsp;&gt;</p></div>
 		
-			<div class="footer" id="order">确认下单</div>
+			<a href="#" class="footer" id="order">确认下单</a> 
+			
 			</form>
 	</div>
 			
 	<div class="transfor" id="newAddress">
-		<header><p class="return fanhui"  >&lt;返回</p>新增地址</header>
+		<header><p class="return fanhui">&lt;返回</p>新增地址</header>
 		<form>
-			<input type="text" class="input" id="inputOne" required="required"  placeholder="请填写您的姓名">
+			<!-- <input type="text" class="input" id="inputOne" required="required"  placeholder="请填写您的姓名"> -->
 			<input type="text" class="input" id="inputOne" required="required"  placeholder="请填写您的姓名">
 			<input type="text" class="input" id="inputAddress" required="required"  placeholder="请填写详细送餐地址">
 			<input type="tel" class="input" id="moblePhone"  required="required" placeholder="请填写能够联系到您的手机号">
 			<input type="tel" class="input" id="inputLast" placeholder="备用联系电话（选填）">
 
 			<footer class="cart-footer">
-			    <button type="submit" class="footer" id="sure_address" >新增地址</button>
+				<button type="button" class="footer" id="sure_address" style="cursor: default;">确定</button>
+			    <!-- <button type="button" class="footer" id="sure_address" >确定</button> -->
 			</footer>
 			<!-- disabled="disabled"<div class="footer" id="sure_address">新增地址</div> -->
 		</form>
@@ -88,7 +171,14 @@
 			<p>多加米</p>
 		</div>
 		
-		<div class="footer" id="sure_note">新增备注</div>
+		<div class="footer" id="sure_note">确定</div>
+
 	</div>
+
+
+	<!-- 数据上传 -->
+	<!-- <input type="hidden" value=""> -->
+		<input type="hidden" id="postData" value="123">
+	
 	</body>
 </html>

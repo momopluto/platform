@@ -60,7 +60,7 @@ overflow:hidden;
 	left: 100%;
 	top: 0px;
 	background-color: rgb(255,255,255);
-	
+	margin-top: 35px;
 	width: 100%;
 	height: 100%;
 	z-index: 2;
@@ -82,6 +82,13 @@ overflow:hidden;
 }
 
 
+#sure_address{
+	display: block;
+	width: 100%;
+	border: 0px;
+}
+
+
 
 /*选择时间段*/
 #songcanTime{
@@ -100,7 +107,7 @@ overflow:hidden;
 
 
 #newNote>p{
-	margin: 35px auto 0px;
+	margin: auto;
 	width: 95%;
 }
 .noteArea{

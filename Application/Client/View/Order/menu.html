@@ -10,10 +10,12 @@
 		<link rel="stylesheet" type="text/css" href="{$SRC}/css/global.css">
 		<link rel="stylesheet" type="text/css" href="{$SRC}/css/gouwuche.css">
 		<script type="text/javascript" src="{$SRC}/scripts/jquery.js"></script>
+		<script type="text/javascript" src="{$SRC}/scripts/jquery.cookie.js"></script>
 		<script type="text/javascript" src="{$SRC}/scripts/gouwuche.js"></script>
 
 		<title>菜式列表</title>
 	</head>
+
 	<body>
 		<header><a class="return" href="javascript:window.history.go(-1)">&lt;返回</a><a href="{:U('Client/Restaurant/info')}" shape="poly"><span>{$rst['rst_name']}</span></a></header>
 		<div class="menu">
@@ -44,7 +46,7 @@
 
 			</ul>
 
-			<!-- 绝对定位fixed的购物车 -->
+		
 			<div id="gouwuche">
 			   
 			    <a href="#" id="formSubmit">
@@ -53,7 +55,7 @@
 			   	<img src="{$SRC}/images/gouwuche.jpg" id="gouwucheImg">
 			   	<p class="total">共<span class="account_menu">0</span>份&nbsp;<span class="tatal_price">￥0</span>元</p>
 			   	<p class="shortcComing">还差&nbsp;￥<span>{$rst['rst_agent_fee']}</span>元&nbsp;起送</p>
-				<!-- <input type="submit"  class="jiesuan" value="去结算"> -->
+			
 				<p class="jiesuan">去结算</p>
 				
 			   </div>
@@ -68,15 +70,16 @@
 	                                	<input type="button"  class="add_sub add" value="+">
 	                        </div>
 	                        <img src="{$SRC}/images/decline.png" class="deleteBtn">
-							<p class="ItemPrice"></p>
+							<p class="ItemPrice" id="demo"></p>
 							
 						</li>
 					</ul>
-					<p id="labelBeizhu" for="beizhu">&nbsp;备注：</p>
-					<textarea id="beizhu" ></textarea>
+					<!-- <p id="labelBeizhu" for="beizhu">&nbsp;备注：</p>
+					<textarea id="beizhu" ></textarea> -->
 				</div>
 				<form id="myForm" action="{:U('Client/Order/cart')}" method="post">
 					<input type="hidden" id="postData" name="postData" value="">
+					<input type="hidden" id="hallId" value="123456">
 				</form>
 			</div>
 		</div>

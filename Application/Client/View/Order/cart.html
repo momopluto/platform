@@ -12,7 +12,9 @@
 		<link rel="stylesheet" type="text/css" href="{$SRC}/css/gouwuchelist.css">
 
 		<script type="text/javascript" src="{$SRC}/scripts/jquery.js"></script>
+		<script type="text/javascript" src="{$SRC}/scripts/jquery.cookie.js"></script>
 		<script type="text/javascript" src="{$SRC}/scripts/gouwuchelist.js"></script>
+		
 	</head>
 	<body>
 	
@@ -21,10 +23,11 @@
 			<ul class="listUl">
 
 				<?php
-					$ck_data = unserialize(cookie('pltf_order_cookie'));
-					// var_dump($ck_data);
+					$ck_data = json_decode(cookie('pltf_order_cookie'),true);
+					// p($ck_data);die;//data['item']
+					$all_count = 0;
 				?>
-				<foreach name="data['item']" item="one_item">
+				<foreach name="ck_data['item']" item="one_item">
 					<li class="gouwucheItem" >
 						<p class="ItemName">{$one_item['name']}</p>
 						
@@ -35,19 +38,25 @@
                                 	<input type="text" class="show_count"  value="{$one_item['count']}" >
                                 	<input type="button"  class="add_sub add" value="+">
                         </div>
-					</li>	
+					</li>
+					<?php $all_count += $one_item['count'];?>
 				</foreach>
 			</ul>
+			<div class="empty">
+			<p>
+			   <img src="{$SRC}/images/empty.png">
+			</p>
+			</div>
 			
-			<p class="totalAllMenu"><span id="account">9</span>份美食&nbsp;&nbsp;共<span id="total">{$data['total']}</span>元</p>
+			<p class="totalAllMenu"><span id="account">{$all_count}</span>份美食&nbsp;&nbsp;共<span id="total">{$data['total']}</span>元</p>
 		</div>
 
-		<present name="data"><!-- 判断data变量是否已经赋值，最好是由JS判断！！！ -->
+		<present name="data"><!-- 判断data变量是否已经赋值 -->
 			<a id="formSubmit2" href="#" class="footer">确认美食</a>
 			<form id="myForm2" action="{:U('Client/Order/info')}" method="post">
 				<input type="hidden" id="postData" value="">
+				<input type="hidden" id="hallId" value="123456">
 			</form>
 		</present>
-	
 	</body>
 </html>

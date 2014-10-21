@@ -289,7 +289,7 @@ class OrderController extends ClientController {
         //      rid,logo_url,rst_name,isOpen[餐厅状态，主观人为设置是否营业，最高优先级]、
         //      rst_is_bookable,rst_agent_fee,stime_*_open,stime_*_close
         // 3.根据stime_*_open、stime_*_close判断当前是否为"自动"营业时间
-        // 4.在orderitem中统计上月售、本月售[餐厅排序依据]
+        // 4.在[orderitem]/menu中统计上月售、本月售[餐厅排序依据]
         // 5.每家餐厅都整合以上信息，构成一个大的多维数组，以上月售、本月售降序排序
         
         $token = "gh_34b3b2e6ed7f";//默认
@@ -355,6 +355,10 @@ class OrderController extends ClientController {
 
                 $an_rst['open_status'] = $open_status;
 
+                $an_rst['month_sale'] = M('menu', $key."_")->sum('month_sale');//本月销售量
+                $an_rst['last_month_sale'] = M('menu', $key."_")->sum('last_month_sale');//本月销售量
+                // echo "<br/>$key - $month_sale";die;
+
                 if($an_rst['rst_is_bookable'] || $an_rst['open_status'] != 0){
                     echo "-1";
                     if(!$is_closed){
@@ -372,14 +376,30 @@ class OrderController extends ClientController {
                 echo "-5";
                 $close_rsts[$key] = $an_rst;
             }
+
         }
 
-        // 怎么区分营业与非营业的餐厅呢？
+        // p($open_rsts);
+        // echo "<hr/>";
+        // p($close_rsts);
+
+        // 营业/非营业，各自排序
+        $today = date('Y-m-d');//今日
+        $month_days = getMonth_StartAndEnd($today);//本月第1日和最后1日，数组时间戳
+
+        if (strtotime($today) != $month_days[0]) {
+            //不是每月第1天，以本月售为排序标准
+            uasort($open_rsts, 'compare_month_sale');//降序
+            uasort($close_rsts, 'compare_month_sale');//降序
+        }else{
+            //本月第1天，以上月销售为排序标准
+            uasort($open_rsts, 'compare_last_month_sale');//降序
+            uasort($close_rsts, 'compare_last_month_sale');//降序
+        }
+
         p($open_rsts);
         echo "<hr/>";
         p($close_rsts);die;
-
-        // 营业/非营业，各自排序
 
         $this->display();
 

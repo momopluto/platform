@@ -13,6 +13,7 @@ $(function() {
 
 	$(".hallHref").click(function(event) {
 			event.preventDefault();
+			$(this).parent("form").submit();
 	})
 
 

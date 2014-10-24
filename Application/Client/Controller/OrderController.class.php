@@ -266,10 +266,7 @@ class OrderController extends ClientController {
 
 
         if (IS_POST) {
-            $data = I('post.postData','','');
-            p($data);die;
-            // $data = $this->object_to_array(I('post.postData'));
-            p($data);
+            p(I('post.'));die;
         }else{
             $data = M('menu',$rid.'_')->select();
             $rstinfo = M('resturant','home_')->where("rid = $rid")->find();

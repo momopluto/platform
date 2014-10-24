@@ -51,12 +51,10 @@
 			<p class="totalAllMenu"><span id="account">{$all_count}</span>份美食&nbsp;&nbsp;共<span id="total">{$data['total']}</span>元</p>
 		</div>
 
-		<present name="data"><!-- 判断data变量是否已经赋值 -->
-			<a id="formSubmit2" href="#" class="footer">确认美食</a>
-			<form id="myForm2" action="{:U('Client/Order/info')}" method="post">
-				<input type="hidden" id="postData" value="">
-				<input type="hidden" id="hallId" value="123456">
-			</form>
-		</present>
+		<a id="formSubmit2" href="#" class="footer">确认美食</a>
+		<form id="myForm2" action="{:U('Client/Order/info')}" method="post">
+			<!-- <input type="hidden" id="postData" value=""> -->
+			<!-- 无需post -->
+		</form>
 	</body>
 </html>

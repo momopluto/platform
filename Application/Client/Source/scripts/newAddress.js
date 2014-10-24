@@ -2,7 +2,7 @@ $(function() {
 
 	// demo只是测试数据
 	var jsonArraydemo = {
-		'hallId': "12345",
+		'rid': "12345",
 
 		'total': '30',
 		'item': [{

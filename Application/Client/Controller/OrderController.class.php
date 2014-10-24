@@ -221,6 +221,7 @@ class OrderController extends ClientController {
 
     // 送餐信息
     function info(){
+        p(cookie());die;
         // p(I('post.'));die;
         if(IS_POST){
 
@@ -234,18 +235,24 @@ class OrderController extends ClientController {
     function cart(){
 
         if(IS_POST){
+            // p(cookie());die;
+            // p(I('post.postData','',''));die;
+
+            //Attention!!这里的json postData不知为何会使用htmlspecialchars过滤的话会有很多&quot
+            //暂没想到处理办法，目前采取不过滤的方式
+            //不过滤始终感觉不安全
             $json_text = I('post.postData','','');
             $data = json_decode($json_text,true);
-            // p($data);
+            // p($json_text);die;
             
-            // //设置cookie，系列化数组(因为cookie不支持数组)
-            cookie('pltf_order_cookie', $json_text, 3600);
+            //设置cookie，json
+            cookie('pltf_order_cookie', json_encode($data));
             // p(cookie());die;
             // echo "<hr>";
             // p(unserialize(cookie('pltf_order_cookie')));die;
 
             //购物车必用post过来的数据data！！！
-            $this->assign('data', $data);
+            // $this->assign('data', $data);
         }
 
         // p(cookie());
@@ -255,29 +262,65 @@ class OrderController extends ClientController {
     }
 
 
-    // 餐厅菜单
+    // 对应餐厅的菜单
     function menu(){
         
         // cookie('pltf_order_cookie',null);
-        // p(cookie());die;
-        
+        // cookie('pltf_curRst_info',null);
+        // p(cookie(''));die;
 
-        $rid = 10456;//伪造数据，测试
-
+        // $rid = 10456;//伪造数据，测试
 
         if (IS_POST) {
-            p(I('post.'));die;
+            // p(I('post.'));die;
+            if(I('post.rid') != ""){
+                $rid = I('post.rid') / 10086;//简单加密的解密
+
+                // 得到rid餐厅信息
+                $rst = M('resturant','home_')->where("rid = $rid")->field('rid,logo_url,rst_name,isOpen,rst_is_bookable,rst_agent_fee,
+                    stime_1_open,stime_1_close,stime_2_open,stime_2_close,stime_3_open,stime_3_close')->find();
+
+                if(!is_null($rst)){
+                    $rst = rstInfo_combine($rst);// 订餐页面所需要的餐厅的信息，组装
+                    // session('pltf_curRst_info', $rst);//将当前选择的餐厅信息写入session
+
+                    $rst['logo_url'] = urlencode($rst['logo_url']);//处理logo_url链接
+                    $json_rst = json_encode($rst);
+                    // p($rst);
+                    // p($json_rst);die;
+                    cookie("pltf_curRst_info", urldecode($json_rst));//将当前选择的餐厅信息写入cookie
+
+                    // p(session('pltf_curRst_info'));die;
+
+                    $data = M('menu',$rid.'_')->select();
+                    $this->assign('data', $data);//菜单列表
+                    $this->assign('rst', $rst);//餐厅信息
+
+                    $this->display();
+                }else{
+                    $this->error('Something Wrong！', U('Client/Order/lists'));
+                }
+            }else{
+                 $this->error('Something Wrong！', U('Client/Order/lists'));
+            }
         }else{
-            $data = M('menu',$rid.'_')->select();
-            $rstinfo = M('resturant','home_')->where("rid = $rid")->find();
-            // p($rstinfo);die;
-            $this->assign('data', $data);//菜单列表
-            $this->assign('rst', $rstinfo);//餐厅信息
-            $this->display();
+            if(session('pltf_curRst_info')){
+                // p(session('pltf_curRst_info'));die;
+                $rst = json_decode(cookie('pltf_curRst_info'),true);
+                // $rst = session('pltf_curRst_info');
+
+                $data = M('menu',$rst['rid'].'_')->select();
+                $this->assign('data', $data);//菜单列表
+                $this->assign('rst', $rst);//餐厅信息
+
+                $this->display();
+            }else{
+                redirect(U('Client/Order/lists'));
+            }
         }
     }
 
-    // 所有餐厅
+    // 所有餐厅展示，供选择
     function lists(){
 
         // 1.在admin_allrst中过滤出开启了平台服务的餐厅
@@ -287,7 +330,7 @@ class OrderController extends ClientController {
         //      rst_is_bookable,rst_agent_fee,stime_*_open,stime_*_close
         // 3.根据stime_*_open、stime_*_close判断当前是否为"自动"营业时间
         // 4.在[orderitem]/menu中统计上月售、本月售[餐厅排序依据]
-        // 5.每家餐厅都整合以上信息，构成一个大的多维数组，以上月售、本月售降序排序
+        // 5.每家餐厅都整合以上信息，构成两个大的多维数组（open  &  close），以上月售、本月售降序排序
         
         $token = "gh_34b3b2e6ed7f";//默认
 
@@ -312,48 +355,7 @@ class OrderController extends ClientController {
         $close_rsts = array();
         foreach ($rsts as $key => $an_rst) {
 
-            // 判断是否营业时间
-            $n_time = date('H:i');
-
-
-            if(strtotime($n_time) < strtotime($an_rst['stime_1_open'])){
-                $open_status = 0;
-            }elseif(strtotime($n_time) <= strtotime($an_rst['stime_1_close'])){
-                $open_status = 1;
-            }else{
-                $open_status = 14;
-            }
-
-            if ($an_rst['stime_2_open'] !== '' && $an_rst['stime_2_close'] !== '') {
-                $has_2_time = true;
-                if(strtotime($n_time) < strtotime($an_rst['stime_2_open'])){
-                    if($open_status == 14){
-                        $open_status = 12;
-                    }
-                }elseif(strtotime($n_time) <= strtotime($an_rst['stime_2_close'])){
-                    $open_status = 2;
-                }else{
-                    $open_status = 24;
-                }
-            }
-
-            if ($an_rst['stime_3_open'] !== '' && $an_rst['stime_3_close'] !== '') {
-                $has_2_time = true;
-                if(strtotime($n_time) < strtotime($an_rst['stime_3_open'])){
-                    if($open_status == 24){
-                        $open_status = 23;
-                    }
-                }elseif(strtotime($n_time) <= strtotime($an_rst['stime_3_close'])){
-                    $open_status = 3;
-                }else{
-                    $open_status = 4;
-                }
-            }
-
-            $an_rst['open_status'] = $open_status;
-
-            $an_rst['month_sale'] = M('menu', $key."_")->sum('month_sale');//本月销售量
-            $an_rst['last_month_sale'] = M('menu', $key."_")->sum('last_month_sale');//本月销售量
+            $an_rst = rstInfo_combine($an_rst);// 订餐页面所需要的餐厅的信息，组装
 
             if($an_rst['isOpen'] == 1){//主观，营业
                 if($open_status % 10 == 4){//已过餐厅今天的所有营业时间
@@ -373,10 +375,6 @@ class OrderController extends ClientController {
                 $close_rsts[$key] = $an_rst;
             }    
         }
-
-        // p($open_rsts);
-        // echo "<hr/>";
-        // p($close_rsts);
 
         // 营业/非营业，各自排序
         $today = date('Y-m-d');//今日
@@ -402,57 +400,6 @@ class OrderController extends ClientController {
         $this->display();
 
     }
-
-/*
-    // 用户下单(生成guid和today_sort)
-    function submit_order(){
-        if(IS_POST){
-            // p(I('post.'));die;
-            //下单，进入orderitem订单数据库前，先从today数据库中得到唯一的自增$today_sort，组合成$guid
-            
-    //此处rid为测试用，实际使用时rid通过post获得
-            $rid = 10456;
-            $model = M('today', $rid.'_');
-            $data['rid'] = $rid;
-            if($model->create($data) && $today_sort = $model->add($data)){
-                //$guid订单号，$today_sort今天第xx份订单
-                $guid = strval(1800 + $today_sort).strval($rid).strval(NOW_TIME);//19位
-                echo "guid = ".$guid."<br/>today_sort = " . $today_sort."<br/>";
-//TODO，传过来订单信息JSON的订单内容，及用户的联系方式、地址等
-    //插入数据表orderitem
-    
-                // p(I('post.'));die;
-                $order_info = I('post.arr');//TODO，此为前端计算生成的订单信息数组
-                $temp['rid'] = $rid;
-                $temp['guid'] = $guid;
-                $temp['today_sort'] = $today_sort;
-                $temp['token'] = "gh_34b3b2e6ed7f";
-                $temp['openid'] = "o55gotzkfpEcJoQGXBtIKoSrairQ";
-                $temp['name'] = I('post.name');
-                $temp['phone'] = I('post.phone');
-                $temp['address'] = I('post.address');
-
-                $temp['total'] = $order_info['total'];
-                $temp['order_info'] = json_encode($order_info);
-                $temp['cTime'] = NOW_TIME;
-
-                // p($temp);die;
-
-                $_model = M('orderitem', ' ');
-                if($id = $_model->add($temp)){
-                    echo '$id = '.$id;
-                }else{
-                    $this->error($_model->getError());
-                }
-            }else{
-                $this->error($model->getError());
-            }
-        }else{
-            $this->display();
-        }   
-    }
-
-*/
 
 
 // 测试*******************************************************========================================

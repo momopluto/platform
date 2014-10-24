@@ -221,7 +221,7 @@ class OrderController extends ClientController {
 
     // 送餐信息
     function info(){
-        p(I('post.'));die;
+        // p(I('post.'));die;
         if(IS_POST){
 
         }
@@ -314,69 +314,67 @@ class OrderController extends ClientController {
         $open_rsts = array();
         $close_rsts = array();
         foreach ($rsts as $key => $an_rst) {
-            if($an_rst['isOpen'] == 1){//主观，营业
-                echo "9";
-                // 判断是否营业时间
-                $n_time = date('H:i');
 
-                $is_closed = false;
-                // var_dump($an_rst['stime_3_open'] !== '');die;
-                if($an_rst['stime_3_open'] !== '' && $an_rst['stime_3_close'] !== ''){
-                    echo "8";
-                    if (strtotime($an_rst['stime_3_open']) <= strtotime($n_time) && strtotime($n_time) <= strtotime($an_rst['stime_3_close'])){
-                        echo "7";
-                        // 目前处于第3营业时间
-                        $open_status = 3;
-                    }elseif (strtotime($n_time) > strtotime($an_rst['stime_3_close'])) {
-                        echo "6";
-                        $is_closed = true;
-                    }
-                }elseif($an_rst['stime_2_open'] !== '' && $an_rst['stime_2_close'] !== ''){
-                    echo "5";
-                    if (strtotime($an_rst['stime_2_open']) <= strtotime($n_time) && strtotime($n_time) <= strtotime($an_rst['stime_2_close'])){
-                        echo "4";
-                        // 目前处于第2营业时间
-                        $open_status = 2;
-                    }elseif (strtotime($n_time) > strtotime($an_rst['stime_2_close'])) {
-                        echo "3";
-                        $is_closed = true;
-                    }
-                }elseif(strtotime($an_rst['stime_1_open']) <= strtotime($n_time) && strtotime($n_time) <= strtotime($an_rst['stime_1_close'])){
-                    echo "2";
-                    // 目前处于第1营业时间
-                    $open_status = 1;
-                }elseif(strtotime($n_time) > strtotime($an_rst['stime_1_close'])){
-                    echo "1";
-                    $is_closed = true;
-                }else{
-                    echo "0";
-                    $open_status = 0;
-                }
+            // 判断是否营业时间
+            $n_time = date('H:i');
 
-                $an_rst['open_status'] = $open_status;
 
-                $an_rst['month_sale'] = M('menu', $key."_")->sum('month_sale');//本月销售量
-                $an_rst['last_month_sale'] = M('menu', $key."_")->sum('last_month_sale');//本月销售量
-                // echo "<br/>$key - $month_sale";die;
-
-                if($an_rst['rst_is_bookable'] || $an_rst['open_status'] != 0){
-                    echo "-1";
-                    if(!$is_closed){
-                        echo "-2";
-                        $open_rsts[$key] = $an_rst;
-                    }else{
-                        echo "-3";
-                        $close_rsts[$key] = $an_rst;
-                    }
-                }else{
-                    echo "-4";
-                    $close_rsts[$key] = $an_rst;
-                }
-            }else{//主观，其它，非营业
-                echo "-5";
-                $close_rsts[$key] = $an_rst;
+            if(strtotime($n_time) < strtotime($an_rst['stime_1_open'])){
+                $open_status = 0;
+            }elseif(strtotime($n_time) <= strtotime($an_rst['stime_1_close'])){
+                $open_status = 1;
+            }else{
+                $open_status = 14;
             }
 
+            if ($an_rst['stime_2_open'] !== '' && $an_rst['stime_2_close'] !== '') {
+                $has_2_time = true;
+                if(strtotime($n_time) < strtotime($an_rst['stime_2_open'])){
+                    if($open_status == 14){
+                        $open_status = 12;
+                    }
+                }elseif(strtotime($n_time) <= strtotime($an_rst['stime_2_close'])){
+                    $open_status = 2;
+                }else{
+                    $open_status = 24;
+                }
+            }
+
+            if ($an_rst['stime_3_open'] !== '' && $an_rst['stime_3_close'] !== '') {
+                $has_2_time = true;
+                if(strtotime($n_time) < strtotime($an_rst['stime_3_open'])){
+                    if($open_status == 24){
+                        $open_status = 23;
+                    }
+                }elseif(strtotime($n_time) <= strtotime($an_rst['stime_3_close'])){
+                    $open_status = 3;
+                }else{
+                    $open_status = 4;
+                }
+            }
+
+            $an_rst['open_status'] = $open_status;
+
+            $an_rst['month_sale'] = M('menu', $key."_")->sum('month_sale');//本月销售量
+            $an_rst['last_month_sale'] = M('menu', $key."_")->sum('last_month_sale');//本月销售量
+
+            if($an_rst['isOpen'] == 1){//主观，营业
+                if($open_status % 10 == 4){//已过餐厅今天的所有营业时间
+                    $close_rsts[$key] = $an_rst;
+                }else{
+                    if($an_rst['rst_is_bookable']){
+                        $open_rsts[$key] = $an_rst;
+                    }else{
+                        if($open_status == 1 || $open_status == 2 || $open_status == 3){
+                            $open_rsts[$key] = $an_rst;
+                        }else{
+                            $close_rsts[$key] = $an_rst;
+                        }
+                    }
+                } 
+            }else{//主观，其它，非营业
+                $close_rsts[$key] = $an_rst;
+            }    
         }
 
         // p($open_rsts);
@@ -397,9 +395,12 @@ class OrderController extends ClientController {
             uasort($close_rsts, 'compare_last_month_sale');//降序
         }
 
-        p($open_rsts);
-        echo "<hr/>";
-        p($close_rsts);die;
+        // p($open_rsts);
+        // echo "<hr/>";
+        // p($close_rsts);die;
+         
+        $this->assign('open_rsts', $open_rsts);
+        $this->assign('close_rsts', $close_rsts);
 
         $this->display();
 

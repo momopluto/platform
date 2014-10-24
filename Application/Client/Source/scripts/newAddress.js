@@ -2,19 +2,14 @@ $(function() {
 
 	// demo只是测试数据
 	var jsonArraydemo = {
-		'hallId': '123456',
-	    "total": "300",
-	    "item": [{
-	        "name": "\u5c0f\u83dc00",
-	        "price": "100",
-	        "count": "2",
-	        "total": "200"
-	    }, {
-	        "name": "\u83dc\u540d22",
-	        "price": "10",
-	        "count": "10",
-	        "total": "100"
-	    }],
+		'hallId': "12345",
+
+		'total': '30',
+		'item': [{
+			'name': '小明',
+			'prise': '10'
+		}],
+		'note': '123132323'
 	};
 
 	var jsonStringdemo = JSON.stringify(jsonArraydemo);
@@ -34,8 +29,9 @@ $(function() {
 
 	$("#order").click(function(event) {
 	
-	
+	console.dir($("#order"));
 		// 数据的录入
+
 		var date = new Date();
 		var nowHours = date.getHours();
 
@@ -91,6 +87,7 @@ $(function() {
 			left: "0px"
 		}, "fast");
 		$("#order").css("display", "none");
+		$(".defaulted header").css("display","none");
 
 	})
 
@@ -181,6 +178,7 @@ $(function() {
 			$("#songcanAddress #newAddressStr").text(full_address);
 			$(this).parents(".transfor").find("header").css("display", "none");
 			$("#order").css("display", "block");
+			$(".defaulted header").css("display","block");
 
 
 
@@ -190,13 +188,14 @@ $(function() {
 
 	})
 
-	//点击“确定”，添加备注，切换到选择备注信息
+	//，添加备注，切换到选择备注信息
 	$("#songcanNote").click(function() {
 		$("#newNote header").css("display", "block");
 		$("#newNote").animate({
 			left: "0px"
 		}, "fast");
 		$("#order").css("display", "none");
+		$(".defaulted header").css("display","none");
 	})
 
 
@@ -218,6 +217,8 @@ $(function() {
 		$("#songcanNote .two").text(full_note + " >");
 		$(this).parents(".transfor").find("header").css("display", "none");
 		$("#order").css("display", "block");
+		$(".defaulted header").css("display","block");
+
 		// OrderOrNot();
 	})
 
@@ -249,6 +250,7 @@ $(function() {
 		}, "fast");
 		$(this).parent().css("display", "none");
 		$("#order").css("display", "block");
+		$(".defaulted header").css("display","block");
 	}).mouseover(function() {
 		$(this).css("cursor", "default");
 	})

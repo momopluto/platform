@@ -1,0 +1,136 @@
+.login{
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0px;
+	z-index: 10;
+	background-color: rgb(46,46,46);
+	width: 100%;
+}
+.loginList li{
+	list-style: none;
+	border-bottom: 1px solid rgb(23,23,23);
+	padding: 5px 5px;
+	text-align: left;
+}
+.loginImg{
+	border-radius: 50%;
+	float: left;
+	margin-right: 5px;
+}
+.textItem{
+	height: 43px;
+	line-height: 43px;
+	text-align: left;
+}
+
+.clear{
+	clear: both;
+	display: block;
+}
+
+.imgItem{
+	height: 20px;
+	width: 20px;
+	float: left;
+	margin-top: 7px;
+	margin-right: 5px;
+}
+.loginList a{
+	display: block;
+	text-decoration: none;
+	color: rgb(255,255,255);
+}
+
+
+
+
+/*列表项*/
+.listHall{
+	margin-top: 35px;
+}
+
+.listHallItem{
+	list-style: none;
+	border-bottom: 1px solid rgb(224,224,224);
+
+}
+
+
+.hallHref{
+	display: block;
+	padding: 10px;
+	text-decoration: none;
+}
+
+
+.hallimg{
+	float: left;
+	margin-right: 10px;
+}
+
+.halltext{
+	float: left;
+	font-size: 12px;
+
+}
+
+.caption{
+	font-size: 14px;
+	color: rgb(0,0,0);
+	height: 30px;
+	line-height: 30px;
+}
+
+.new{
+	
+	padding: 3px;
+	background-color: rgb(255,96,0);
+	border-radius: 3px;
+	margin-left: 5px;
+	font-size: 12px;
+	color: rgb(255,255,255);
+}
+
+.accept{
+	height: 18px;
+	line-height: 18px;
+	background-color: rgb(75,212,95);
+	border-radius: 3px;
+	color: rgb(255,255,255);
+	margin-left: 3px;
+	width: 60px;
+	text-align: center;
+	
+}
+
+.clear{
+	display: block;
+	clear: both;
+}
+
+.describe{
+	height: 20px;
+	line-height: 20px;
+	color: rgb(102,102,102);
+	padding:0 0 5px 0; 
+	border-bottom: 1px solid rgb(235,235,235);
+}
+.onePrice{
+	height: 18px;
+	line-height: 18px;
+	color: rgb(102,102,102);
+}
+
+.sub,.redOne{
+	color: rgb(255,255,255);
+	padding: 2px;
+	border-radius: 3px;
+	background-color: rgb(130,120,47);
+	margin-right: 10px;
+	width: 30px;
+}
+.redOne{
+	padding: 2px 5px;
+	background-color: red;
+}

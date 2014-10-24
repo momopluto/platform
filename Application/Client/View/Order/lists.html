@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<?php $SRC = CLIENT_SRC; ?>
+		<meta charset="utf-8">
+		<meta name="author" content="ethanlai">
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<link rel="stylesheet" type="text/css" href="{$SRC}/css/global.css">
+		<link rel="stylesheet" type="text/css" href="{$SRC}/css/lists.css">
+		<script type="text/javascript" src="{$SRC}/scripts/jquery.js"></script>
+		<script type="text/javascript" src="{$SRC}/scripts/lists.js"></script>
+		<title>菜式列表</title>
+	</head>
+		<body>
+			<header><p class="return" id="menu" href="#" >三</p> 华南农业大学[西门]s<a href="#" class="changeCity">[切换]</a>
+			<div class="login">
+				<ul class="loginList">
+					<li><a href="#"><img class="loginImg" src="{$SRC}/images/hall.jpg"><p class="textItem"><span class="loginItem">登录</span>/<span class="registerItem">注册</span></p>
+					<div class="clear"></div></a></li>
+					<li><a href="#"><img class="imgItem" src="{$SRC}/images/hall.jpg"><span>我要订餐</span></a></li>
+					<li><a href="#"><img class="imgItem" src="{$SRC}/images/hall.jpg"><span>我要订餐</span></a></li>
+				</ul>
+			</div>
+			</header>
+
+
+			<!-- 列表项 -->
+			<ul class="listHall">
+				<foreach name="open_rsts" item="one_rst">
+					<li class="listHallItem">
+						
+					    <a href="#" class="hallHref">
+						<img class="hallimg" width="42" height="42" src="{$one_rst['logo_url']}">
+						<div class="halltext">
+							<p class="caption">{$one_rst['rst_name']}<!-- <span class="new">新</span> --></p>
+							<if condition="$one_rst['open_status'] % 10 != 4">
+								<p class="accept">接受预定</p>
+							</if>
+							<p class="describe">月售<span class="count">{$one_rst['month_sale']}</span>单/<span class="prePrice">{$one_rst['rst_agent_fee']}</span>元起送/<span class="sendTime">
+								<if condition="$one_rst['open_status'] == 0 || $one_rst['open_status'] == 1">{$one_rst['stime_1_open']}
+									<elseif condition="$one_rst['open_status'] == 2 || $one_rst['open_status'] == 12"/>{$one_rst['stime_2_open']}
+									<elseif condition="$one_rst['open_status'] == 3 || $one_rst['open_status'] == 23"/>{$one_rst['stime_3_open']}
+								</if>
+							</span>开始营业</p>
+						    <p class="onePrice"><span class="redOne">1</span>1元抢购-GZ</p>
+						    <p class="online onePrice"><span class="sub">减</span>在线支付优惠</p>
+						</div>
+						<div class="clear"></div>
+						</a>
+						<div class="clear"></div>
+					</li>
+				</foreach>
+					<li class="listHallItem">
+					    <a href="#" class="hallHref">
+						<img class="hallimg" width="42" height="42" src="{$SRC}/images/hall.jpg">
+						<div class="halltext">
+							<p class="caption">【减】肠粉店<span class="new">新</span></p>
+							<p class="accept">接受预定</p>
+							<p class="describe">月售<span class="count">1512</span>单/<span class="prePrice">10</span>元起送/<span class="sendTime">09:30</span>开始营业</p>
+						    <p class="onePrice"><span class="redOne">1</span>1元抢购-GZ</p>
+						    <p class="online onePrice"><span class="sub">减</span>在线支付优惠</p>
+						</div>
+						<div class="clear"></div>
+						</a>
+						<div class="clear"></div>
+					</li>
+			</ul>
+			<ul class="gray listHall">
+				<foreach name="close_rsts" item="one_rst">
+					<li class="listHallItem">
+						
+						    <a href="#" class="hallHref">
+							<img class="hallimg" width="42" height="42" src="{$one_rst['logo_url']}">
+							<div class="halltext">
+								<p class="caption">{$one_rst['rst_name']}<!-- <span class="new">新</span> --></p>
+								<if condition="$one_rst['open_status'] % 10 != 4">
+									<p class="accept">接受预定</p>
+								</if>
+								<p class="describe">月售<span class="count">{$one_rst['month_sale']}</span>单/<span class="prePrice">{$one_rst['rst_agent_fee']}</span>元起送/<span class="sendTime">
+									<if condition="$one_rst['open_status'] == 0 || $one_rst['open_status'] == 1">{$one_rst['stime_1_open']}
+										<elseif condition="$one_rst['open_status'] == 2 || $one_rst['open_status'] == 12"/>{$one_rst['stime_2_open']}
+										<elseif condition="$one_rst['open_status'] == 3 || $one_rst['open_status'] == 23"/>{$one_rst['stime_3_open']}
+									</if>
+								</span>开始营业</p>
+							    <p class="onePrice"><span class="redOne">1</span>1元抢购-GZ</p>
+							    <p class="online onePrice"><span class="sub">减</span>在线支付优惠</p>
+							
+						</div>
+						<div class="clear"></div>
+						</a>
+						<div class="clear"></div>
+					</li>
+				</foreach>
+					<li class="listHallItem">
+						<form action="www.baidu.com" method="post">
+							<a href="" onclick="$(this).submit()" class="hallHref">
+							<img class="hallimg" width="42" height="42" src="{$SRC}/images/hall.jpg">
+							<div class="halltext">
+								<p class="caption">【减】肠粉店<span class="new">新</span></p>
+								<p class="accept">接受预定</p>
+								<p class="describe">月售<span class="count">1512</span>单/<span class="prePrice">10</span>元起送/<span class="sendTime">09:30</span>开始营业</p>
+							    <p class="onePrice"><span class="redOne">1</span>1元抢购-GZ</p>
+							    <p class="online onePrice"><span class="sub">减</span>在线支付优惠</p>
+							</div>
+							<div class="clear"></div>
+							</a>	
+							<input type="hidden" name="tedd" value="1233333">
+						</form>
+						<div class="clear"></div>
+					</li>
+			</ul>
+		
+
+		<!-- 绝对定位显示是否清空购物车 -->
+
+	</body>
+</html>

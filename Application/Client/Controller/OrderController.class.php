@@ -241,13 +241,13 @@ class OrderController extends ClientController {
             //Attention!!这里的json postData不知为何会使用htmlspecialchars过滤的话会有很多&quot
             //暂没想到处理办法，目前采取不过滤的方式
             //不过滤始终感觉不安全
-            $json_text = I('post.postData','','');
-            $data = json_decode($json_text,true);
+            // $json_text = I('post.postData','','');
+            // $data = json_decode($json_text,true);
             // p($json_text);die;
             
             //设置cookie，json
-            cookie('pltf_order_cookie', json_encode($data));
-            // p(cookie());die;
+            // cookie('pltf_order_cookie', json_encode($data));
+            p(cookie());die;
             // echo "<hr>";
             // p(unserialize(cookie('pltf_order_cookie')));die;
 
@@ -357,14 +357,16 @@ class OrderController extends ClientController {
 
             $an_rst = rstInfo_combine($an_rst);// 订餐页面所需要的餐厅的信息，组装
 
-            if($an_rst['isOpen'] == 1){//主观，营业
-                if($open_status % 10 == 4){//已过餐厅今天的所有营业时间
+            if($an_rst['isOpen'] == "1"){//主观，营业
+                // echo $an_rst['open_status']."status！";die;
+                if(intval($an_rst['open_status']) % 10 == 4){//已过餐厅今天的所有营业时间
+                    // echo $an_rst['rid']."打烊了啊！";die;
                     $close_rsts[$key] = $an_rst;
                 }else{
                     if($an_rst['rst_is_bookable']){
                         $open_rsts[$key] = $an_rst;
                     }else{
-                        if($open_status == 1 || $open_status == 2 || $open_status == 3){
+                        if($an_rst['open_status'] == "1" || $an_rst['open_status'] == "2" || $an_rst['open_status'] == "3"){
                             $open_rsts[$key] = $an_rst;
                         }else{
                             $close_rsts[$key] = $an_rst;

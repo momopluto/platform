@@ -22,7 +22,7 @@ $(function() {
 
 
 	//起送价，全局变量
-	// parseInt(curRst_info.rst_agent_fee)即为起送价
+	var agent_fee;
 	var p_ItemName = "";
 
 	// 全局变量、用于clickArray数组下标
@@ -57,8 +57,9 @@ $(function() {
 			// alert(curRst_info.isOpen);
 
 			if(curRst_info != null){
-				alert(curRst_info + "curRst_info不空");
+				// alert(JSON.stringify(curRst_info) + "curRst_info不空");
 
+				agent_fee =  parseInt(curRst_info.rst_agent_fee);//即为起送价
 				rst_status_judge();//判断餐厅状态
 				order_cookie_judge();//判断是否已有选单cookie
 			}
@@ -123,14 +124,14 @@ $(function() {
 	// 判断是否有选单的cookie，初始化order_list
 	function order_cookie_judge(){
 		// $.cookie(order_cookie_name,jsonString,{expires:-1});
-		if ($.cookie(order_cookie_name)) {
-			alert($.cookie(order_cookie_name));
+		if ($.cookie(order_cookie_name) != null) {
+			// alert($.cookie(order_cookie_name));
 			// json转化数组样式
 			order_list = JSON.parse($.cookie(order_cookie_name));
 			// alert($.cookie(order_cookie_name));
 
 			if(order_list != null){
-				alert(order_list + "order_list不空")
+				// alert(order_list + "order_list不空")
 				// 回复每一项的具体点餐数
 				for (var i = 0; i < order_list.item.length; i++) {
 					var name = order_list.item[i].name;
@@ -179,8 +180,8 @@ $(function() {
 		$(this).css("cursor", "default");
 	}).click(function() {
 		if (order_list != null && curRst_info != null) {
-			alert(order_list.rid);
-			alert(curRst_info.rid);
+			// alert(order_list.rid);
+			// alert(curRst_info.rid);
 			if (order_list.rid == curRst_info.rid) {
 				index = $BtnItemPrice.index(this);
 
@@ -222,7 +223,9 @@ $(function() {
 					tatal(clickArray, index);
 				}
 			} else {
-				if (btnRemove && order_list != null) {
+				if (btnRemove && order_list != null && order_list.rid != curRst_info.rid) {
+					clearCart();
+				/*
 					var deleteOrNot = confirm("是否清空美食篮子中的所有美食");
 					if (deleteOrNot == true) {
 						$(".gouwucheItem:gt(0)").remove();
@@ -236,6 +239,7 @@ $(function() {
 						tatal(clickArray, index);
 						btnRemove = false;
 					}
+				*/
 				}
 
 			}
@@ -283,9 +287,30 @@ $(function() {
 
 		}
 
-
-
 	})
+
+	//清空美食篮子
+	function clearCart(){
+		// alert("293" + $.cookie(order_cookie_name));
+		// alert("294" + JSON.stringify(order_list));
+		// alert(btnRemove);
+		// alert("296" + JSON.stringify(curRst_info));
+
+		var deleteOrNot = confirm("购物车内有其它餐厅的美食\n是否清空美食篮子中的所有美食");
+		if (deleteOrNot == true) {
+			$(".gouwucheItem:gt(0)").remove();
+
+			for (var n = 0; n < clickArray.length; n++) {
+				clickArray[n] = 0;
+			}
+			$.cookie(order_cookie_name, null);
+			order_list.rid = curRst_info.rid;//$("#rid").val();
+			// alert("307 " + order_list.rid);
+
+			tatal(clickArray, index);
+			btnRemove = false;
+		}
+	}
 
 
 	//点击“-”的时候数量的变化（btnSub）
@@ -391,42 +416,58 @@ $(function() {
 	//点击去结算列
 	$("#formSubmit").click(function(event) {
 
-		var total_price = parseInt($(".tatal_price").text().slice(1));
-		if (total_price >= parseInt(curRst_info.rst_agent_fee)) {
-			// alert(total_price + " --" + spreadPrice);
-			$("#form1").submit();
-/*
-			if(curRst_info.isOpen == "1"){//主观，营业
+		event.preventDefault();
 
-				if(parseInt(curRst_info.open_status) % 10 == 4){//已过今天最晚营业时间，休息
+		if(btnRemove && order_list != null && order_list.rid != curRst_info.rid){
+			// alert("不同餐厅，没有清空，但是提交了");
+			// alert(curRst_info.rid == order_list_rid);
+			// alert("curRst_info.rid = " + curRst_info.rid);
+			// alert("order_list.rid = " + order_list.rid);
 
-				}else{
-					if(curRst_info.rst_is_bookable == "1"){//可预订
+			// 处理办法，询问是否清空购物车
+			clearCart();
+		}else{
 
-					}else{//不可预订
-						if(curRst_info.open_status == "1" || curRst_info.open_status == "2" || curRst_info.open_status == "3"){//营业时间
+			var total_price = parseInt($(".tatal_price").text().slice(1));
+			// alert(total_price);
+			// alert(agent_fee);
+			if (total_price >= agent_fee) {
+				// alert(total_price + " --" + spreadPrice);
+				// alert("天啊！要提交了！");
+				$("#myForm").submit();
+	/*
+				if(curRst_info.isOpen == "1"){//主观，营业
 
-	                    }else{//非营业时间
+					if(parseInt(curRst_info.open_status) % 10 == 4){//已过今天最晚营业时间，休息
 
-	                    }
+					}else{
+						if(curRst_info.rst_is_bookable == "1"){//可预订
+
+						}else{//不可预订
+							if(curRst_info.open_status == "1" || curRst_info.open_status == "2" || curRst_info.open_status == "3"){//营业时间
+
+		                    }else{//非营业时间
+
+		                    }
+						}
 					}
+				}else{//主观，暂停营业
+
 				}
-			}else{//主观，暂停营业
-
+	*/
+			}else{
+				event.preventDefault();
 			}
-*/
-		} else {
-			event.preventDefault();
 		}
-
 	})
 
 
 
 	function tatal(clickArray, index) {
 
+		// alert("466 " + curRst_info.rid);
 		var jsonArray = {
-			"rid": "",//curRst_info.rid
+			"rid": curRst_info.rid,//""curRst_info.rid
 			"total": "",
 			"item": new Array(),
 			"note": ""
@@ -456,19 +497,19 @@ $(function() {
 			account = account + totalItem;
 
 		}
-		if (account >= parseInt(curRst_info.rst_agent_fee)) {
+		if (account >= agent_fee) {
 			$(".jiesuan").css("display", "block");
 			$(".shortcComing").css("display", "none");
 
 			//点击<a>提交数据postData
-			$("#formSubmit").click(function(event){
-				$("#myForm").submit();
-			})
+			// $("#formSubmit").click(function(event){
+			// 	$("#myForm").submit();
+			// })
 		} else {
 
 			$(".jiesuan").css("display", "none");
 			$(".shortcComing").css("display", "block");
-			var shortcComing = parseInt(curRst_info.rst_agent_fee) - account;
+			var shortcComing = agent_fee - account;
 
 			$(".shortcComing span").text(shortcComing);
 		}
@@ -483,17 +524,32 @@ $(function() {
 
 		//把数组转成json数组
 		var jsonString = JSON.stringify(jsonArray);
+		// var jsonString;
 
-		// alert(jsonString);
+		// alert("526" + jsonString);
 		// 把数组传到hidden中
-		$("#postData").val(jsonString);
-		//此处提交要改为AJAX
+		if($.cookie(order_cookie_name) == null){
+			$.cookie(order_cookie_name, jsonString);
+		}else{
+			// alert(jsonArray['rid']);
+			// alert(curRst_info.rid);
+
+			if(jsonArray['total'] == 0){
+
+				// alert("537 有rid，没total，清空后遗症");
+				$.cookie(order_cookie_name, null);
+
+			}else if(jsonArray['rid'] == curRst_info.rid){
+				//同一家餐厅里选餐，更新选餐信息
+				$.cookie(order_cookie_name, jsonString);
+			}
+		}
 
 	}
 
 	//禁止<a>标签的默认行为
-	$("#formSubmit").click(function(event){
-		event.preventDefault();
-	})
+	// $("#formSubmit").click(function(event){
+	// 	event.preventDefault();
+	// })
 
 })

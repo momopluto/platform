@@ -120,6 +120,7 @@ $(function() {
 			var menulist = $(".gouwucheItem");
 			var number = 0;
 			var totalPrice = 0;
+			alert("chelist  123" + curRst_info.rid);
 			var jsonArray = {
 				"rid": curRst_info.rid,
 				"total": "",

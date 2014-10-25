@@ -40,7 +40,7 @@ $(function() {
 	var btnRemove = true;//用于标记是否需要清空购物车
 	var agent_fee;//起送价，全局变量
 
-	var menu_Orderinfo;//动态生成的订单信息，全局变量，存入cookie前，都放此		JSON字符串
+	// var menu_Orderinfo;//动态生成的订单信息，全局变量，存入cookie前，都放此		JSON字符串
 	
 	var order_list;// 全局变量，用于存放取得的订单信息cookie数组
 	var order_cookie_name = "pltf_order_cookie";//对应的cookie名
@@ -125,11 +125,11 @@ $(function() {
 		// $.cookie(order_cookie_name,menu_Orderinfo,{expires:-1});
 		if ($.cookie(order_cookie_name) != null) {
 			// alert($.cookie(order_cookie_name));
-			menu_Orderinfo = $.cookie(order_cookie_name);//保存cookie至变量menu_Orderinfo
-			alert("132 " + menu_Orderinfo);
+			// menu_Orderinfo = $.cookie(order_cookie_name);//保存cookie至变量menu_Orderinfo
+			// alert("132 " + menu_Orderinfo);
 
 			// json转化数组样式
-			order_list = JSON.parse(menu_Orderinfo);
+			order_list = JSON.parse($.cookie(order_cookie_name));
 			// alert($.cookie(order_cookie_name));
 
 			if(order_list != null){
@@ -323,7 +323,7 @@ $(function() {
 			
 			$.cookie(order_cookie_name, null, {expires:-1});
 			order_list = null;
-			menu_Orderinfo = null;
+			// menu_Orderinfo = null;
 
 
 			Total(clickArray, index);
@@ -331,23 +331,41 @@ $(function() {
 	}
 
 	// 点击"返回"离开当前页面/提交订单时， 订单信息写入cookie
-	function setCookie(){
+	function setCookie(jsonArray){
+		
 		alert("setCookie");
-		alert(menu_Orderinfo);
 
-		if(menu_Orderinfo != null){
+
+		if(jsonArray != null && jsonArray.total != "0"){
+
+			if(order_list != null){
+				alert("当前餐厅rid ＝ " + curRst_info.rid);
+				alert("原餐厅rid ＝ " + order_list.rid);
+
+				if(order_list.rid != curRst_info.rid){
+					jsonArray["rid"] = order_list.rid;
+				}
+			}
+		
+			var menu_Orderinfo = JSON.stringify(jsonArray);
 			$.cookie(order_cookie_name, menu_Orderinfo);
-			alert("340");	
+			alert("成功写入cookie");
+
+			alert("数据是："+menu_Orderinfo);
+
+		}else{
+			$.cookie(order_cookie_name, null, {expires:-1});
+			alert("不符的数据，删除cookie");
 		}
 
 		
 	}
 
-	// 返回
-	$(".return").click(function(){
-		setCookie();//写入cookie
-		window.history.go(-1);返回上一页
-	})
+	// // 返回
+	// $(".return").click(function(){
+	// 	setCookie();//写入cookie
+	// 	window.history.go(-1);返回上一页
+	// })
 
 
 	//点击“-”的时候数量的变化（btnSub）
@@ -471,7 +489,7 @@ $(function() {
 				// alert(total_price + " --" + spreadPrice);
 				// alert("天啊！要提交了！");
 
-				setCookie();
+				// setCookie();
 				// $.cookie(order_cookie_name, menu_Orderinfo);
 				$("#myForm").submit();
 	/*
@@ -517,7 +535,7 @@ $(function() {
 
 
 		var $item = $(".gouwucheItem");
-		alert("520  == " + $item.length);
+		// alert("520  == " + $item.length);
 
 		for (var i = 1; i < $item.length; i++) {
 			var nameItem = $(".ItemName").eq(i).text();
@@ -562,16 +580,8 @@ $(function() {
 		$(".account_menu").text(number);
 		$(".total_price").text(account);
 
-
-		if(jsonArray["total"] == "0"){//如果
-			$.cookie(order_cookie_name, null, {expires:-1});
-			menu_Orderinfo = null;
-			alert("568")
-		}else{
-			//把数组转成json数组
-			menu_Orderinfo = JSON.stringify(jsonArray);
-			alert("573" + menu_Orderinfo);
-		}
+		
+		setCookie(jsonArray);
 		
 		// 把数组传到hidden中
 	/*

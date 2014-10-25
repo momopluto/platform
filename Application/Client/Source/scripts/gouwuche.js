@@ -1,27 +1,6 @@
 $(function() {
-	// demo只是测试数据
-	// var jsonArraydemo = {
-	// 	"rid": "123456",
-	//     "total": "300",
-	//     "item": [{
-	//         "name": "\u5c0f\u83dc00",
-	//         "price": "100",
-	//         "count": "2",
-	//         "total": "200"
-	//     }, {
-	//         "name": "\u83dc\u540d22",
-	//         "price": "10",
-	//         "count": "10",
-	//         "total": "100"
-	//     }],
-	// };
-
-	// var jsonStringdemo = JSON.stringify(jsonArraydemo);
-
-	// $("#postData").val(jsonStringdemo);
 
 
-	
 	var p_ItemName = "";
 	
 	// list页面右边的单价的列表对象
@@ -39,8 +18,6 @@ $(function() {
 
 	var btnRemove = true;//用于标记是否需要清空购物车
 	var agent_fee;//起送价，全局变量
-
-	// var menu_Orderinfo;//动态生成的订单信息，全局变量，存入cookie前，都放此		JSON字符串
 	
 	var order_list;// 全局变量，用于存放取得的订单信息cookie数组
 	var order_cookie_name = "pltf_order_cookie";//对应的cookie名
@@ -126,11 +103,9 @@ $(function() {
 		if ($.cookie(order_cookie_name) != null) {
 			// alert($.cookie(order_cookie_name));
 			// menu_Orderinfo = $.cookie(order_cookie_name);//保存cookie至变量menu_Orderinfo
-			// alert("132 " + menu_Orderinfo);
 
 			// json转化数组样式
 			order_list = JSON.parse($.cookie(order_cookie_name));
-			// alert($.cookie(order_cookie_name));
 
 			if(order_list != null){
 
@@ -227,27 +202,8 @@ $(function() {
 				}
 			} else {
 				if (order_list != null && order_list.rid != curRst_info.rid) {
-					// var old_cookie_arr = JSON.parse(menu_Orderinfo);
-					// alert("231" + menu_Orderinfo);
-					// if(old_cookie_arr.rid != curRst_info.rid){
-						
-					// }
-					clearCart();
-				/*
-					var deleteOrNot = confirm("是否清空美食篮子中的所有美食");
-					if (deleteOrNot == true) {
-						$(".gouwucheItem:gt(0)").remove();
 
-						for (var n = 0; n < clickArray.length; n++) {
-							clickArray[n] = 0;
-						}
-						$.cookie(order_cookie_name, undefined);
-						order_list.rid = curRst_info.rid;//$("#rid").val();
-
-						Total(clickArray, index);
-						btnRemove = false;
-					}
-				*/
+					clearCart();//清空美食篮子
 				}
 
 			}
@@ -299,10 +255,6 @@ $(function() {
 
 	//清空美食篮子
 	function clearCart(){
-		// alert("293" + $.cookie(order_cookie_name));
-		// alert("294" + JSON.stringify(order_list));
-		// alert(btnRemove);
-		// alert("296" + JSON.stringify(curRst_info));
 
 		var deleteOrNot = confirm("购物车内有其它餐厅的美食\n是否清空美食篮子中的所有美食");
 
@@ -312,35 +264,25 @@ $(function() {
 			for (var n = 0; n < clickArray.length; n++) {
 				clickArray[n] = 0;
 			}
-
-			
-			// order_list.rid = curRst_info.rid;//$("#rid").val();
-			// alert("307 " + order_list.rid);
-
-			//餐厅不同，则order_list内信息为上一餐厅的订单
-			//menu_Orderinfo为最新的订单信息（其实如果menu_Orderinfo是最新，则现在其内容只有rid而已）
-			// order_list = JSON.parse(menu_Orderinfo);
 			
 			$.cookie(order_cookie_name, null, {expires:-1});
 			order_list = null;
-			// menu_Orderinfo = null;
 
 
 			Total(clickArray, index);
 		}
 	}
 
-	// 点击"返回"离开当前页面/提交订单时， 订单信息写入cookie
+	// 订单信息写入cookie
 	function setCookie(jsonArray){
 		
-		alert("setCookie");
-
+		// alert("setCookie");
 
 		if(jsonArray != null && jsonArray.total != "0"){
 
 			if(order_list != null){
-				alert("当前餐厅rid ＝ " + curRst_info.rid);
-				alert("原餐厅rid ＝ " + order_list.rid);
+				// alert("当前餐厅rid ＝ " + curRst_info.rid);
+				// alert("原餐厅rid ＝ " + order_list.rid);
 
 				if(order_list.rid != curRst_info.rid){
 					jsonArray["rid"] = order_list.rid;
@@ -349,23 +291,17 @@ $(function() {
 		
 			var menu_Orderinfo = JSON.stringify(jsonArray);
 			$.cookie(order_cookie_name, menu_Orderinfo);
-			alert("成功写入cookie");
+			// alert("成功写入cookie");
 
-			alert("数据是："+menu_Orderinfo);
+			// alert("数据是："+menu_Orderinfo);
 
 		}else{
 			$.cookie(order_cookie_name, null, {expires:-1});
-			alert("不符的数据，删除cookie");
+			// alert("不符的数据，删除cookie");
 		}
 
 		
 	}
-
-	// // 返回
-	// $(".return").click(function(){
-	// 	setCookie();//写入cookie
-	// 	window.history.go(-1);返回上一页
-	// })
 
 
 	//点击“-”的时候数量的变化（btnSub）
@@ -473,25 +409,16 @@ $(function() {
 		event.preventDefault();
 
 		if(order_list != null && order_list.rid != curRst_info.rid){
-			// alert("不同餐厅，没有清空，但是提交了");
-			// alert(curRst_info.rid == order_list_rid);
-			// alert("curRst_info.rid = " + curRst_info.rid);
-			// alert("order_list.rid = " + order_list.rid);
 
-			// 处理办法，询问是否清空购物车
-			clearCart();
+			clearCart();//清空美食篮子
+
 		}else{
 
 			var total_price = parseInt($(".total_price").text().slice(1));
-			// alert(total_price);
-			// alert(agent_fee);
-			if (total_price >= agent_fee) {
-				// alert(total_price + " --" + spreadPrice);
-				// alert("天啊！要提交了！");
 
-				// setCookie();
-				// $.cookie(order_cookie_name, menu_Orderinfo);
-				$("#myForm").submit();
+			if (total_price >= agent_fee) {
+
+				$("#myForm").submit();//这里仅是一个无数据的post操作
 	/*
 				if(curRst_info.isOpen == "1"){//主观，营业
 
@@ -522,14 +449,12 @@ $(function() {
 
 	function Total(clickArray, index) {
 
-		// alert("466 " + curRst_info.rid);
 		var jsonArray = {
 			"rid": curRst_info.rid,//""curRst_info.rid
 			"total": "",
 			"item": new Array(),
 			"note": ""
 		};
-		// jsonArray["item"] = new Array();
 		var number = 0;
 		var account = 0;
 
@@ -558,11 +483,6 @@ $(function() {
 		if (account >= agent_fee) {
 			$(".jiesuan").css("display", "block");
 			$(".shortcComing").css("display", "none");
-
-			//点击<a>提交数据postData
-			// $("#formSubmit").click(function(event){
-			// 	$("#myForm").submit();
-			// })
 		} else {
 
 			$(".jiesuan").css("display", "none");
@@ -582,32 +502,6 @@ $(function() {
 
 		
 		setCookie(jsonArray);
-		
-		// 把数组传到hidden中
-	/*
-		if($.cookie(order_cookie_name) == null){
-			$.cookie(order_cookie_name, menu_Orderinfo);
-		}else{
-			// alert(jsonArray['rid']);
-			// alert(curRst_info.rid);
-
-			if(jsonArray['total'] == 0){
-
-				// alert("537 有rid，没total，清空后遗症");
-				$.cookie(order_cookie_name, null);
-
-			}else if(jsonArray['rid'] == curRst_info.rid){
-				//同一家餐厅里选餐，更新选餐信息
-				$.cookie(order_cookie_name, menu_Orderinfo);
-			}
-		}
-	*/
-
 	}
-
-	//禁止<a>标签的默认行为
-	// $("#formSubmit").click(function(event){
-	// 	event.preventDefault();
-	// })
 
 })

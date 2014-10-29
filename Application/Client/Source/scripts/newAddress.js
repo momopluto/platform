@@ -1,22 +1,5 @@
 $(function() {
 
-	// // demo只是测试数据
-	// var jsonArraydemo = {
-	// 	'rid': "12345",
-
-	// 	'total': '30',
-	// 	'item': [{
-	// 		'name': '小明',
-	// 		'prise': '10'
-	// 	}],
-	// 	'note': '123132323'
-	// };
-
-	// var jsonStringdemo = JSON.stringify(jsonArraydemo);
-
-	// $("#postData").val(jsonStringdemo);
-
-	// demo只是测试数据
 	var flagAddress = false; //用于输入地址验证的辅助变量
 	var flagNumber = false; //用于验证号码的辅助变量
 	var flagName = false //用于验证姓名的辅助变量
@@ -26,54 +9,65 @@ $(function() {
 
 
 	//下单
-
 	$("#order").click(function(event) {
-	
-	console.dir($("#order"));
-		// 数据的录入
 
-		var date = new Date();
-		var nowHours = date.getHours();
+		// 判断是否已填送餐信息
+		if(flagName && flagAddress && flagNumber){
+			// 往cookie中添加数据
 
-		var jsonString = $("#postData").val();
-		
-		var jsonArray = JSON.parse(jsonString);
+			var date = new Date();
+			var nowHours = date.getHours();
 
-		jsonArray["c_name"] = $("#inputOne").val();
-		jsonArray["c_address"] = $("#inputAddress").val();
-		jsonArray["c_phone"] = $("#moblePhone").val() + " " + $("#inputLast").val();
-		var noteStr = $("#songcanNote .two").text();
-		noteStr = noteStr.slice(0, noteStr.length - 2);
-		if (noteStr == noteDefault) {
-			
-			jsonArray["note"] = noteDefault;
+			if ($.cookie("pltf_order_cookie") != null) {
 
-		} else {
-			jsonArray["note"] = noteStr;
-		}
+				// json转化数组样式
+				var order_list = $.cookie("pltf_order_cookie");//cookie中的订单信息
+
+				alert("42");
+				
+				var jsonArray = JSON.parse(order_list);
+
+				jsonArray["c_name"] = $("#inputOne").val();
+				jsonArray["c_address"] = $("#inputAddress").val();
+				jsonArray["c_phone"] = $("#moblePhone").val() + " " + $("#inputLast").val();
+				var noteStr = $("#songcanNote .two").text();
+				noteStr = noteStr.slice(0, noteStr.length - 2);
+				if (noteStr == noteDefault) {
+					jsonArray["note"] = noteDefault;
+
+				} else {
+					jsonArray["note"] = noteStr;
+				}
 
 
-		jsonArray["deliverTime"] = $("#select").val();
-		jsonString = JSON.stringify(jsonArray);
-		$("#postData").val(jsonString);
-		
+				jsonArray["deliverTime"] = $("#select").val();
+				order_list = JSON.stringify(jsonArray);
+				$("#postData").val(order_list);
+				
 
-		// 各种验证
-		if ((nowHours >= 7 && nowHours <= 14) || (nowHours >= 14 && nowHours <= 19)) {
+				// 各种验证
+				if ((nowHours >= 7 && nowHours <= 14) || (nowHours >= 14 && nowHours <= 19)) {
 
-		if ($("#newAddressStr").text() == '添加送餐地址') {
-			// $("#order").css("background", "rgb(141,213,153)").attr("disabled", "disabled");
-			alert("请输入送餐地址！");
-		
-			event.preventDefault();
-		} 
+				if ($("#newAddressStr").text() == '添加送餐地址') {
+					// $("#order").css("background", "rgb(141,213,153)").attr("disabled", "disabled");
+					alert("请输入送餐地址！");
+				
+					event.preventDefault();
+				} 
 
-		} else {
-			alert("营业时间：10:00--14:00  16:00-19:00");
-			event.preventDefault();
+				} else {
+					alert("营业时间：10:00--14:00  16:00-19:00");
+					event.preventDefault();
+				}
+			}
+		}else{
+			alert("送餐地址不能为空！");
 		}
 
 	})
+
+
+	
 
 
 	// 点击添加送餐地址切换到输入送餐信息
@@ -177,6 +171,7 @@ $(function() {
 			$(".defaulted header").css("display","block");
 		}
 	})
+
 
 	// 添加备注，切换到选择备注信息
 	$("#songcanNote").click(function() {

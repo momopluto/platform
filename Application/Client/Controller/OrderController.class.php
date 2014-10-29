@@ -221,9 +221,14 @@ class OrderController extends ClientController {
 
     // 送餐信息
     function info(){
-        p(cookie());die;
-        // p(I('post.'));die;
+        
+
+
         if(IS_POST){
+
+            // 再交验证餐厅状态
+
+            
 
         }
         
@@ -233,32 +238,35 @@ class OrderController extends ClientController {
 
     // 购物车
     function cart(){
+/*
+        if (!is_null(cookie('pltf_order_cookie'))) {
+            if(IS_POST){
+                $this->display();
+            }else{
+                $this->error('请在餐厅内下单哦！', U('Client/Order/lists'));
+            }
+        }else{//没有cookie
+            if(IS_POST){
+                $this->error('美食篮是空的～您还没选餐哦！', U('Client/Order/lists'));
+            }else{
+                $this->error('Something Wrong！', U('Client/Order/lists'));
+            }
+        }
+*/
 
         if(IS_POST){
-            // p(cookie());die;
-            // p(I('post.postData','',''));die;
-
-            //Attention!!这里的json postData不知为何会使用htmlspecialchars过滤的话会有很多&quot
-            //暂没想到处理办法，目前采取不过滤的方式
-            //不过滤始终感觉不安全
-            // $json_text = I('post.postData','','');
-            // $data = json_decode($json_text,true);
-            // p($json_text);die;
             
-            //设置cookie，json
-            // cookie('pltf_order_cookie', json_encode($data));
-            p(cookie());die;
-            // echo "<hr>";
-            // p(unserialize(cookie('pltf_order_cookie')));die;
-
-            //购物车必用post过来的数据data！！！
-            // $this->assign('data', $data);
+            if(!is_null(cookie('pltf_order_cookie'))){
+                // echo "111";die;
+                $this->display();
+            }else{
+                // echo "222";die;
+                $this->success('美食篮空空如也，快去挑选餐厅选餐吧！', U('Client/Order/lists'), 3);
+            }
+        }else{
+            $this->error('Something Wrong！', U('Client/Order/lists'));
         }
 
-        // p(cookie());
-        // p(I('post.','',''));die;
-        
-        $this->display();
     }
 
 

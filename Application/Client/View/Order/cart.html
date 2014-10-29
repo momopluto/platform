@@ -27,6 +27,9 @@
 					// p($ck_data);die;//data['item']
 					$all_count = 0;
 				?>
+
+				<!-- $ck_data为空时，调用js中showEmpty()方法 -->
+
 				<foreach name="ck_data['item']" item="one_item">
 					<li class="gouwucheItem" >
 						<p class="ItemName">{$one_item['name']}</p>
@@ -41,20 +44,20 @@
 					</li>
 					<?php $all_count += $one_item['count'];?>
 				</foreach>
+				<p class="totalAllMenu"><span id="account">{$all_count}</span>份美食&nbsp;&nbsp;共<span id="total">{$ck_data['total']}</span>元</p>
 			</ul>
+
+			<a id="formSubmit2" href="#" class="footer">确认美食</a>
+			<form id="myForm2" action="{:U('Client/Order/info')}" method="post">
+				<!-- <input type="hidden" id="postData" value=""> -->
+				<!-- 无需post -->
+			</form>
+			
 			<div class="empty">
 			<p>
 			   <img src="{$SRC}/images/empty.png">
 			</p>
 			</div>
-			
-			<p class="totalAllMenu"><span id="account">{$all_count}</span>份美食&nbsp;&nbsp;共<span id="total">{$data['total']}</span>元</p>
 		</div>
-
-		<a id="formSubmit2" href="#" class="footer">确认美食</a>
-		<form id="myForm2" action="{:U('Client/Order/info')}" method="post">
-			<!-- <input type="hidden" id="postData" value=""> -->
-			<!-- 无需post -->
-		</form>
 	</body>
 </html>

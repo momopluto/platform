@@ -4,6 +4,24 @@ $(function() {
 	var flagNumber = false; //用于验证号码的辅助变量
 	var flagName = false //用于验证姓名的辅助变量
 
+	if($("#newAddressStr").text() != '添加送餐地址'){
+		// flagAddress = true;
+		// flagNumber = true;
+		// flagName = true;
+		
+		if($("#inputOne").val() != ""){
+			flagName = true;
+		}
+		if($("#moblePhone").val() != ""){
+			flagNumber = true;
+		}
+		if($("#inputAddress").val() != ""){
+			flagAddress = true;
+		}
+	}
+
+	
+
 	//默认备注
 	var noteDefault = "无订单备注";
 
@@ -61,6 +79,7 @@ $(function() {
 				}
 			}
 		}else{
+			$("#songcanAddress").val("");
 			alert("送餐地址不能为空！");
 		}
 

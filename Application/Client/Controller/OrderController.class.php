@@ -255,6 +255,8 @@ class OrderController extends ClientController {
                     $c_info = M('orderman', 'admin_')->where($map)->field('name, phone, address')->find();
                     if(!is_null($c_info)){
                         $this->assign('c_info', $c_info);
+
+                        // p($c_info);die;
                     }
                 }
                 

@@ -1,20 +1,20 @@
 $(function() {
 
-	// demo只是测试数据
-	var jsonArraydemo = {
-		'rid': "12345",
+	// // demo只是测试数据
+	// var jsonArraydemo = {
+	// 	'rid': "12345",
 
-		'total': '30',
-		'item': [{
-			'name': '小明',
-			'prise': '10'
-		}],
-		'note': '123132323'
-	};
+	// 	'total': '30',
+	// 	'item': [{
+	// 		'name': '小明',
+	// 		'prise': '10'
+	// 	}],
+	// 	'note': '123132323'
+	// };
 
-	var jsonStringdemo = JSON.stringify(jsonArraydemo);
+	// var jsonStringdemo = JSON.stringify(jsonArraydemo);
 
-	$("#postData").val(jsonStringdemo);
+	// $("#postData").val(jsonStringdemo);
 
 	// demo只是测试数据
 	var flagAddress = false; //用于输入地址验证的辅助变量
@@ -46,7 +46,7 @@ $(function() {
 		noteStr = noteStr.slice(0, noteStr.length - 2);
 		if (noteStr == noteDefault) {
 			
-			jsonArray["note"] = "";
+			jsonArray["note"] = noteDefault;
 
 		} else {
 			jsonArray["note"] = noteStr;
@@ -66,15 +66,11 @@ $(function() {
 			alert("请输入送餐地址！");
 		
 			event.preventDefault();
-
-
 		} 
 
 		} else {
 			alert("营业时间：10:00--14:00  16:00-19:00");
 			event.preventDefault();
-
-
 		}
 
 	})
@@ -179,16 +175,10 @@ $(function() {
 			$(this).parents(".transfor").find("header").css("display", "none");
 			$("#order").css("display", "block");
 			$(".defaulted header").css("display","block");
-
-
-
 		}
-
-
-
 	})
 
-	//，添加备注，切换到选择备注信息
+	// 添加备注，切换到选择备注信息
 	$("#songcanNote").click(function() {
 		$("#newNote header").css("display", "block");
 		$("#newNote").animate({
@@ -201,7 +191,6 @@ $(function() {
 
 
 	// 点击备注确认按钮，确定备注信息
-
 	$("#sure_note").mouseover(function() {
 		$(this).css("cursor", "default");
 	}).click(function() {
@@ -254,9 +243,5 @@ $(function() {
 	}).mouseover(function() {
 		$(this).css("cursor", "default");
 	})
-
-
-
-
 
 })

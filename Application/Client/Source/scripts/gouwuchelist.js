@@ -1,31 +1,9 @@
 $(function() {
 
-		// // demo只是测试数据
-		// var jsonArraydemo = {
-		// 	'rid': '123456',
-		//     "total": "300",
-		//     "item": [{
-		//         "name": "\u5c0f\u83dc00",
-		//         "price": "100",
-		//         "count": "2",
-		//         "total": "200"
-		//     }, {
-		//         "name": "\u83dc\u540d22",
-		//         "price": "10",
-		//         "count": "10",
-		//         "total": "100"
-		//     }],
-		// };
-
-		// var jsonStringdemo = JSON.stringify(jsonArraydemo);
-
-		// $("#postData").val(jsonStringdemo);
-
-		// demo只是测试数据
-
-	// 全局变量，用于存放取得的当前餐厅信息cookie数组
-	var curRst_info;
+	var curRst_info;// 全局变量，用于存放取得的当前餐厅信息cookie数组
 	var curRst_cookie_name = "pltf_curRst_info";//对应的cookie名
+	
+	var order_cookie_name = "pltf_order_cookie";//订单信息cookie名
 
 	$(document).ready(function(){
 		// 页面加载完毕后，即初始化前端数据**************************************************************
@@ -41,7 +19,7 @@ $(function() {
 			}
 		}
 	});
-	
+
 
 	// 餐厅状态判断，根据状态，相应展示
 	function rst_status_judge(){
@@ -49,25 +27,25 @@ $(function() {
 		if(curRst_info.isOpen == "1"){//主观，营业
 
 			if(parseInt(curRst_info.open_status) % 10 == 4){//已过今天最晚营业时间，休息
-				alert("已打烊");
+				alert("该餐厅已打烊");
 				$(".add_sub").attr("disabled", "true");
 				$(".show_count").attr("disabled", "true");
 				$("#formSubmit2").css("background", "rgb(141,213,153)");
 			}else{
 				if(curRst_info.rst_is_bookable == "1"){//可预订
-					alert("可预订");
+					// alert("可预订");
 					$(".add_sub").removeAttr("disabled");
 					$(".show_count").removeAttr("disabled");
 					$("#formSubmit2").css("background", "rgb(76,218,100)");
 				}else{//不可预订
 					
 					if(curRst_info.open_status == "1" || curRst_info.open_status == "2" || curRst_info.open_status == "3"){//营业时间
-                        alert("不可预订 营业时间");
+                        // alert("不可预订 营业时间");
                         $(".add_sub").removeAttr("disabled");
 						$(".show_count").removeAttr("disabled");
 						$("#formSubmit2").css("background", "rgb(76,218,100)");
                     }else{//非营业时间
-                    	alert("不可预订 非营业时间");
+                    	alert("目前非该餐厅营业时间");
                         $(".add_sub").attr("disabled", "true");
 						$(".show_count").attr("disabled", "true");
 						$("#formSubmit2").css("background", "rgb(141,213,153)");
@@ -75,7 +53,7 @@ $(function() {
 				}
 			}
 		}else{//主观，暂停营业
-			alert("暂停营业");
+			alert("餐厅暂停营业");
 			$(".add_sub").attr("disabled", "true");
 			$(".show_count").attr("disabled", "true");
 			$("#formSubmit2").css("background", "rgb(141,213,153)");
@@ -114,84 +92,92 @@ $(function() {
 		})
 
 
+		function showEmpty(){
+
+			// 获得当前窗口的大小
+			$bodyChildHeight = $("body>*");
+			var childHeight = 0;
+			for (var i = 0; i < $bodyChildHeight.length; i++) {
+				childHeight += $bodyChildHeight.height();
+			}
+			// alert($bodyChildHeight.length);
+			var bodyHeight = parseInt($("body").height() - childHeight);
+			$("body").height(bodyHeight);
+			// alert(bodyHeight);
+			// alert($("body").height());
+			// alert(document.documentElement.clientHeight);
+
+
+			$(".empty").height($("body").height());
+			$(".empty").fadeIn();
+
+			$(".totalAllMenu").css("display", "none");
+			$("#formSubmit2").css("display", "none");
+
+			if($.cookie(order_cookie_name)){
+				// 删除cookie
+				$.cookie(order_cookie_name, null, {expires:-1});
+			}
+		}
+
 
 		function total() {
 			
 			var menulist = $(".gouwucheItem");
-			var number = 0;
-			var totalPrice = 0;
-			alert("chelist  123" + curRst_info.rid);
-			var jsonArray = {
-				"rid": curRst_info.rid,
-				"total": "",
-				"item": new Array(),
-				"note": ""
-			};
-			for (var i = 0; i < menulist.length; i++) {
-				var listItem = menulist.eq(i);
-				var nameItem = listItem.find(".ItemName").text();
-				var priceItem = listItem.find(".ItemPrice span").text();
-				var ItemPrice = parseFloat(listItem.find("span").text());
-
-				var show_count = parseInt(listItem.find(".show_count").val());
-				jsonArray["item"][i] = {
-					'name': nameItem,
-					'price': priceItem,
-					'count': show_count + "",
-					'total': (show_count * ItemPrice) + ""
-				};
-				number += show_count;
-				totalPrice += (show_count * ItemPrice);
-			}
-			jsonArray["total"] = totalPrice + "";
-			$("#account").text(number);
-			$("#total").text(totalPrice);
-			if (number == 0) {
-				$(".totalAllMenu").css("display", "none");
-			}
-			var jsonString = JSON.stringify(jsonArray);
-
-			// 把数组传到hidden中
-			// $("#postData").val(jsonString);
-			alert(jsonString);
-			$.cookie("pltf_order_cookie", jsonString); //设置cookie 
-
-			if (totalPrice < parseInt(curRst_info.rst_agent_fee)) {
-				var balance = parseInt(curRst_info.rst_agent_fee) - totalPrice;
-				$("#formSubmit2").text("还差 " + balance + "元起送").css("background", "rgb(141,213,153)");
-
-			} else {
-				$("#formSubmit2").text("确认美食").removeAttr("disabled").css("background", "rgb(76,218,100)");
-			}
-
-
 
 			// 当购物车为空时显示图片并隐藏”确认美食“列
-			if (menulist.length == 0) {
+			if(menulist.length == 0){
+				showEmpty();
+			}else{
+				var number = 0;
+				var totalPrice = 0;
+				// alert("chelist  134" + curRst_info.rid);
+				var jsonArray = {
+					"rid": curRst_info.rid,
+					"total": "",
+					"item": new Array(),
+					"note": ""
+				};
+				for (var i = 0; i < menulist.length; i++) {
+					var listItem = menulist.eq(i);
+					var nameItem = listItem.find(".ItemName").text();
+					var priceItem = listItem.find(".ItemPrice span").text();
+					var ItemPrice = parseFloat(listItem.find("span").text());
 
-				// 获得当前窗口的大小
-				$bodyChildHeight = $("body>*");
-				var childHeight = 0;
-				for (var i = 0; i < $bodyChildHeight.length; i++) {
-					childHeight += $bodyChildHeight.height();
+					var show_count = parseInt(listItem.find(".show_count").val());
+					jsonArray["item"][i] = {
+						'name': nameItem,
+						'price': priceItem,
+						'count': show_count + "",
+						'total': (show_count * ItemPrice) + ""
+					};
+					number += show_count;
+					totalPrice += (show_count * ItemPrice);
 				}
-				// alert($bodyChildHeight.length);
-				var bodyHeight = parseInt($("body").height() - childHeight);
-				$("body").height(bodyHeight);
-				// alert(bodyHeight);
-				// alert($("body").height());
-				// alert(document.documentElement.clientHeight);
+				jsonArray["total"] = totalPrice + "";
+				$("#account").text(number);
+				$("#total").text(totalPrice);
+				if (number == 0) {
+					$(".totalAllMenu").css("display", "none");
+				}
+				var jsonString = JSON.stringify(jsonArray);
 
+				// 把数组传到hidden中
+				// $("#postData").val(jsonString);
+				// alert(jsonString);
+				$.cookie("pltf_order_cookie", jsonString); //设置cookie 
 
-				$(".empty").height($("body").height());
-				$(".empty").fadeIn();
-				$("#formSubmit2").css("display", "none");
+				if (totalPrice < parseInt(curRst_info.rst_agent_fee)) {
+					var balance = parseInt(curRst_info.rst_agent_fee) - totalPrice;
+					$("#formSubmit2").text("还差 " + balance + "元起送").css("background", "rgb(141,213,153)");
 
-			} else {
+				} else {
+					$("#formSubmit2").text("确认美食").removeAttr("disabled").css("background", "rgb(76,218,100)");
+				}
+
 				$(".empty").fadeOut();
 				$("#formSubmit2").css("display", "block");
 			}
-
 		}
 
 
@@ -201,34 +187,32 @@ $(function() {
 	//点击<a>提交数据postData
 	// if (parseFloat($("#total").text()) > parseInt(curRst_info.rst_agent_fee)) {
 	$("#formSubmit2").click(function() {
+		
+		event.preventDefault();
 
 		if(parseInt($("#total").text()) >= parseInt(curRst_info.rst_agent_fee)){
-			$("#myForm2").submit();
-/*
 			if(curRst_info.isOpen == "1"){//主观，营业
 
 				if(parseInt(curRst_info.open_status) % 10 == 4){//已过今天最晚营业时间，休息
-
+					alert("该餐厅已打烊");
 				}else{
 					if(curRst_info.rst_is_bookable == "1"){//可预订
-
+						// alert("可预订");
+						$("#myForm2").submit();
 					}else{//不可预订
+						
 						if(curRst_info.open_status == "1" || curRst_info.open_status == "2" || curRst_info.open_status == "3"){//营业时间
-
+	                        // alert("不可预订 营业时间");
+	                        $("#myForm2").submit();
 	                    }else{//非营业时间
-
+	                    	alert("目前非该餐厅营业时间");
 	                    }
 					}
 				}
 			}else{//主观，暂停营业
-
+				alert("餐厅暂停营业");
 			}
-*/
-
-		}else{
-			event.preventDefault();
 		}
-
 	})
 
 })

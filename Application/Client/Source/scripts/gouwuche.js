@@ -299,8 +299,6 @@ $(function() {
 			$.cookie(order_cookie_name, null, {expires:-1});
 			// alert("不符的数据，删除cookie");
 		}
-
-		
 	}
 
 

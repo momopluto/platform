@@ -76,4 +76,77 @@ function rstInfo_combine($an_rst){
 }
 
 
+// 将open - close之间的时间，以10分钟为间隔分割
+function cut_cut($open, $close, $on){
+
+	$times = array();
+
+	$strOpen = strtotime($open);
+	$strClose = strtotime($close);
+
+	if($on){//餐厅正在营业
+
+		if(($strClose  - $strOpen) / 60 > 40){
+			
+			$strOpen = $strOpen + (600 - $strOpen % 600);//向上取整为10的倍数
+
+			for ($i=2; $i <= ($strClose  - $strOpen) / 600; $i++) { 
+
+				array_push($times, date('H:i',($strOpen + 600 * $i)));
+
+			}
+		}
+
+	}else{//餐厅尚未营业
+
+		for ($i=0; $i <= ($strClose  - $strOpen) / 600; $i++) { 
+
+			array_push($times, date('H:i',($strOpen + 600 * $i)));
+
+		}
+	}
+
+	// p($times);die;
+	return $times;
+}
+
+// 划分送餐时间，返回字符串数组
+function cut_send_times($an_rst){
+
+	$s_times = array();
+
+	if(intval($an_rst['open_status']) % 10 != 4){//未到休息时间
+		
+		if($an_rst['open_status'] == "0"){
+
+			$s_times = cut_cut($an_rst['stime_1_open'], $an_rst['stime_1_close'], 0);
+
+		}elseif($an_rst['open_status'] == "1"){
+
+			$s_times = cut_cut(date('H:i'), $an_rst['stime_1_close'], 1);
+
+		}elseif($an_rst['open_status'] == "12"){
+
+			$s_times = cut_cut($an_rst['stime_2_open'], $an_rst['stime_2_close'], 0);
+
+		}elseif($an_rst['open_status'] == "2"){
+
+			$s_times = cut_cut(date('H:i'), $an_rst['stime_2_close'], 1);
+
+		}elseif($an_rst['open_status'] == "23"){
+
+			$s_times = cut_cut($an_rst['stime_3_open'], $an_rst['stime_3_close'], 0);
+
+		}elseif($an_rst['open_status'] == "3"){
+
+			$s_times = cut_cut(date('H:i'), $an_rst['stime_3_close'], 1);
+
+		}
+
+	}
+
+	return $s_times;
+}
+
+
 ?>

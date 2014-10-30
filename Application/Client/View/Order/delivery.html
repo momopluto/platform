@@ -1,0 +1,85 @@
+<!DOCTYPE THML>
+<html>
+	<head>
+		<?php $SRC = CLIENT_SRC; ?>
+		<meta charset="utf-8">
+		<meta name="author" content="ethanlai">
+<meta name="format-detection" content="telephone=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<title>送餐信息</title>
+			<link rel="stylesheet" type="text/css" href="{$SRC}/css/global.css">
+		<link rel="stylesheet" type="text/css" href="{$SRC}/css/address.css">
+		<script type="text/javascript" src="{$SRC}/scripts/jquery.js"></script>
+		<script type="text/javascript" src="{$SRC}/scripts/jquery.cookie.js"></script>
+		<script type="text/javascript" src="{$SRC}/scripts/newAddress.js"></script>
+	 
+
+	</head>
+	<body>
+	
+	<div class="defaulted">
+	<form>
+	<header><a class="return" href="javascript:window.history.go(-1)">&lt;返回</a> 送餐信息</header>
+
+	<!-- 如果存在送餐地址，则在此给出full_Address，在input中设置value -->
+	<div class="songcanxinxi" id="songcanAddress"><p class="one" id="newAddressStr">
+		<if condition="$c_info['phone'] == ''">添加送餐地址<else/>{$c_info['name']} {$c_info['address']} {$c_info['phone']}</if>
+		</p><p class="two">&gt;</p>
+	</div>
+
+	<div class="songcanxinxi" id="songcanTime">
+	    <p class="one">送达时间</p>
+	    <!-- <p class="two">选择送达时间&gt;</p> -->
+	    <select class="two" id="select">
+		    	<option>尽快送出</option>
+
+		    <foreach name="s_times" item="atime">
+		    	<option>{$atime}</option>
+		    </foreach>
+	    </select>
+	</div>
+	<div class="songcanxinxi" id="songcanNote"><p class="one">订单备注</p><p class="two">无订单备注&nbsp;&gt;</p></div>
+		
+			<a href="#" class="footer" id="order">确认下单</a> 
+			
+			</form>
+	</div>
+			
+	<div class="transfor" id="newAddress">
+		<header><p class="return fanhui">&lt;返回</p>新增地址</header>
+		<form>
+			<!-- 此处根据已有送餐信息设置value -->
+			<input type="text" class="input" id="inputOne" required="required"  placeholder="请填写您的姓名" value="{$c_info['name']}">
+			<input type="text" class="input" id="inputAddress" required="required"  placeholder="请填写详细送餐地址" value="{$c_info['address']}">
+			<input type="tel" class="input" id="moblePhone"  required="required" placeholder="请填写能够联系到您的手机号" value="{$c_info['phone']}">
+
+			<button type="button" class="footer" id="sure_address" style="cursor: default;">确定</button>
+			</footer>
+			<!-- <div class="footer" id="sure_address">新增地址</div> -->
+		</form>
+	</div>
+	<div class="transfor" id="newNote">
+		<header><p class="return fanhui">&lt;返回</p>订单备注</header>
+		<p class="newNote_P">
+			<textarea class="noteArea" placeholder="请填写饿单备注"></textarea>
+		</p>
+		
+		<div class="candidate">
+			<p>没零钱</p>
+			<p>不要葱姜蒜</p>
+			<p>不吃辣</p>
+			<p>辣一点</p>
+			<p>不要一次性筷子</p>
+			<p>多加米</p>
+		</div>
+		
+		<div class="footer" id="sure_note">确定</div>
+
+	</div>
+
+	<form id="myForm3" action="{:U('Client/Order/done')}" method="post">
+	
+	</form>
+	
+	</body>
+</html>

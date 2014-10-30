@@ -2,9 +2,6 @@
 namespace Client\Controller;
 use Think\Controller;
 class OrderController extends ClientController {
-    public function index(){
-        echo "Clinet/Order/index.html";
-    }
 
 
     // 查询订单
@@ -218,21 +215,116 @@ class OrderController extends ClientController {
     */
 
 
+    // 下单成功与否
+    function done(){
+        // echo NOW_TIME;die;
+        if(IS_POST){
+
+            // p(cookie('pltf_order_cookie'));die;
+
+            $json_order = cookie('pltf_order_cookie');
+            if($json_order){
+
+                $order = json_decode($json_order, true);
+                // p($order);die;
+
+
+
+                $rid = $order['rid'];
+                $model = M('today', $rid.'_');
+
+                $data['rid'] = $rid;
+                if($model->create($data) && $today_sort = $model->add($data)){
+                    //$guid订单号，$today_sort今天第xx份订单
+                    $guid = strval(1800 + $today_sort).strval($rid).strval(NOW_TIME);//19位
+                    echo "guid = ".$guid."<br/>today_sort = " . $today_sort."<br/>";
+
+                    $temp['rid'] = $rid;
+                    $temp['guid'] = $guid;
+                    $temp['today_sort'] = $today_sort;
+
+//****************************************此处的token和openid该从session中取
+                    $temp['token'] = "gh_34b3b2e6ed7f";
+                    $temp['openid'] = "o55gotzkfpEcJoQGXBtIKoSrairQ";
+
+                    $temp['name'] = $order['c_name'];
+                    $temp['address'] = $order['c_address'];
+                    $temp['phone'] = $order['c_phone'];
+                    $temp['total'] = $order['total'];
+                    $temp['order_info'] = $json_order;
+                    $temp['cTime'] = $order['cTime'];
+
+                    // p($temp);die;
+
+                    $_model = M('orderitem', ' ');
+                    if($id = $_model->add($temp)){
+                        echo '$id = '.$id;die;
+                        $this->display();
+                    }else{
+                        $this->error($_model->getError());
+                    }
+                }
+
+            }else{
+                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
+            }
+            
+
+        }else{
+
+            redirect(U('Client/Restaurant/lists'));
+        }
+
+    }
+
 
     // 送餐信息
-    function info(){
+    function delivery(){
         
-
+        session('pltf_openid', 'o55gotzkfpEcJoQGXBtIKoSrairQ');
 
         if(IS_POST){
 
-            // 再交验证餐厅状态
+            if (session('?pltf_curRst_info')) {
 
+                // 再次验证餐厅状态
+                $rst = rstInfo_combine(session('pltf_curRst_info'));
+
+                session('pltf_curRst_info', $rst);//更新当前餐厅信息，写入session
+
+                $rst['logo_url'] = urlencode($rst['logo_url']);//处理logo_url链接
+                $json_rst = json_encode($rst);
+                // p($rst);die;
+                // p($json_rst);die;
+                cookie("pltf_curRst_info", urldecode($json_rst));//更新当前餐厅信息，写入cookie
+
+                // cookie(null,'pltf_'); // 清空指定前缀的所有cookie值
+
+                $s_times = cut_send_times($rst);
+
+                $this->assign('s_times', $s_times);
+
+                if(session('?pltf_openid')){
+                    $map['openid'] = session('pltf_openid');
+                    $c_info = M('orderman', 'admin_')->where($map)->field('name, phone, address')->find();
+                    if(!is_null($c_info)){
+
+                        $this->assign('c_info', $c_info);
+
+                        // p($c_info);die;
+                    }
+                }
+                
+                $this->display();
+            }else{
+                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
+            }
             
+        }else{
 
+            redirect(U('Client/Restaurant/lists'));
         }
-        
-        $this->display();
+
     }
 
 
@@ -243,13 +335,13 @@ class OrderController extends ClientController {
             if(IS_POST){
                 $this->display();
             }else{
-                $this->error('请在餐厅内下单哦！', U('Client/Order/lists'));
+                $this->error('请在餐厅内下单哦！', U('Client/Restaurant/lists'));
             }
         }else{//没有cookie
             if(IS_POST){
-                $this->error('美食篮是空的～您还没选餐哦！', U('Client/Order/lists'));
+                $this->error('美食篮是空的～您还没选餐哦！', U('Client/Restaurant/lists'));
             }else{
-                $this->error('Something Wrong！', U('Client/Order/lists'));
+                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
             }
         }
 */
@@ -261,10 +353,10 @@ class OrderController extends ClientController {
                 $this->display();
             }else{
                 // echo "222";die;
-                $this->success('美食篮空空如也，快去挑选餐厅选餐吧！', U('Client/Order/lists'), 3);
+                $this->success('美食篮空空如也，快去挑选餐厅选餐吧！', U('Client/Restaurant/lists'), 3);
             }
         }else{
-            $this->error('Something Wrong！', U('Client/Order/lists'));
+            redirect(U('Client/Restaurant/lists'));
         }
 
     }
@@ -290,7 +382,8 @@ class OrderController extends ClientController {
 
                 if(!is_null($rst)){
                     $rst = rstInfo_combine($rst);// 订餐页面所需要的餐厅的信息，组装
-                    // session('pltf_curRst_info', $rst);//将当前选择的餐厅信息写入session
+
+                    session('pltf_curRst_info', $rst);//将当前选择的餐厅信息写入session
 
                     $rst['logo_url'] = urlencode($rst['logo_url']);//处理logo_url链接
                     $json_rst = json_encode($rst);
@@ -306,16 +399,16 @@ class OrderController extends ClientController {
 
                     $this->display();
                 }else{
-                    $this->error('Something Wrong！', U('Client/Order/lists'));
+                    $this->error('Something Wrong！', U('Client/Restaurant/lists'));
                 }
             }else{
-                 $this->error('Something Wrong！', U('Client/Order/lists'));
+                 $this->error('Something Wrong！', U('Client/Restaurant/lists'));
             }
         }else{
-            if(session('pltf_curRst_info')){
+            if(session('?pltf_curRst_info')){
                 // p(session('pltf_curRst_info'));die;
-                $rst = json_decode(cookie('pltf_curRst_info'),true);
-                // $rst = session('pltf_curRst_info');
+                // $rst = json_decode(cookie('pltf_curRst_info'),true);
+                $rst = session('pltf_curRst_info');
 
                 $data = M('menu',$rst['rid'].'_')->select();
                 $this->assign('data', $data);//菜单列表
@@ -323,13 +416,39 @@ class OrderController extends ClientController {
 
                 $this->display();
             }else{
-                redirect(U('Client/Order/lists'));
+                redirect(U('Client/Restaurant/lists'));
             }
         }
     }
 
+/*
     // 所有餐厅展示，供选择
     function lists(){
+        
+        // if($isWechat){//微信，此状态也写入session
+            
+        //     if(I('get.openid') != null){// 公众号
+        //         // openid写入session
+        //     }
+
+        //     if("得到Author.openid"){// 服务号
+        //         // 得到openid，并写入session
+        //         // 是否粉丝
+        //     }
+
+
+        // }else{//PC浏览器等
+        //     if(session('?pltf_phone')){
+
+        //         // 存在用户手机号，但不确定是否是本人，在info.html显示出来后，用户可决定是否修改送餐信息
+        //         // info.html中要特别处理已存在送餐信息的情况
+
+        //     }else{
+        //         // 什么都不做
+        //         // 之后步骤同样通过判断session('?pltf_phone')即可
+        //     }
+        // }
+
 
         // 1.在admin_allrst中过滤出开启了平台服务的餐厅
         //      rid、rst_name、token
@@ -410,7 +529,7 @@ class OrderController extends ClientController {
         $this->display();
 
     }
-
+*/
 
 // 测试*******************************************************========================================
 

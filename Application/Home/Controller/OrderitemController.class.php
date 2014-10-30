@@ -20,7 +20,7 @@ class OrderitemController extends HomeController {
 
     	if(IS_POST){
 //TODO，此处貌似不用post
-//TODO，此处数据库访问次数非常多，效率成总是，须改！！！！
+//TODO，此处数据库访问次数非常多，效率成问题，须改！！！！
     		
     	}else{
 
@@ -28,7 +28,7 @@ class OrderitemController extends HomeController {
                 $the_day = I('get.date');                
             }else{//不是，则默认为今天
                 $the_day = date('Y-m-d');
-            }            
+            }
             // echo $the_day;die;
 
             $map['rid'] = array('eq',$rid);

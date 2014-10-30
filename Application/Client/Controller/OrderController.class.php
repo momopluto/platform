@@ -2,9 +2,9 @@
 namespace Client\Controller;
 use Think\Controller;
 class OrderController extends ClientController {
-    public function index(){
-        echo "Clinet/Order/index.html";
-    }
+    // public function index(){
+    //     echo "Clinet/Order/index.html";
+    // }
 
 
     // 查询订单
@@ -225,7 +225,7 @@ class OrderController extends ClientController {
 
 
     // 送餐信息
-    function info(){
+    function delivery(){
         
         session('pltf_openid', 'o55gotzkfpEcJoQGXBtIKoSrairQ');
 
@@ -262,12 +262,12 @@ class OrderController extends ClientController {
                 
                 $this->display();
             }else{
-                $this->error('Something Wrong！', U('Client/Order/lists'));
+                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
             }
             
         }else{
 
-            redirect(U('Client/Order/lists'));
+            redirect(U('Client/Restaurant/lists'));
         }
 
     }
@@ -280,13 +280,13 @@ class OrderController extends ClientController {
             if(IS_POST){
                 $this->display();
             }else{
-                $this->error('请在餐厅内下单哦！', U('Client/Order/lists'));
+                $this->error('请在餐厅内下单哦！', U('Client/Restaurant/lists'));
             }
         }else{//没有cookie
             if(IS_POST){
-                $this->error('美食篮是空的～您还没选餐哦！', U('Client/Order/lists'));
+                $this->error('美食篮是空的～您还没选餐哦！', U('Client/Restaurant/lists'));
             }else{
-                $this->error('Something Wrong！', U('Client/Order/lists'));
+                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
             }
         }
 */
@@ -298,10 +298,10 @@ class OrderController extends ClientController {
                 $this->display();
             }else{
                 // echo "222";die;
-                $this->success('美食篮空空如也，快去挑选餐厅选餐吧！', U('Client/Order/lists'), 3);
+                $this->success('美食篮空空如也，快去挑选餐厅选餐吧！', U('Client/Restaurant/lists'), 3);
             }
         }else{
-            redirect(U('Client/Order/lists'));
+            redirect(U('Client/Restaurant/lists'));
         }
 
     }
@@ -344,10 +344,10 @@ class OrderController extends ClientController {
 
                     $this->display();
                 }else{
-                    $this->error('Something Wrong！', U('Client/Order/lists'));
+                    $this->error('Something Wrong！', U('Client/Restaurant/lists'));
                 }
             }else{
-                 $this->error('Something Wrong！', U('Client/Order/lists'));
+                 $this->error('Something Wrong！', U('Client/Restaurant/lists'));
             }
         }else{
             if(session('?pltf_curRst_info')){
@@ -361,11 +361,12 @@ class OrderController extends ClientController {
 
                 $this->display();
             }else{
-                redirect(U('Client/Order/lists'));
+                redirect(U('Client/Restaurant/lists'));
             }
         }
     }
 
+/*
     // 所有餐厅展示，供选择
     function lists(){
         
@@ -473,7 +474,7 @@ class OrderController extends ClientController {
         $this->display();
 
     }
-
+*/
 
 // 测试*******************************************************========================================
 

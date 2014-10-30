@@ -12,6 +12,7 @@ class HomeController extends Controller {
 	/* 空操作，用于输出404页面 */
 	public function _empty(){
 		// redirect("http://www.qq.com/404");
+		
 	}
 
 	//初始化操作

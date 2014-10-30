@@ -22,18 +22,10 @@
 	<header><a class="return" href="javascript:window.history.go(-1)">&lt;返回</a> 送餐信息</header>
 
 	<!-- 如果存在送餐地址，则在此给出full_Address，在input中设置value -->
-<!-- 	<div class="songcanxinxi" id="songcanAddress"><p class="one" id="newAddressStr">
-		<if condition="$c_info['phone'] == ''">添加送餐地址
-			<else/>{$c_info['name']} {$c_info['phone']} {$c_info['address']}
-		</if>
+	<div class="songcanxinxi" id="songcanAddress"><p class="one" id="newAddressStr">
+		<if condition="$c_info['phone'] == ''">添加送餐地址<else/>{$c_info['name']} {$c_info['address']} {$c_info['phone']}</if>
 		</p><p class="two">&gt;</p>
-	</div> -->
-
-
-<!-- ***************************************下面这条div供测试使用******************************* -->
-	<div class="songcanxinxi" id="songcanAddress"><p class="one" id="newAddressStr">刘 18826481053(18826666666) 信息学院9楼</p><p class="two">&gt;</p></div>
-
-
+	</div>
 
 	<div class="songcanxinxi" id="songcanTime">
 	    <p class="one">送达时间</p>
@@ -57,22 +49,13 @@
 		<header><p class="return fanhui">&lt;返回</p>新增地址</header>
 		<form>
 			<!-- 此处根据已有送餐信息设置value -->
-			<!-- <input type="text" class="input" id="inputOne" required="required"  placeholder="请填写您的姓名" value="{$c_info['name']}">
+			<input type="text" class="input" id="inputOne" required="required"  placeholder="请填写您的姓名" value="{$c_info['name']}">
 			<input type="text" class="input" id="inputAddress" required="required"  placeholder="请填写详细送餐地址" value="{$c_info['address']}">
 			<input type="tel" class="input" id="moblePhone"  required="required" placeholder="请填写能够联系到您的手机号" value="{$c_info['phone']}">
-			<input type="tel" class="input" id="inputLast" placeholder="备用联系电话（选填）"> -->
 
-
-<!-- ***************************************以下4条input供测试使用******************************* -->
-			<input type="text" class="input" id="inputOne" required="required"  placeholder="请填写您的姓名" value="刘">
-			<input type="text" class="input" id="inputAddress" required="required"  placeholder="请填写详细送餐地址" value="18826481053">
-			<input type="tel" class="input" id="moblePhone"  required="required" placeholder="请填写能够联系到您的手机号" value="信息学院9楼">
-			<input type="tel" class="input" id="inputLast" placeholder="备用联系电话（选填）" value="18826666666">
-			<footer class="cart-footer">
-				<button type="button" class="footer" id="sure_address" style="cursor: default;">确定</button>
-			    <!-- <button type="button" class="footer" id="sure_address" >确定</button> -->
+			<button type="button" class="footer" id="sure_address" style="cursor: default;">确定</button>
 			</footer>
-			<!-- disabled="disabled"<div class="footer" id="sure_address">新增地址</div> -->
+			<!-- <div class="footer" id="sure_address">新增地址</div> -->
 		</form>
 	</div>
 	<div class="transfor" id="newNote">
@@ -94,15 +77,8 @@
 
 	</div>
 
-
-	<!-- 数据上传 -->
-	<!-- <input type="hidden" value=""> -->
-		<!-- <input type="hidden" id="postData" value="123"> -->
-		<!-- //此处提交要改为AJAX -->
-
 	<form id="myForm3" action="{:U('Client/Order/done')}" method="post">
-		<!-- <input type="hidden" id="postData" value=""> -->
-		<!-- 无需post -->
+	
 	</form>
 	
 	</body>

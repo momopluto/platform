@@ -217,6 +217,63 @@ class OrderController extends ClientController {
 
     // 下单成功与否
     function done(){
+        // echo NOW_TIME;die;
+        if(IS_POST){
+
+            // p(cookie('pltf_order_cookie'));die;
+
+            $json_order = cookie('pltf_order_cookie');
+            if($json_order){
+
+                $order = json_decode($json_order, true);
+                // p($order);die;
+
+
+
+                $rid = $order['rid'];
+                $model = M('today', $rid.'_');
+
+                $data['rid'] = $rid;
+                if($model->create($data) && $today_sort = $model->add($data)){
+                    //$guid订单号，$today_sort今天第xx份订单
+                    $guid = strval(1800 + $today_sort).strval($rid).strval(NOW_TIME);//19位
+                    echo "guid = ".$guid."<br/>today_sort = " . $today_sort."<br/>";
+
+                    $temp['rid'] = $rid;
+                    $temp['guid'] = $guid;
+                    $temp['today_sort'] = $today_sort;
+
+//****************************************此处的token和openid该从session中取
+                    $temp['token'] = "gh_34b3b2e6ed7f";
+                    $temp['openid'] = "o55gotzkfpEcJoQGXBtIKoSrairQ";
+
+                    $temp['name'] = $order['c_name'];
+                    $temp['address'] = $order['c_address'];
+                    $temp['phone'] = $order['c_phone'];
+                    $temp['total'] = $order['total'];
+                    $temp['order_info'] = $json_order;
+                    $temp['cTime'] = $order['cTime'];
+
+                    // p($temp);die;
+
+                    $_model = M('orderitem', ' ');
+                    if($id = $_model->add($temp)){
+                        echo '$id = '.$id;die;
+                        $this->display();
+                    }else{
+                        $this->error($_model->getError());
+                    }
+                }
+
+            }else{
+                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
+            }
+            
+
+        }else{
+
+            redirect(U('Client/Restaurant/lists'));
+        }
 
     }
 
@@ -251,6 +308,7 @@ class OrderController extends ClientController {
                     $map['openid'] = session('pltf_openid');
                     $c_info = M('orderman', 'admin_')->where($map)->field('name, phone, address')->find();
                     if(!is_null($c_info)){
+
                         $this->assign('c_info', $c_info);
 
                         // p($c_info);die;

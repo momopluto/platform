@@ -181,38 +181,41 @@ $(function() {
 		}
 
 
-	
-
-
-	//点击<a>提交数据postData
-	// if (parseFloat($("#total").text()) > parseInt(curRst_info.rst_agent_fee)) {
 	$("#formSubmit2").click(function() {
 		
 		event.preventDefault();
 
 		if(parseInt($("#total").text()) >= parseInt(curRst_info.rst_agent_fee)){
-			if(curRst_info.isOpen == "1"){//主观，营业
 
-				if(parseInt(curRst_info.open_status) % 10 == 4){//已过今天最晚营业时间，休息
-					alert("该餐厅已打烊");
-				}else{
-					if(curRst_info.rst_is_bookable == "1"){//可预订
-						// alert("可预订");
-						$("#myForm2").submit();
-					}else{//不可预订
-						
-						if(curRst_info.open_status == "1" || curRst_info.open_status == "2" || curRst_info.open_status == "3"){//营业时间
-	                        // alert("不可预订 营业时间");
-	                        $("#myForm2").submit();
-	                    }else{//非营业时间
-	                    	alert("目前非该餐厅营业时间");
-	                    }
-					}
-				}
-			}else{//主观，暂停营业
-				alert("餐厅暂停营业");
-			}
+			order_submit_judge();//提交订单
+			
 		}
 	})
+
+	// 判断餐厅状态是否可提交订单
+	function order_submit_judge(){
+
+		if(curRst_info.isOpen == "1"){//主观，营业
+
+			if(parseInt(curRst_info.open_status) % 10 == 4){//已过今天最晚营业时间，休息
+				alert("该餐厅已打烊");
+			}else{
+				if(curRst_info.rst_is_bookable == "1"){//可预订
+					// alert("可预订");
+					$("#myForm2").submit();
+				}else{//不可预订
+					
+					if(curRst_info.open_status == "1" || curRst_info.open_status == "2" || curRst_info.open_status == "3"){//营业时间
+                        // alert("不可预订 营业时间");
+                        $("#myForm2").submit();
+                    }else{//非营业时间
+                    	alert("目前非该餐厅营业时间");
+                    }
+				}
+			}
+		}else{//主观，暂停营业
+			alert("餐厅暂停营业");
+		}
+	}
 
 })

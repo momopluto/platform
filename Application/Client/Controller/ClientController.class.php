@@ -12,6 +12,7 @@ class ClientController extends Controller {
 	/* 空操作，用于输出404页面 */
 	public function _empty(){
 		// redirect("http://www.qq.com/404");
+		redirect(U('Client/Restaurant/lists'));
 	}
 
 	//初始化操作

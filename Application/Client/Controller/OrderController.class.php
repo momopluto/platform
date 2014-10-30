@@ -2,9 +2,6 @@
 namespace Client\Controller;
 use Think\Controller;
 class OrderController extends ClientController {
-    // public function index(){
-    //     echo "Clinet/Order/index.html";
-    // }
 
 
     // 查询订单

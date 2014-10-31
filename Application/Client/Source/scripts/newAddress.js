@@ -43,9 +43,6 @@ $(function() {
 		if (flagName && flagAddress && flagNumber) {
 			// 往cookie中添加数据
 
-			var date = new Date();
-			var nowHours = date.getHours();
-
 			if ($.cookie("pltf_order_cookie") != null) {
 
 				// json转化数组样式

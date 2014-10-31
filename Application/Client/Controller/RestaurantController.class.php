@@ -112,8 +112,23 @@ class RestaurantController extends ClientController {
 
     }
 
-    public function info(){
-        $this->show('餐厅信息');
+    function info(){
+
+        if(session('?pltf_curRst_info')){
+
+            $curRst = session('pltf_curRst_info');
+
+            $rid = $curRst['rid'];
+            // echo "$rid";
+            $data = M('resturant', 'home_')->where("rid = $rid")->find();
+            if($data){
+                $this->assign('data',$data);
+            }
+        }
+
+        // p($data);die;
+
+        $this->display();
     }
 
 }

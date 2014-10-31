@@ -34,7 +34,6 @@ if (! empty ( $_GET ['echostr'] ) && ! empty ( $_GET ["signature"] ) && ! empty 
     define('APP_PATH', './Application/');
     define('THINK_PATH', './ThinkPHP/');
 
-//     define('DOMAIN_URL', "http://203.195.152.141");//服务器域名
     // define('DOMAIN_URL', "http://momopluto.xicp.net");//服务器域名
     define('DOMAIN_URL', "http://127.0.0.1:8080");//服务器域名
 

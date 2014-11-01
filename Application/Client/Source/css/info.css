@@ -1,0 +1,82 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+body{
+	background-color: rgb(240,240,240);
+}
+
+.hallItem{
+	margin-top: 10px;
+	border: 1px solid rgb(200,200,200);
+	height: 80px;
+	width: 100%;
+	background-color: rgb(255,255,255);
+
+}
+
+#hallHeader{
+	margin-top: 45px;
+	height: 120px;
+}
+
+.logo{
+	height: 60px;
+}
+.logo img{
+	margin: 9px;
+	float: left;
+}
+.hallName,.grades{
+	font-size: 16px;
+	
+}
+.hallNote,.units{
+	font-size: 12px;
+	color: rgb(126,117,120);
+
+}
+.hallNote{
+	margin-top: -5px;
+}
+
+
+.hallEvaluate>div{
+	box-sizing:border-box;
+	-moz-box-sizing:border-box; /* Firefox */
+	-webkit-box-sizing:border-box;
+	width: 25%;
+	float: left;
+	border: 1px solid rgb(200,200,200);
+	height: 60px;
+	border-bottom: 0px;
+	border-right: 0px;
+
+}
+#first{
+	border-left: 0px;
+}
+.grades{
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+}
+.units{
+	text-align: center;
+}
+.hallItem h3{
+	height: 40px;
+	line-height: 40px;
+	color: rgb(126,117,120);
+	font-size: 16px;
+	margin-left: 10px; 
+}
+.hallItem .describe{
+	margin-left: 10px;
+	font-size: 12px;
+	color: rgb(126,117,120);
+	height: 40px;
+	line-height: 40px;
+	border-top: 1px solid rgb(224,224,224);
+}
+

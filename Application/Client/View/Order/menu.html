@@ -18,6 +18,7 @@
 
 	<body>
 		<header><a class="return" href="javascript:window.history.go(-1)">&lt;返回</a><a href="{:U('Client/Restaurant/info')}" shape="poly"><span>{$rst['rst_name']}</span></a></header>
+			<p id="restState">本餐厅暂不接受订餐</p>
 		<div class="menu">
 			<ul class="menuList">
 
@@ -76,8 +77,6 @@
 					</ul>
 				</div>
 				<form id="myForm" action="{:U('Client/Order/cart')}" method="post">
-					<input type="hidden" id="postData" name="postData" value="">
-					<!-- //此处提交要改为AJAX -->
 				</form>
 			</div>
 		</div>

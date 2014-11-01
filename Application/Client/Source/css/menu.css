@@ -1,8 +1,22 @@
 
 /*列表样式*/
 
+
+
+#restState{
+	position: fixed;
+	top: 35px;
+	left: 0px;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	background-color: rgb(255,100,100);
+	color: rgb(255,255,255);
+	/*font-size: 12px;*/
+	width: 100%;
+}
 .menu{
-	margin-top: 35px;
+	margin-top: 65px;
 }
 .menuList{
 	margin-bottom: 35px;
@@ -115,6 +129,12 @@
 	border-radius: 3px;
 
 
+}
+.rest{
+	font-size: 14px;
+	color: #555;
+	background-color: rgb(255,255,255);
+	text-align: center;
 }
 
 

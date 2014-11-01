@@ -1,113 +1,57 @@
-<!doctype html>
-<html class="no-js" ng-app="meleme" ng-class="{'body-white': bodyWhite}">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="cleartype" content="on">
-  <meta name="description" content="饿了么是中国最专业的网上订餐平台，提供各类中式、日式、韩式、西式等优质美食。">
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui">
-  <meta name="format-detection" content="telephone=no, email=no">
-
-  <title ng-bind="Page.title + ' - 饿了么'">饿了么</title>
-
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://static11.elemecdn.com/touch-icon-144x144-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://static11.elemecdn.com/touch-icon-114x114-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://static11.elemecdn.com/touch-icon-72x72-precomposed.png">
-  <link rel="apple-touch-icon-precomposed" href="http://static11.elemecdn.com/touch-icon-57x57-precomposed.png">
-  <link rel="shortcut icon" sizes="196x196" href="http://static11.elemecdn.com/touch-icon-196x196.png">
-  <link rel="shortcut icon" href="http://static11.elemecdn.com/touch-icon.png">
-
-  <meta name="msapplication-TileImage" content="http://static11.elemecdn.com/touch-icon-310x310-precomposed.png">
-  <meta name="msapplication-TileColor" content="#3199e8">
-  <meta name="mobile-web-app-capable" content="yes">
-
-  <link class="usemin" rel="stylesheet" href="http://static11.elemecdn.com/msite/dist/css/69fa7ea7.msite.css">
-
-</head>
-
-  <body>
-        <div ng-view="" class="ng-scope"><header class="eleme-header ng-scope">
-      <a class="header-back" href="javascript:window.history.go(-1)">
-
-      <svg class="eleme-svg svg-arrow-back" viewBox="0 0 13 24">
-      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-arrow-back"></use>
-    </svg>
-    返回
-      </a>
-      <h1 class="header-title">餐厅介绍</h1>
-    </header>
-
-    <article class="ng-scope">
-
-      <section class="ui-block">
-        <header class="rinfo-header">
-          <img class="rinfo-logo" ng-src="{$data['logo_url']}" alt="【减】大口九" src="{$data['logo_url']}">
-          <div class="rinfo-detail">
-            <h2 class="rinfo-name ng-binding" ng-bind="restaurant.data.name">{$data['rst_name']}</h2>
-            
-          </div>
-        </header>
-        <ul class="rinfo-datas">
-          <li class="rinfo-data">
-            <span class="value ng-binding" ng-bind="restaurant.data.rating || '-'">4.6</span>
-            <span class="unit">用户评分</span>
-          </li>
-          <li class="rinfo-data">
-            <span class="value ng-binding" ng-bind="restaurant.data.deliver_time || '-'">40</span>
-            <span class="unit">送达/分钟</span>
-          </li>
-          <li class="rinfo-data">
-            <span class="value ng-binding" ng-bind="restaurant.data.deliver_amount">{$data['rst_agent_fee']}</span>
-            <span class="unit">起送价/元</span>
-          </li>
-          <li class="rinfo-data">
-            <span class="value ng-binding" ng-bind="restaurant.data.deliver_fee">0</span>
-            <span class="unit">配送费/元</span>
-          </li>
-        </ul>
-      </section>
-
-      <!-- ngIf: restaurant.data.announcement --><section class="ui-block ng-scope" ng-if="restaurant.data.announcement">
-        <h3 class="rinfo-title">餐厅公告</h3>
-        <div class="rinfo-content ng-binding" ng-bind="restaurant.data.announcement">{$data['rst_promotion_info']}</div>
-      </section><!-- end ngIf: restaurant.data.announcement -->
-
-      <!-- ngIf: restaurant.data.address --><section class="ui-block ng-scope" ng-if="restaurant.data.address">
-        <h3 class="rinfo-title">餐厅地址</h3>
-        <div class="rinfo-content ng-binding" ng-bind="restaurant.data.address">{$data['rst_address']}</div>
-      </section><!-- end ngIf: restaurant.data.address -->
-
-      <!-- ngIf: restaurant.data.telephone --><section class="ui-block ng-scope" ng-if="restaurant.data.telephone">
-        <h3 class="rinfo-title">餐厅电话</h3>
-        <div class="rinfo-content ng-binding" ng-bind="restaurant.data.telephone">{$data['rst_phone']}</div>
-      </section><!-- end ngIf: restaurant.data.telephone -->
-
-      <!-- <section class="ui-block ng-scope" ng-if="restaurant.data.icons.activities.length || restaurant.data.icons.attributes.length">
-        <h3 class="rinfo-title">餐厅支持</h3>
-        <ul class="rinfo-content">
-          <li class="rinfo-activity-badge ng-scope" ng-repeat="icon in restaurant.data.icons.activities">
-            <p class="rinfo-badge-title">
-              <span class="rst-badge ng-binding" ng-bind="icon.icon_name" style="background: #82782F;">减</span>
-              <span ng-bind="icon.name" class="ng-binding">满立减</span>
-            </p>
-            <p class="rinfo-badge-desc ng-binding" ng-bind="icon.description">该餐厅支持立减优惠，每单满20元立减5元</p>
-          </li><li class="rinfo-activity-badge ng-scope" ng-repeat="icon in restaurant.data.icons.activities">
-            <p class="rinfo-badge-title">
-              <span class="rst-badge ng-binding" ng-bind="icon.icon_name" style="background: #82782F;">减</span>
-              <span ng-bind="icon.name" class="ng-binding">在线支付优惠</span>
-            </p>
-            <p class="rinfo-badge-desc ng-binding" ng-bind="icon.description">在线支付再减3元</p>
-          </li><li class="rinfo-activity-badge ng-scope" ng-repeat="icon in restaurant.data.icons.activities">
-            <p class="rinfo-badge-title">
-              <span class="rst-badge ng-binding" ng-bind="icon.icon_name" style="background: #6E782F;">首</span>
-              <span ng-bind="icon.name" class="ng-binding">新用户优惠</span>
-            </p>
-            <p class="rinfo-badge-desc ng-binding" ng-bind="icon.description">饿了么新用户首次订餐，可立减6元。(不与其他活动同享)</p>
-          </li>
-        </ul>
-      </section> -->
-    </article>
-    </div>
-  </body>
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<?php $SRC = CLIENT_SRC; ?>
+		<meta charset="utf-8">
+		<meta name="author" content="ethanlai">
+        <meta name="format-detection" content="telephone=no" />
+         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		
+		<link rel="stylesheet" type="text/css" href="{$SRC}/css/global.css">
+		<link rel="stylesheet" type="text/css" href="{$SRC}/css/info.css">
+	
+		<script type="text/javascript" src="{$SRC}/scripts/jquery.js"></script>
+	
+		<title>菜式列表</title>
+	</head>
+		<body>
+			<header><a class="return" href="javascript:window.history.go(-1)">返回</a>餐厅介绍</header>
+			<div class="hallItem" id="hallHeader">
+				<div class="logo">
+					<img src="{$data['logo_url']}">
+					<h3 class="hallName">{$data['rst_name']}</h3>
+					<!-- <p class="hallNote">饮料、奶茶</p> -->
+				</div>
+				<div class="hallEvaluate">
+					<div id="first">
+						<p class="grades">4.6分</p>
+						<p class="units">用户评分</p>
+					</div>
+					<div>
+						<p class="grades">40</p>
+						<p class="units">送达/分钟</p>
+					</div>
+					<div>
+						<p class="grades">{$data['rst_agent_fee']}</p>
+						<p class="units">起送价/元</p>
+					</div>
+					<div>
+						<p class="grades">10</p>
+						<p class="units">配送费/元</p>
+					</div>
+				</div>
+			</div>
+			<div class="hallItem" id="hallPromotion">
+				<h3>餐厅公告</h3>
+				<p class="describe">{$data['rst_promotion_info']}</p>
+			</div>
+			<div class="hallItem" id="hallAddress">
+				<h3>餐厅地址</h3>
+				<p class="describe">{$data['rst_address']}</p>
+			</div>
+			<div class="hallItem" id="hallPhone">
+				<h3>餐厅电话</h3>
+				<p class="describe">{$data['rst_phone']}</p>
+			</div>
+	</body>
 </html>

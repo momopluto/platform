@@ -20,7 +20,10 @@ class IndexController extends AdminController {
 
     // 退出
     public function quit(){
-        session(null);
+        // session(null);
+        session('admin_login_flag', null);                
+        session('aid', null);
+        session('token', null);
         $this->redirect("User/login");
     }
 }

@@ -126,8 +126,6 @@ class RestaurantController extends ClientController {
             }
         }
 
-        // p($data);die;
-
         $this->display();
     }
 

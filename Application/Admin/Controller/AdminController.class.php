@@ -20,7 +20,10 @@ class AdminController extends Controller {
 		
 		/* 管理员登录检测 */
 		if(!is_admin_login()){
-			session(null);
+			// session(null);
+			session('admin_login_flag', null);                
+            session('aid', null);
+            session('token', null);
 			$this->error('您还没有登录，请先登录！', U('User/login'));
 		}
     }

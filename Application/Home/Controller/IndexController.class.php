@@ -21,7 +21,9 @@ class IndexController extends HomeController {
 
     // 退出
     public function quit(){
-        session(null);
+        // session(null);
+        session('login_flag', null);                
+        session('uid', null);
         $this->redirect("User/login");
     }
 }

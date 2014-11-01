@@ -19,7 +19,9 @@ class HomeController extends Controller {
 	function _initialize() {
 		/* 用户登录检测 */
 		 if(!is_login()){
-			session(null);
+			// session(null);
+			session('login_flag', null);                
+            session('uid', null);
 			$this->error('您还没有登录，请先登录！', U('User/login'));
 		}
 

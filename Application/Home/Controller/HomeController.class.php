@@ -25,6 +25,7 @@ class HomeController extends Controller {
 			$this->error('您还没有登录，请先登录！', U('User/login'));
 		}
 
+		/* 限制一定要设置了餐厅信息才能进行其它操作 */
     }
 
 }

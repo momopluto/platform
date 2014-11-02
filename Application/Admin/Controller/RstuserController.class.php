@@ -34,7 +34,9 @@ class RstuserController extends AdminController {
             $rid = $one_data['rid'];
             $an_rst = M('resturant','home_')->where("rid = $rid")->field('logo_url,rst_name,rst_address,rst_phone')->find();
             //组合$one_data和$an_rst
-            $data[] = $one_data + $an_rst;
+            if($an_rst){
+            	$data[] = $one_data + $an_rst;
+            }
         }
         // p($data);die;
 
@@ -60,6 +62,7 @@ class RstuserController extends AdminController {
 			$arr['reg_time'] = NOW_TIME;
 			$arr['reg_ip'] = get_client_ip();
 			$arr['update_time'] = $arr['reg_time'];
+			$arr['token'] = session('token');
 			// p($arr);die;
 
 			// 新增home_user数据
@@ -69,15 +72,44 @@ class RstuserController extends AdminController {
 			}
 			// p($hm_user->select());die;
 			if($hm_user->create($arr) && $id=$hm_user->add($arr)){//生成账号成功
+				//admin_allrst中添加餐厅数据
 				$rid = 10086 + $id;
 				$rst['rid'] = $rid;
 				$rst['s_change_time'] = NOW_TIME;
 				$rst['token'] = session('token');
-				// 关联admin_resturant
-				$adm_rst = D('allrst');
+				// 关联admin_allrst
+				$adm_rst = M('allrst');
 				$adm_rst->create($rst) && $adm_rst->add($rst);//生成关联
 
-//TODO，自动生成餐厅菜单数据库、订单数据库************************************************************
+
+				//生成餐厅菜单数据库_menu、今日订单序数据库_today
+				$cn = mysql_connect('localhost','root','bitnami');
+				mysql_select_db('pltf',$cn);
+				
+				$sql ="CREATE TABLE `".$rid."_menu` (
+				  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `pid` tinyint(2) NOT NULL DEFAULT '0',
+				  `name` varchar(255) NOT NULL,
+				  `price` float(6,0) unsigned NOT NULL,
+				  `description` tinytext,
+				  `stock` int(10) unsigned NOT NULL DEFAULT '100000',
+				  `tag` smallint(4) unsigned zerofill NOT NULL DEFAULT '0000',
+				  `sort` smallint(4) unsigned NOT NULL DEFAULT '0',
+				  `month_sale` int(10) unsigned NOT NULL DEFAULT '0',
+				  `last_month_sale` int(10) unsigned NOT NULL DEFAULT '0',
+				  PRIMARY KEY (`id`)
+				) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;";
+				mysql_query($sql);//创建rid_menu
+
+				$sql = "CREATE TABLE `".$rid."_today` (
+				  `today_sort` int(10) unsigned NOT NULL AUTO_INCREMENT,
+				  `rid` int(10) NOT NULL,
+				  PRIMARY KEY (`today_sort`)
+				) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+				mysql_query($sql);//创建rid_today
+
+				mysql_close($cn);
+				// die;
 
 				$this->assign('data', $data);
 				$this->display("showUser");

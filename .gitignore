@@ -45,6 +45,9 @@ Temporary Items
 # 忽略Runtime文件夹
 Application/Runtime/
 
+# 忽略公共的数据库配置文件
+Application/Common/Conf/config.php
+
 # 忽略Admin的数据库配置文件
 Application/Admin/Conf/config.php
 

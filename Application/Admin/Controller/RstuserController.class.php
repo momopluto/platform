@@ -33,9 +33,20 @@ class RstuserController extends AdminController {
         foreach($temp as $one_data){
             $rid = $one_data['rid'];
             $an_rst = M('resturant','home_')->where("rid = $rid")->field('logo_url,rst_name,rst_address,rst_phone')->find();
+            $uid = $rid - 10086;
+            $u = M('user','home_')->where("id = $uid")->field('status')->find();
+            $one_data['A_status'] = $u['status'];
+
             //组合$one_data和$an_rst
             if($an_rst){
             	$data[] = $one_data + $an_rst;
+            }else{
+            	$one_data['logo_url'] = "未设置";
+            	$one_data['rst_name'] = "未设置";
+            	$one_data['rst_address'] = "未设置";
+            	$one_data['rst_phone'] = "未设置";
+
+            	$data[] = $one_data;
             }
         }
         // p($data);die;
@@ -147,9 +158,9 @@ class RstuserController extends AdminController {
 				$this->error('密码重置失败！');
 			}
 		}else{
-			$map['id'] = I('get.id');
-			$an_rst = M('allrst')->where($map)->find();
-			$rid = $an_rst['rid'];
+			$rid = I('get.rid');
+			// $an_rst = M('allrst')->where($map)->find();
+			// $rid = $an_rst['rid'];
 			$uid = $rid - 10086;//$uid为用户账号id
 
 			$user_data = $hm_user->where("id = $uid")->field('username')->find();
@@ -159,11 +170,12 @@ class RstuserController extends AdminController {
 		}		
 	}
 
-	// 平台服务(账号)开启/停用
+	// 平台服务开启/停用
 	public function changeService(){
 		$map['token'] = session('token');
-		$map['id'] = I('get.id');
-		$data = M('allrst')->where($map)->find();
+		$map['rid'] = I('get.rid');
+		$model = M('allrst');
+		$data = $model->where($map)->find();
 		// p($data);die;
 
 		if($data['status']){
@@ -174,12 +186,31 @@ class RstuserController extends AdminController {
 		$update['s_change_time'] = NOW_TIME;
 
 		// p($update);die;
-		M('allrst')->where($map)->setField($update);
+		$model->where($map)->setField($update);
 
-		unset($update['s_change_time']);
+		// unset($update['s_change_time']);
 
-		$uid = $data['rid'] - 10086;//$uid为用户账号id
-		M('user', 'home_')->where("id = $uid")->setField($update);
+		// $uid = $data['rid'] - 10086;//$uid为用户账号id
+		// M('user', 'home_')->where("id = $uid")->setField($update);
+
+		redirect(U('Admin/Rstuser/lists'));
+	}
+
+	// 餐厅账号开启/停用
+	public function changeAccount(){
+		$map['token'] = session('token');
+		$map['id'] = I('get.rid') - 10086;
+		$model = M('user', 'home_');
+		$data = $model->where($map)->find();
+		// p($data);die;
+
+		if($data['status']){
+			$update['status'] = 0;
+		}else{
+			$update['status'] = 1;
+		}
+
+		$model->where($map)->setField($update);
 
 		redirect(U('Admin/Rstuser/lists'));
 	}
@@ -187,13 +218,13 @@ class RstuserController extends AdminController {
 
 	// 查看该商家运营情况
 	public function statistics(){
-		$id = I('get.id');
+		$rid = I('get.rid');
 
 		// allrst餐厅表中得到餐厅的rid
-		$whe['token'] = session('token');
-		$whe['id'] = $id;
-        $temp = M('allrst')->where($whe)->find();
-        $rid = $temp['rid'];
+		// $whe['token'] = session('token');
+		// $whe['rid'] = $rid;
+        // $temp = M('allrst')->where($whe)->find();
+        // $rid = $temp['rid'];
 
 
         $today = date('Y-m-d');//今日

@@ -7,36 +7,42 @@
     <include file= "./head_menu"/>
     <br/>
     <a href="{:U("Admin/Rstuser/newUser")}">新增餐厅账号</a>
-    <table width="900" border="1">
+    <table width="1200" border="1">
         <tr>
-            <th align="left">编号</th>
+            <!-- <th align="left">编号</th> -->
             <th align="left">餐厅rid</th>
             <th align="left">餐厅logo</th>
             <th align="left">餐厅名</th>
             <th align="left">餐厅地址</th>
             <th align="left">联系电话</th>
+            <th align="left">账号状态</th>
             <th align="left">服务状态</th>
-            <th align="left">变新时间</th>
+            <th align="left">更新时间</th>
             <th>运营情况</th>
             <th align="left">操作</th>
         </tr>
         <foreach name="data" item="one_data" >
-            <?php $id = $one_data['id'];?>
+            <?php $id = $one_data['id'];$rid = $one_data['rid'];?>
             <tr>
-                <td>{$one_data['id']}</td>
+                <!-- <td>{$one_data['id']}</td> -->
                 <td>{$one_data['rid']}</td>
                 <td><img src="{$one_data['logo_url']}" width='50px' height='50px'></td>
                 <td>{$one_data['rst_name']}</td>
                 <td>{$one_data['rst_address']}</td>
                 <td>{$one_data['rst_phone']}</td>
                 <td>
+                    <if condition="$one_data['A_status'] == 1">开
+                        <else />关
+                    </if>
+                </td>
+                <td>
                     <if condition="$one_data['status'] == 1">开启
                         <else />停用
                     </if>
                 </td>
                 <td>{$one_data['s_change_time']|date='Y-m-d H:i',###}</td>
-                <td align="center"><a target="_self" href='{:U("Admin/Rstuser/statistics/id/$id")}'><button type="button">查看</button></a></td>
-                <td><a target="_self" href='{:U("Admin/Rstuser/resetPsw/id/$id")}'>重置密码</a> <a target="_self" href='{:U("Admin/Rstuser/changeService/id/$id")}'>开启/停用</a></td>
+                <td align="center"><a target="_self" href='{:U("Admin/Rstuser/statistics/rid/$rid")}'><button type="button">查看</button></a></td>
+                <td><a target="_self" href='{:U("Admin/Rstuser/resetPsw/rid/$rid")}'>重置密码</a> <a target="_self" href='{:U("Admin/Rstuser/changeAccount/rid/$rid")}'>账号开关</a> <a target="_self" href='{:U("Admin/Rstuser/changeService/rid/$rid")}'>服务启停</a></td>
             </tr>
         </foreach>
     </table>

@@ -12,6 +12,15 @@ function is_login(){
     return false;
 }
 
+/* 限制一定要设置了餐厅信息才能进行其它操作 */
+function has_rstInfo($rid){
+    if(M('resturant')->where("rid = $rid")->count()){
+        return true;
+    }
+    return false;
+}
+    
+
 /**
  * GET 请求，curl函数
  *

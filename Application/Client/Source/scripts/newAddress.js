@@ -71,7 +71,7 @@ $(function() {
 
 				order_list = JSON.stringify(jsonArray);
 				// $("#postData").val(order_list);
-				alert(order_list);
+				// alert(order_list);
 
 				$.cookie("pltf_order_cookie", order_list);
 

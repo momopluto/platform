@@ -220,6 +220,7 @@ class OrderController extends ClientController {
         // echo NOW_TIME;die;
         if(IS_POST){
 
+            // p(cookie('pltf_curRst_info'));
             // p(cookie('pltf_order_cookie'));die;
 
             $json_order = cookie('pltf_order_cookie');
@@ -266,13 +267,14 @@ class OrderController extends ClientController {
                 }
 
             }else{
-                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
+                $this->error('Something Wrong！', 'Client/Restaurant/lists');
             }
             
 
         }else{
 
-            redirect(U('Client/Restaurant/lists'));
+            // redirect(U('Client/Restaurant/lists'));
+            $this->redirect('Client/Restaurant/lists');
         }
 
     }
@@ -287,9 +289,20 @@ class OrderController extends ClientController {
 
             if (session('?pltf_curRst_info')) {
 
-                // 再次验证餐厅状态
-                $rst = rstInfo_combine(session('pltf_curRst_info'));
+                // 获取餐厅rid，再次验证餐厅状态
+                $rst = session('pltf_curRst_info');
+                $rid = $rst['rid'];
 
+                // 重新访问数据库获取信息
+                $rst = M('resturant','home_')->where("rid = $rid")->field('rid,logo_url,rst_name,isOpen,rst_is_bookable,rst_agent_fee,
+                    stime_1_open,stime_1_close,stime_2_open,stime_2_close,stime_3_open,stime_3_close')->find();
+                
+        //********************************重要验证，通过才能完成下单**********************************
+                if (!$rst || !$rst['isOpen']) {//空则跳转,isOpen＝0餐厅休息，无法完成下单操作
+                    $this->error('Something Wrong！', 'Client/Restaurant/lists');
+                }
+
+                $rst = rstInfo_combine($rst);
                 session('pltf_curRst_info', $rst);//更新当前餐厅信息，写入session
 
                 $rst['logo_url'] = urlencode($rst['logo_url']);//处理logo_url链接
@@ -317,12 +330,13 @@ class OrderController extends ClientController {
                 
                 $this->display();
             }else{
-                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
+                $this->error('Something Wrong！', 'Client/Restaurant/lists');
             }
             
         }else{
 
-            redirect(U('Client/Restaurant/lists'));
+            // redirect(U('Client/Restaurant/lists'));
+            $this->redirect('Client/Restaurant/lists');
         }
 
     }
@@ -335,13 +349,13 @@ class OrderController extends ClientController {
             if(IS_POST){
                 $this->display();
             }else{
-                $this->error('请在餐厅内下单哦！', U('Client/Restaurant/lists'));
+                $this->error('请在餐厅内下单哦！', 'Client/Restaurant/lists');
             }
         }else{//没有cookie
             if(IS_POST){
-                $this->error('美食篮是空的～您还没选餐哦！', U('Client/Restaurant/lists'));
+                $this->error('美食篮是空的～您还没选餐哦！', 'Client/Restaurant/lists');
             }else{
-                $this->error('Something Wrong！', U('Client/Restaurant/lists'));
+                $this->error('Something Wrong！', 'Client/Restaurant/lists');
             }
         }
 */
@@ -353,10 +367,11 @@ class OrderController extends ClientController {
                 $this->display();
             }else{
                 // echo "222";die;
-                $this->success('美食篮空空如也，快去挑选餐厅选餐吧！', U('Client/Restaurant/lists'), 3);
+                $this->success('美食篮空空如也，快去挑选餐厅选餐吧！', 'Client/Restaurant/lists', 3);
             }
         }else{
-            redirect(U('Client/Restaurant/lists'));
+            // redirect(U('Client/Restaurant/lists'));
+            $this->redirect('Client/Restaurant/lists');
         }
 
     }
@@ -399,10 +414,10 @@ class OrderController extends ClientController {
 
                     $this->display();
                 }else{
-                    $this->error('Something Wrong！', U('Client/Restaurant/lists'));
+                    $this->error('Something Wrong！', 'Client/Restaurant/lists');
                 }
             }else{
-                 $this->error('Something Wrong！', U('Client/Restaurant/lists'));
+                 $this->error('Something Wrong！', 'Client/Restaurant/lists');
             }
         }else{
             if(session('?pltf_curRst_info')){
@@ -416,7 +431,8 @@ class OrderController extends ClientController {
 
                 $this->display();
             }else{
-                redirect(U('Client/Restaurant/lists'));
+                // redirect(U('Client/Restaurant/lists'));
+                $this->redirect('Client/Restaurant/lists');
             }
         }
     }

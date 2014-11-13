@@ -28,6 +28,7 @@ function compare_last_month_sale($x, $y){
 }
 
 // 订餐页面所需要的餐厅的信息，组装
+// 判断当前时间餐厅状态以及月销售量
 function rstInfo_combine($an_rst){
 	// 判断是否营业时间
     $n_time = date('H:i');

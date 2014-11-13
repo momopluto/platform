@@ -28,34 +28,34 @@ $(function() {
 
 			if(parseInt(curRst_info.open_status) % 10 == 4){//已过今天最晚营业时间，休息
 				alert("该餐厅已打烊");
-				$(".add_sub").attr("disabled", "true");
-				$(".show_count").attr("disabled", "true");
+				// $(".add_sub").attr("disabled", "true");
+				// $(".show_count").attr("disabled", "true");
 				$("#formSubmit2").css("background", "rgb(141,213,153)");
 			}else{
 				if(curRst_info.rst_is_bookable == "1"){//可预订
 					// alert("可预订");
-					$(".add_sub").removeAttr("disabled");
-					$(".show_count").removeAttr("disabled");
+					// $(".add_sub").removeAttr("disabled");
+					// $(".show_count").removeAttr("disabled");
 					$("#formSubmit2").css("background", "rgb(76,218,100)");
 				}else{//不可预订
 					
 					if(curRst_info.open_status == "1" || curRst_info.open_status == "2" || curRst_info.open_status == "3"){//营业时间
                         // alert("不可预订 营业时间");
-                        $(".add_sub").removeAttr("disabled");
-						$(".show_count").removeAttr("disabled");
+                        // $(".add_sub").removeAttr("disabled");
+						// $(".show_count").removeAttr("disabled");
 						$("#formSubmit2").css("background", "rgb(76,218,100)");
                     }else{//非营业时间
                     	alert("目前非该餐厅营业时间");
-                        $(".add_sub").attr("disabled", "true");
-						$(".show_count").attr("disabled", "true");
+                        // $(".add_sub").attr("disabled", "true");
+						// $(".show_count").attr("disabled", "true");
 						$("#formSubmit2").css("background", "rgb(141,213,153)");
                     }
 				}
 			}
 		}else{//主观，暂停营业
 			alert("餐厅暂停营业");
-			$(".add_sub").attr("disabled", "true");
-			$(".show_count").attr("disabled", "true");
+			// $(".add_sub").attr("disabled", "true");
+			// $(".show_count").attr("disabled", "true");
 			$("#formSubmit2").css("background", "rgb(141,213,153)");
 		}
 	}

@@ -266,7 +266,7 @@ class OrderitemController extends HomeController {
                 // p($one_data);die;
                 $user_data[] = $one_data;
             }
-            // p($user_data);die;
+            p($user_data);die;
 
             $this->assign('data', $user_data);
             $this->display("userInfo");

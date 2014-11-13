@@ -58,7 +58,7 @@ $(function() {
 				$(".number").attr("disabled", "disabled");
 			} else {
 				if (curRst_info.rst_is_bookable == "1") { //可预订
-					alert("可预订");	
+					// alert("可预订");	
 					$("#restState").css("display", "none");
 					$(".price").removeAttr("disabled").css({
 						"fontSize": "14px",
@@ -69,7 +69,7 @@ $(function() {
 				} else { //不可预订
 
 					if (curRst_info.open_status == "1" || curRst_info.open_status == "2" || curRst_info.open_status == "3") { //营业时间
-						alert("不可预订 营业时间");
+						// alert("不可预订 营业时间");
 						$("#restState").css("display", "none");
 						$(".price").removeAttr("disabled").css({
 							"fontSize": "14px",

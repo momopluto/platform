@@ -1,4 +1,9 @@
-    已登录   <a href="{:U('Home/User/change_psw')}" >修改密码</a> | <a href="{:U('Home/Index/quit')}" >退出</a>
+    已登录   <a href="{:U('Home/User/change_psw')}" >修改密码</a> | <a href="{:U('Home/Index/quit')}" >退出</a> | <a href="{:U('Home/Index/changeStatus')}" >
+    <if condition="$Think.session.isOpen == 0">休息ing
+    	<else/>营业中
+    </if>
+    </a>
+
     <br/>
     <a href="{:U('Home/Shopmanage/set')}" >餐厅信息</a> | <a href="{:U('Home/Menu/lists')}" >菜单管理</a> | <a href="{:U('Home/Orderitem/lists')}" >订单管理</a> |
     <br/><br/>
